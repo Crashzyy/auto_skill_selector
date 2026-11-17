@@ -1,0 +1,13 @@
+name: auto_skill_selector
+version: 0.1.0
+description: "Autonomous domain-agnostic skill selector. A Rust core engine scores each user prompt with a 5-layer hybrid (BM25F + calibrated Multinomial Naive Bayes + Dice-Sorensen character-trigram fuzzy matching + orthographic/morphological cues + domain-affinity & session momentum), calibrated through a Top-5 Null-Anchor softmax. Injects the best local skill, chains multiple skills, triggers an autonomous Two-Tier Internet Subagent Hunter for unknown topics, or stays silent (NO_SKILL_NEEDED) during brainstorming. Learns and retrains itself whenever skills are created or changed."
+author: Alif Yudha (Crashzyy)
+kind: standalone
+platforms:
+  - linux
+  - macos
+  - windows
+provides_hooks:
+  - pre_llm_call
+  - on_skill_lifecycle
+  - subagent_stop

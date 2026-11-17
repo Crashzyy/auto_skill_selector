@@ -1,0 +1,17 @@
+[build-system]
+requires = ["maturin>=1.5,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "hermes_skill_brain"
+version = "0.1.0"
+description = "Rust core engine for the Hermes auto_skill_selector plugin"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[tool.maturin]
+# Nama modul Python yang diekspos = hermes_skill_brain (crate cdylib).
+module-name = "hermes_skill_brain"
+# abi3 agar wheel kompatibel lintas Python >= 3.10 tanpa build ulang.
+features = ["pyo3/abi3-py310"]
+include = ["plugin.yaml", "trainer.py", "__init__.py"]
