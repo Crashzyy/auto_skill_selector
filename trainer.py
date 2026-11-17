@@ -686,12 +686,18 @@ def build_model(records: list[dict]) -> dict:
         MAX_FEATURES_PER_CLASS = 80
         top_keys = sorted(feats, key=lambda k: feats[k], reverse=True)[:MAX_FEATURES_PER_CLASS]
         pruned = {k: feats[k] for k in top_keys}
-        # total_weight = total bobot zona (target 100.0 dari zone_weights).
+        # Bias 2 (Document-Weight Normalization): setelah pruning top-80, jumlah
+        # bobot pasti turun di bawah 100.0. Re-normalisasi L2 ke L_target=100.0
+        # agar mean total bobot antar kelas == 100.0 dan std == 0.0 (gerbang 1),
+        # sehingga skill pendek dan panjang setara 1:1 sinyal.
+        pre_norm_total = sum(pruned.values()) or 1.0
+        renorm = ZONE_NORMALIZE_TOTAL / pre_norm_total
+        pruned = {k: v * renorm for k, v in pruned.items()}
         total_weight = sum(pruned.values()) or 1.0
         feature_weights: dict[str, float] = {}
         feature_log_probs: dict[str, float] = {}
         for key, w_cf in pruned.items():
-            # W_{c,f} = bobot Zona S/A/B/C hasil normalisasi ke 100.0 (dipakai BM25F Rust).
+            # W_{c,f} = bobot Zona S/A/B/C ternormalisasi L2 ke 100.0 (BM25F Rust).
             feature_weights[key] = round(w_cf, 4)
             # smoothed log prob dari rasio bobot terhadap total dokumen (untuk MNB).
             feature_log_probs[key] = round(math.log((w_cf + 1.0) / (total_weight + len(pruned) + 1.0)), 4)
