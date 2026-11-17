@@ -759,8 +759,10 @@ fn decide(
             }
         }
         if !unknowns.is_empty() && (has_deliverable || !ex.role_anchored_unknown.is_empty()) {
-            let mut seen = HashSet::new();
-            unknowns.retain(|u| seen.insert(u.clone()));
+            // De-duplikasi case-insensitive: "Claymation" (ortografi) dan
+            // "claymation" (role anchor) adalah entitas yang sama.
+            let mut seen: HashSet<String> = HashSet::new();
+            unknowns.retain(|u| seen.insert(u.to_lowercase()));
             return RoutingDecision {
                 status: "NEEDS_INTERNET_SEARCH".into(),
                 posture: posture.into(),

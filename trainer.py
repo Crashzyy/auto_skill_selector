@@ -555,12 +555,16 @@ def build_model(records: list[dict]) -> dict:
     }
 
 
+def _save_model(model: dict) -> None:
+    """Tulis model ke skill_model.json di plugin-data (sumber tunggal kebenaran)."""
+    get_model_path().write_text(json.dumps(model, ensure_ascii=False), encoding="utf-8")
+
+
 def train_and_save(skills_root: Path | None = None) -> dict:
     root = skills_root or get_skills_root()
     records = scan_skills(root)
     model = build_model(records)
-    path = get_model_path()
-    path.write_text(json.dumps(model, ensure_ascii=False), encoding="utf-8")
+    _save_model(model)
     return model
 
 
@@ -742,6 +746,9 @@ def run_benchmark(verbose: bool = True) -> int:
     model = train_and_save()
     model = _ensure_benchmark_skills(model)
     brain.reload(json.dumps(model, ensure_ascii=False))
+    # Persist model lengkap (termasuk skill benchmark) ke disk. Tanpa ini, hook
+    # on_pre_llm_call hanya melihat 0 kelas dan selalu mengembalikan None.
+    _save_model(model)
     if not model["classes"]:
         print("Model has 0 classes; cannot run benchmark.")
         return 1
