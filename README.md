@@ -1,7 +1,7 @@
 # auto_skill_selector
 
-**Pemilih skill otonom untuk Hermes Agent.** Mesin Rust ini mencoba membaca
-setiap prompt, menilai seluruh skill lokal, lalu memilihkan yang paling cocok.
+**Pemilih skill otonom untuk Hermes Agent.** Mesin Rust ini membaca setiap
+prompt, menilai seluruh skill lokal, lalu memilihkan yang paling cocok.
 Proyek ini masih **eksperimental** — belum dijamin bekerja baik pada pemakaian
 nyata. Lihat [Keterbatasan](#keterbatasan).
 
@@ -12,38 +12,39 @@ nyata. Lihat [Keterbatasan](#keterbatasan).
 
 ## Masalah yang ingin diselesaikan
 
-Hermes Agent punya ratusan skill. Tanpa pemilih otomatis, kamu harus menebak
-skill mana yang pas lalu memanggilnya manual. Plugin ini mencoba mengambil alih
-pekerjaan itu: baca prompt, nilai semua kandidat, pilih yang terbaik.
+Hermes Agent punya ratusan skill. Tanpa pemilih otomatis, pengguna harus menebak
+skill mana yang sesuai lalu memanggilnya manual. Plugin ini mengambil alih
+pekerjaan itu: membaca prompt, menilai seluruh kandidat, dan memilih yang terbaik.
 
-Ada tiga keputusan yang bisa diambil, plus satu kondisi diam.
+Ada tiga keputusan yang dapat diambil, plus satu kondisi diam.
 
 | Status | Arti |
 |---|---|
-| `MATCHED_LOCAL` | Satu skill lokal paling cocok sudah ditemukan |
-| `MATCHED_MULTI` | Dua skill dirantai, mis. DCF di Excel lalu jadi slide |
-| `NEEDS_INTERNET_SEARCH` | Topik belum ada di lokal; delegasi ke subagent pencari |
-| `NO_SKILL_NEEDED` | Pengguna sedang brainstorming, jangan ganggu |
+| `MATCHED_LOCAL` | Satu skill lokal paling sesuai telah ditemukan |
+| `MATCHED_MULTI` | Dua skill dirantai, mis. DCF di Excel lalu slide PowerPoint |
+| `NEEDS_INTERNET_SEARCH` | Topik belum tersedia di lokal; didelegasikan ke subagent pencari |
+| `NO_SKILL_NEEDED` | Pengguna sedang berdiskusi atau brainstorming; tidak ada skill yang diaktifkan |
 
 ## Cara kerja
 
 Analisis berjalan lima lapis, semuanya di Rust.
 
-1. **Pemecah zona posisi.** Prompt dipisah jadi zona instruksi (200 karakter awal
-   plus 150 akhir, bobot penuh) dan payload tempelan (bobot 0,15, dedup). Artikel
-   sepanjang 5.000 kata tak akan menenggelamkan perintah pendek di awal.
+1. **Pemisahan zona instruksional.** Prompt dipisah menjadi zona instruksi (200
+   karakter awal plus 150 akhir, bobot penuh) dan zona payload (bobot 0,15,
+   deduplikasi). Artikel sepanjang 5.000 kata yang ditempel tidak akan
+   mendominasi perintah pendek di awal.
 2. **Normalisasi morfologi.** Imbuhan Indonesia dipangkas: `menggunakan` menjadi
-   `guna`, keduanya disimpan. Akronim pendek seperti `ui`, `3d`, `dcf` hanya jadi
-   unigram, tanpa trigram.
+   `guna`, dan keduanya disimpan. Akronim pendek seperti `ui`, `3d`, `dcf` hanya
+   menjadi unigram, tanpa trigram.
 3. **Postur interaksi dan mesin negasi.** Frasa seperti "menurutmu" atau "jangan
-   langsung buat kode" langsung diparkir sebagai `conversational`. Negasi berbasis
-   klausa membuat "Jangan pakai Docker, tapi deploy ke Cloudflare" memblokir Docker
-   dan memilih Cloudflare.
+   langsung buat kode" menghasilkan postur `conversational`. Negasi berbasis
+   klausa membuat "Jangan pakai Docker, tapi deploy ke Cloudflare" mengecualikan
+   Docker dan memilih Cloudflare.
 4. **Skoring hibrida log-linear.** BM25F berbobot medan, Naive Bayes multinomial
-   terkalibrasi, dan Dice-Sorensen trigram untuk ketahanan typo, lalu dikali
+   terkalibrasi, dan Dice-Sorensen trigram untuk ketahanan typo, lalu dikalikan
    afinitas domain dan momentum sesi.
 5. **Softmax Top-5 Null-Anchor.** Probabilitas dihitung dari 5 kandidat teratas
-   melawan anchor nol. Punya 5 skill atau 2.000 skill, hasilnya tak terdilusi.
+   terhadap anchor nol. Baik 5 maupun 2.000 skill di disk, hasilnya tidak terdilusi.
 
 ## Bobot dokumen Zona S/A/B/C
 
@@ -56,9 +57,10 @@ Saat memindai `SKILL.md`, bobot fitur dokumen dihitung per zona.
 | **B** | 2.5 | Heading lain, "Quick Reference"/"Procedure", nama perintah |
 | **C** | 0.6 | Paragraf penjelasan, maks 80 baris di luar blok kode |
 
-Total bobot tiap dokumen dinormalkan ke 100.0, jadi SKILL.md pendek dan panjang
-setara 1:1. Dari bobot inilah `null_anchor` dikalibrasi otomatis; anchor selalu
-mengikuti skala skor aktual, apa pun jumlah skill di disk.
+Total bobot tiap dokumen dinormalkan ke 100.0, sehingga SKILL.md pendek dan
+panjang setara 1:1. Dari bobot inilah θ₀ (null_anchor_score) dikalibrasi
+otomatis; nilai anchor selalu mengikuti skala skor aktual, apa pun jumlah skill
+di disk.
 
 ## Performa
 
@@ -76,9 +78,10 @@ diuji pada katalog besar atau beban kerja nyata**.
 - **Akurasi belum diverifikasi.** 10 kasus uji adalah sampel kecil yang
   ditulis sendiri; kinerja pada topik di luar kasus tersebut bisa jauh lebih
   buruk.
-- **θ₀ dikalibrasi ulang otomatis.** Nilai `null_anchor_score` bawaan (1,65)
-  diganti kalibrasi dari sebaran skor lokal. Rumus dan ambangnya masih
-  eksperimental dan bisa menghasilkan false positive/negative.
+- **θ₀ (null_anchor_score) dikalibrasi ulang otomatis.** Parameter yang sama
+  disebut `null_anchor` pada bagian Bobot dokumen. Nilai bawaan spesifikasi
+  (1,65) diganti hasil kalibrasi dari sebaran skor lokal. Rumus dan ambangnya
+  masih eksperimental dan bisa menghasilkan false positive/negative.
 - **Katalog kosong saat build.** Model awal dibangun dari skill yang ada; pada
   katalog kosong, `avg_doc_len` dan θ₀ dihitung dari skill benchmark sintetis.
 
