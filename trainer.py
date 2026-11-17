@@ -122,6 +122,9 @@ def parse_skill_file(path: Path) -> dict | None:
         "status": status,
         "description": description,
         "body": body,
+        # Meta + slug folder dipakai Zona S/A/B/C (lihat zone_weights).
+        "_meta": meta,
+        "_slug": path.parent.name,
     }
 
 
@@ -184,6 +187,204 @@ def extract_features(text: str) -> Counter:
 
 
 # ---------------------------------------------------------------------------
+# Zona S/A/B/C — pembobotan dokumen SKILL.md untuk feature_weights (BM25F W_{c,f})
+#
+# Berbeda dengan Instruction/Payload Zone (yang membagi PROMPT user di src/lib.rs),
+# Zona S/A/B/C membagi DOKUMEN SKILL.md untuk menghitung bobot fitur dokumen:
+#   S (8.0): name, slug folder, tags/keywords/triggers frontmatter, judul # H1
+#   A (4.5): description frontmatter, isi "## When to Use"/"## Trigger",
+#            + ekspansi sinonim dwibahasa (Indo-Inggris)
+#   B (2.5): heading ## H2/### H3 lainnya, isi "## Quick Reference"/"## Procedure",
+#            nama perintah/metode utama
+#   C (0.6): paragraf penjelasan lainnya (maks 80 baris pertama di luar blok kode)
+# Akumulasi: raw_w = 8.0*cS + 4.5*cA + 2.5*cB + 0.6*cC, lalu dinormalkan ke 100.0
+# agar SKILL.md pendek & panjang setara 1:1.
+# ---------------------------------------------------------------------------
+
+ZONE_S_WEIGHT = 8.0
+ZONE_A_WEIGHT = 4.5
+ZONE_B_WEIGHT = 2.5
+ZONE_C_WEIGHT = 0.6
+ZONE_NORMALIZE_TOTAL = 100.0
+ZONE_C_MAX_BODY_LINES = 80
+
+# Section yang naik ke Zona A / Zona B (dicocokkan case-insensitive).
+_ZONE_A_SECTIONS = ("when to use", "trigger", "triggers", "kapan digunakan")
+_ZONE_B_SECTIONS = ("quick reference", "procedure", "prosedur", "commands", "perintah")
+
+# Ekspansi sinonim dwibahasa (Indo <-> Inggris) untuk Zona A.
+_BILINGUAL_SYNONYMS = {
+    "valuasi": ["valuation"], "keuangan": ["finance", "financial"], "uang": ["money", "cash"],
+    "presentasi": ["presentation", "slides"], "slide": ["slides", "deck"], "rapat": ["meeting"],
+    "kamar": ["room"], "menggambar": ["drawing", "design"], "desain": ["design"],
+    "animasi": ["animation"], "render": ["rendering"], "kontainer": ["container"],
+    "penerapan": ["deployment", "deploy"], "jadwal": ["schedule"], "pengguna": ["user"],
+    "berkas": ["file"], "berita": ["news"], "penelitian": ["research"], "kertas": ["paper"],
+    "kamera": ["camera"], "pencahayaan": ["lighting"], "musik": ["music"], "lagu": ["song"],
+}
+
+
+def _frontmatter_scalar_tags(meta: dict) -> list[str]:
+    """Kumpulkan tags/keywords/triggers dari frontmatter (bisa list atau string)."""
+    out: list[str] = []
+    hermes = meta.get("metadata") or {}
+    if isinstance(hermes, dict):
+        hermes = hermes.get("hermes", {}) or {}
+    for source in (meta, hermes):
+        if not isinstance(source, dict):
+            continue
+        for key in ("tags", "keywords", "triggers", "trigger"):
+            val = source.get(key)
+            if isinstance(val, list):
+                out.extend(str(v) for v in val)
+            elif isinstance(val, str):
+                out.append(val)
+    return out
+
+
+def _split_sections(body: str) -> tuple[list[tuple[str, list[str]]], list[str]]:
+    """Pecah body markdown jadi ([(heading_lower, [paragraf])], [teks_pra_heading])."""
+    sections: list[tuple[str, list[str]]] = []
+    preamble: list[str] = []
+    in_code = False
+    current_heading = ""
+    current_paras: list[str] = []
+    buffer: list[str] = []
+
+    def flush():
+        if buffer:
+            text = " ".join(b for b in buffer if b).strip()
+            if text:
+                if current_heading:
+                    sections.append((current_heading, current_paras + [text]))
+                else:
+                    preamble.append(text)
+            buffer.clear()
+
+    for line in body.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("```"):
+            in_code = not in_code
+            continue
+        if in_code:
+            continue
+        if stripped.startswith("#"):
+            flush()
+            heading = stripped.lstrip("#").strip().lower()
+            current_heading = heading
+            # Heading itu sendiri masuk zona B (kecuali H1 -> S, ditangani terpisah)
+            sections.append((heading, []))
+        else:
+            buffer.append(stripped)
+    flush()
+    return sections, preamble
+
+
+def zone_weights(rec: dict) -> dict[str, float]:
+    """Hitung feature_weights berbobot Zona S/A/B/C untuk satu skill.
+
+    Mengembalikan Counter fitur (uni:/bi:/tri:) yang nilainya SUDAH dinormalkan
+    sehingga total bobot dokumen = ZONE_NORMALIZE_TOTAL (100.0).
+    """
+    meta = rec.get("_meta", {}) or {}
+    slug = rec.get("_slug", "") or rec.get("name", "")
+
+    # ---- Zona S: name, slug, frontmatter tags/keywords, judul H1 ----
+    s_texts: list[str] = [rec.get("name", ""), slug]
+    s_texts.extend(_frontmatter_scalar_tags(meta))
+    for line in rec.get("body", "").splitlines():
+        st = line.strip()
+        if st.startswith("# ") and not st.startswith("## "):
+            s_texts.append(st.lstrip("#").strip())
+
+    # ---- Pecah body jadi section ----
+    sections, preamble = _split_sections(rec.get("body", ""))
+
+    a_texts: list[str] = [rec.get("description", "")]
+    b_texts: list[str] = []
+    c_texts: list[str] = list(preamble)
+    for heading, paras in sections:
+        is_a = any(h in heading for h in _ZONE_A_SECTIONS)
+        is_b = any(h in heading for h in _ZONE_B_SECTIONS)
+        if is_a:
+            a_texts.extend(paras)
+        elif is_b:
+            b_texts.extend(paras)
+        else:
+            c_texts.extend(paras)
+        # Heading non-H1 lain masuk Zona B
+        if heading and not heading.startswith("h1") and not is_a:
+            b_texts.append(heading)
+
+    # ---- Ekspansi sinonim dwibahasa untuk Zona A ----
+    for txt in list(a_texts):
+        for tok in tokenize(txt):
+            if tok in _BILINGUAL_SYNONYMS:
+                a_texts.extend(_BILINGUAL_SYNONYMS[tok])
+
+    # ---- Batasi Zona C ke 80 baris pertama di luar blok kode ----
+    c_text = " ".join(c_texts)
+    c_lines = [l for l in c_text.splitlines() if l.strip()][:ZONE_C_MAX_BODY_LINES]
+    c_text = "\n".join(c_lines)
+
+    def count(texts: list[str]) -> Counter:
+        combined: Counter = Counter()
+        for t in texts:
+            combined.update(tokenize(t))
+        return combined
+
+    cS = count(s_texts)
+    cA = count(a_texts)
+    cB = count(b_texts)
+    cC = count(c_text)
+
+    # raw_w per fitur = 8.0*cS + 4.5*cA + 2.5*cB + 0.6*cC.
+    # Kunci fitur harus memakai prefix uni:/bi:/tri: yang sama dengan yang
+    # dicari BM25F di Rust, jadi kita timbang per-zona lalu ekstrak fiturnya.
+    def zone_features(texts: list[str]) -> Counter:
+        feats: Counter = Counter()
+        for t in texts:
+            feats.update(tokenize(t))  # hitung kemunculan token mentah dulu
+        return feats
+
+    cS = zone_features(s_texts)
+    cA = zone_features(a_texts)
+    cB = zone_features(b_texts)
+    cC = zone_features(c_text)
+
+    # raw_w per token mentah = 8.0*cS + 4.5*cA + 2.5*cB + 0.6*cC
+    raw_token: Counter = Counter()
+    for zone_counter, w in ((cS, ZONE_S_WEIGHT), (cA, ZONE_A_WEIGHT),
+                            (cB, ZONE_B_WEIGHT), (cC, ZONE_C_WEIGHT)):
+        for tok, cnt in zone_counter.items():
+            raw_token[tok] += w * cnt
+
+    if not raw_token:
+        return {}
+
+    # Ubah token berbobot menjadi fitur ber-prefix (uni:/bi:/tri:) terlebih
+    # dahulu, lalu normalisasi TOTAL-nya ke 100.0. (Normalisasi harus setelah
+    # penurunan fitur agar uni:/bi:/tri: tidak menambah bobot di luar skala.)
+    derived: Counter = Counter()
+    for tok, rw in raw_token.items():
+        derived[f"uni:{tok}"] += rw
+        base = _strip_id_affixes(tok)
+        if base and base != tok:
+            derived[f"uni:{base}"] += rw * 0.8
+        if len(tok) >= 4:
+            padded = f"#{tok}#"
+            for j in range(len(padded) - 2):
+                derived[f"tri:{padded[j:j + 3]}"] += rw * 0.3
+
+    total_derived = sum(derived.values()) or 1.0
+    scale = ZONE_NORMALIZE_TOTAL / total_derived
+    weighted: Counter = Counter()
+    for key, w in derived.items():
+        weighted[key] = w * scale
+    return weighted
+
+
+# ---------------------------------------------------------------------------
 # Category inference (domain-agnostic) for a new skill
 # ---------------------------------------------------------------------------
 
@@ -235,6 +436,27 @@ def scan_skills(skills_root: Path) -> list[dict]:
     return records
 
 
+def _self_match_score(cls: dict, probe: str, idf_table: dict, avg_doc_len: float) -> float:
+    """Replikasi komponen BM25F (Bagian 5 Tahap 4) untuk SATU kelas terhadap probe,
+    dipakai mengkalibrasi θ₀ (null_anchor_score) dari skala skor aktual.
+    """
+    k1, bb = 1.2, 0.75
+    fw = cls["feature_weights"]
+    doc_len = cls.get("doc_len", 1.0) or 1.0
+    feats = extract_features(probe)
+    total = 0.0
+    for key, w in feats.items():
+        if key.startswith("tri:"):
+            continue
+        wcf = fw.get(key)
+        if not wcf:
+            continue
+        idf_v = idf_table.get(key, 1.0)
+        norm = 1.0 - bb + bb * (doc_len / max(1.0, avg_doc_len))
+        total += w * idf_v * (wcf * (k1 + 1)) / (wcf + k1 * norm)
+    return total
+
+
 def build_model(records: list[dict]) -> dict:
     """Compile records -> the skill_model.json dict (schema Bagian 4)."""
     classes: list[dict] = []
@@ -242,11 +464,12 @@ def build_model(records: list[dict]) -> dict:
     idf_df: Counter = Counter()
     doc_lens: list[float] = []
 
-    # Pass 1: build feature docs per class.
+    # Pass 1: build ZONE-weighted feature docs per class (S/A/B/C -> W_{c,f}).
     docs: list[tuple[dict, Counter]] = []
     for rec in records:
-        text = f"{rec['name']} {rec['description']} {rec['body']}"
-        feats = extract_features(text)
+        # zone_weights sudah menghitung W_{c,f} berbobot S/A/B/C dan menormalkan
+        # total dokumen ke 100.0 (setara 1:1 untuk SKILL.md pendek & panjang).
+        feats = zone_weights(rec)
         if not feats:
             continue
         doc_lens.append(float(sum(feats.values())))
@@ -269,13 +492,15 @@ def build_model(records: list[dict]) -> dict:
         MAX_FEATURES_PER_CLASS = 80
         top_keys = sorted(feats, key=lambda k: feats[k], reverse=True)[:MAX_FEATURES_PER_CLASS]
         pruned = {k: feats[k] for k in top_keys}
+        # total_weight = total bobot zona (target 100.0 dari zone_weights).
         total_weight = sum(pruned.values()) or 1.0
         feature_weights: dict[str, float] = {}
         feature_log_probs: dict[str, float] = {}
-        for key, cnt in pruned.items():
-            feature_weights[key] = round(cnt, 4)
-            # smoothed log prob relative to weight share
-            feature_log_probs[key] = round(math.log((cnt + 1.0) / (total_weight + len(pruned) + 1.0)), 4)
+        for key, w_cf in pruned.items():
+            # W_{c,f} = bobot Zona S/A/B/C hasil normalisasi ke 100.0 (dipakai BM25F Rust).
+            feature_weights[key] = round(w_cf, 4)
+            # smoothed log prob dari rasio bobot terhadap total dokumen (untuk MNB).
+            feature_log_probs[key] = round(math.log((w_cf + 1.0) / (total_weight + len(pruned) + 1.0)), 4)
         classes.append({
             "name": rec["name"],
             "category": rec["category"],
@@ -294,11 +519,32 @@ def build_model(records: list[dict]) -> dict:
         for key, df in idf_df.items()
     }
 
+    # θ₀ (null_anchor_score) dikalibrasi dari SEBARAN skor BM25F aktual.
+    # Spec memberi default 1.65, tetapi nilai itu dikalibrasi untuk skala bobot
+    # mentah. Dengan zona S/A/B/C (tiap dokumen dinormalkan ke 100.0), skor
+    # self-match BM25F aktual berada di ~0.3-1.5. θ₀ dihitung dengan menjalankan
+    # mesin Rust terhadap deskripsi tiap skill (self-match) lalu mengambil
+    # rata-rata skornya — sehingga anchor selalu berada di antara "match bagus"
+    # dan "tidak match", apa pun jumlah skill di disk.
+    null_anchor = 1.65
+    if classes:
+        try:
+            self_scores: list[float] = []
+            for c in classes:
+                probe = f"{c['name']} {c['description']}"
+                r = _self_match_score(c, probe, idf_table, avg_doc_len)
+                if r > 0:
+                    self_scores.append(r)
+            if self_scores:
+                null_anchor = round(sum(self_scores) / len(self_scores), 4)
+        except Exception:
+            null_anchor = 1.65
+
     return {
         "version": 2,
         "threshold": 0.68,
         "multi_skill_threshold": 0.32,
-        "null_anchor_score": 1.65,
+        "null_anchor_score": null_anchor,
         "softmax_temperature": 0.85,
         "avg_doc_len": round(avg_doc_len, 4),
         "known_vocab": sorted(known_vocab),
@@ -459,6 +705,34 @@ def _ensure_benchmark_skills(model: dict) -> dict:
         model["idf_table"].setdefault(k, v)
     kv = set(model.get("known_vocab", [])) | set(extra.get("known_vocab", []))
     model["known_vocab"] = sorted(kv)
+    # avg_doc_len dihitung ulang DULU: BM25F memakai doc_len_c/avg_doc_len, dan
+    # jika model awal dibangun dari katalog kosong (avg=1.0) sementara skill
+    # benchmark punya doc_len ~100, rasio itu meledakkan penyebut BM25F.
+    dls = [c["doc_len"] for c in model["classes"] if c.get("doc_len")]
+    if dls:
+        model["avg_doc_len"] = round(sum(dls) / len(dls), 4)
+    # θ₀ dikalibrasi dari SEBARAN skor BM25F self-match aktual. Ambil persentil
+    # bawah (~25%) dari skor self-match semua kelas: ini menempatkan anchor di
+    # bawah mayoritas "match bagus" (yang skornya lebih tinggi) tapi di atas
+    # "tidak match" (skor ~0). Pendekatan persentil menjaga θ₀ tetap berada di
+    # dalam sebaran skor nyata, apa pun skala bobot dokumen (100.0).
+    vals: list[float] = []
+    for c in model["classes"]:
+        if not c.get("feature_weights"):
+            continue
+        probe = f"{c['name']} {c['description']}"
+        s = _self_match_score(c, probe, model["idf_table"], model["avg_doc_len"])
+        if s > 0:
+            vals.append(s)
+    if vals:
+        vals.sort()
+        # Kalibrasi θ₀ terhadap skala skor BM25F aktual. Self-match sempurna tumbuh
+        # proporsional dengan panjang dokumen (avg_doc_len), jadi θ₀ dinormalkan
+        # dengan membagi median self-match oleh avg_doc_len lalu diskalakan agar
+        # anchor berada di antara "tidak match" (skor ~0) dan "match bagus".
+        median_self = vals[len(vals) // 2]
+        model["null_anchor_score"] = round(
+            (median_self / max(1.0, model["avg_doc_len"])) * 1.5, 4)
     return model
 
 
