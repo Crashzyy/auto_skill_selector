@@ -1,19 +1,20 @@
 # auto_skill_selector
 
-**Pemilih skill otonom untuk Hermes Agent.** Mesin Rust ini membaca setiap prompt,
-menilai seluruh skill lokal, lalu memilihkan yang paling cocok — dalam hitungan
-mikrodetik. Kalau pengguna cuma ingin berdiskusi, ia diam.
+**Pemilih skill otonom untuk Hermes Agent.** Mesin Rust ini mencoba membaca
+setiap prompt, menilai seluruh skill lokal, lalu memilihkan yang paling cocok.
+Proyek ini masih **eksperimental** — belum dijamin bekerja baik pada pemakaian
+nyata. Lihat [Keterbatasan](#keterbatasan).
 
-> **Status: Alpha.** API, skema model, dan perilaku routing masih bisa berubah.
+> **Status: Alpha, eksperimental.** API, skema model, dan perilaku routing masih
+> bisa berubah. Akurasi di luar kasus uji bawaan belum diverifikasi.
 
 ---
 
-## Masalah yang diselesaikan
+## Masalah yang ingin diselesaikan
 
 Hermes Agent punya ratusan skill. Tanpa pemilih otomatis, kamu harus menebak
-skill mana yang pas lalu memanggilnya manual. Rumit, dan rawan salah pilih.
-Plugin ini mengambil alih pekerjaan itu: baca prompt, nilai semua kandidat,
-pilih yang terbaik.
+skill mana yang pas lalu memanggilnya manual. Plugin ini mencoba mengambil alih
+pekerjaan itu: baca prompt, nilai semua kandidat, pilih yang terbaik.
 
 Ada tiga keputusan yang bisa diambil, plus satu kondisi diam.
 
@@ -63,7 +64,23 @@ mengikuti skala skor aktual, apa pun jumlah skill di disk.
 
 Benchmark bawaan lolos **10/10 kasus uji** dengan latensi rata-rata di bawah
 500 mikrodetik per analisis. Di mesin pengembangan, hasil aktual berkisar
-100–470 µs.
+100–470 µs. Angka ini diukur pada katalog kecil (7 skill seed) dan **belum
+diuji pada katalog besar atau beban kerja nyata**.
+
+## Keterbatasan
+
+- **Belum teruji di pemakaian nyata.** Yang diverifikasi hanyalah benchmark 10
+  kasus, `plugins validate`, dan `plugins doctor`. Hook `pre_llm_call` belum
+  diuji end-to-end di sesi Hermes hidup, jadi kualitas pemilihan skill pada
+  prompt pengguna sungguhan masih belum diketahui.
+- **Akurasi belum diverifikasi.** 10 kasus uji adalah sampel kecil yang
+  ditulis sendiri; kinerja pada topik di luar kasus tersebut bisa jauh lebih
+  buruk.
+- **θ₀ dikalibrasi ulang otomatis.** Nilai `null_anchor_score` bawaan (1,65)
+  diganti kalibrasi dari sebaran skor lokal. Rumus dan ambangnya masih
+  eksperimental dan bisa menghasilkan false positive/negative.
+- **Katalog kosong saat build.** Model awal dibangun dari skill yang ada; pada
+  katalog kosong, `avg_doc_len` dan θ₀ dihitung dari skill benchmark sintetis.
 
 ## Instalasi
 
