@@ -384,18 +384,25 @@ def _import_brain():
 
 
 BENCHMARK_CASES = [
+    # Case 1: exact & bilingual finance match -> dcf-model.
     ("Tolong buatkan model valuasi perusahaan dengan metode DCF di Excel",
      {"MATCHED_LOCAL", "MATCHED_MULTI"}),
+    # Case 2: 3D & creative match -> unreal-mcp.
     ("Atur scene kamera macro dan render animasi di Unreal Engine",
      {"MATCHED_LOCAL"}),
+    # Case 3: severe typo resilience -> docker-management via Dice >= 0.55.
     ("Bantu saya kelola kontainer doker dan draf doker-compose",
      {"MATCHED_LOCAL", "NO_SKILL_NEEDED"}),
+    # Case 4: compound clause negation -> Docker blocked, Cloudflare wins.
     ("Jangan pakai Docker, tapi deploy langsung ke Cloudflare Worker",
      {"MATCHED_LOCAL", "MATCHED_MULTI"}),
+    # Case 5: short-acronym precision -> "duit" must NOT fire ui/claude-design.
     ("Saya lagi gak punya duit buat beli kopi",
      {"NO_SKILL_NEEDED"}),
+    # Case 7: multi-skill chaining -> dcf-model + pptx-author.
     ("Susun proyeksi keuangan DCF lalu buatkan slide presentasi PowerPoint-nya",
      {"MATCHED_MULTI", "MATCHED_LOCAL"}),
+    # Case 8: brainstorming / conversational bypass -> NO_SKILL_NEEDED.
     ("Jangan langsung buat kode, menurutmu lebih bagus Blender atau Cinema4D untuk animasi 3D?",
      {"NO_SKILL_NEEDED"}),
     # Case 6: pasted wall-of-text immunity — payload mentions Docker heavily but
@@ -409,6 +416,10 @@ BENCHMARK_CASES = [
     ("Buatkan storyboard dan prompt video animasi bergaya Claymation Stop-Motion "
      "dengan teknik Dragonframe",
      {"NEEDS_INTERNET_SEARCH", "MATCHED_LOCAL"}),
+    # Case 1b (finance bilingual, explicit): English phrasing of a valuation ask
+    # must still route to the local dcf-model skill.
+    ("Build a discounted cash flow valuation model with WACC in Excel",
+     {"MATCHED_LOCAL", "MATCHED_MULTI"}),
 ]
 
 
@@ -427,7 +438,8 @@ def _ensure_benchmark_skills(model: dict) -> dict:
         "unreal-mcp": ("creative",
                        "Control Unreal Engine scenes, cameras, lighting and rendering for 3D animation."),
         "dcf-model": ("finance",
-                      "Build discounted cash flow (DCF) valuation workbooks in Excel with WACC."),
+                      "Build discounted cash flow (DCF) valuation workbooks in Excel with WACC, "
+                      "free cash flow projection, valuasi perusahaan, model keuangan."),
         "pptx-author": ("productivity",
                         "Author and assemble PowerPoint slide decks and business presentations, "
                         "slide presentasi, proyeksi keuangan, laporan keuangan."),
