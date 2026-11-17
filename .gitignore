@@ -1,6 +1,26 @@
+# Rust / build
 /target
 *.so
 *.pyd
+
+# Python
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.venv/
+venv/
+
+# AI-agent rule files (jangan dipublikasikan)
+AGENTS.md
+SOUL.md
+DESIGN.md
+CLAUDE.md
+GEMINI.md
+.cursorrules
+.claude/
+.aider*
+.agents/
+skills-lock.json
+
+# OS / editor
+.DS_Store
