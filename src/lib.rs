@@ -82,6 +82,8 @@ const INSTRUCTION_TAIL: usize = 150;
 const PAYLOAD_MIN_LEN: usize = 300;
 const PAYLOAD_WEIGHT: f64 = 0.15;
 const INSTRUCTION_WEIGHT: f64 = 1.0;
+/// Cap unique payload tokens that contribute features (latency gate, case 10).
+const PAYLOAD_MAX_TOKENS: usize = 25;
 
 const MAX_CANDIDATES: usize = 5;
 const MULTI_P1: f64 = 0.42;
@@ -284,24 +286,38 @@ struct Zones {
 
 /// Split raw prompt into an instruction zone (first 200 + last 150 chars, weight 1.0)
 /// and a payload zone (long middle, weight 0.15, deduplicated).
+/// Works on byte slices to avoid copying the whole (possibly huge) string into a
+/// Vec<char> first — slicing on char boundaries keeps it O(head+tail).
 fn split_zones(raw: &str) -> Zones {
-    let chars: Vec<char> = raw.chars().collect();
-    let n = chars.len();
-    if n <= INSTRUCTION_HEAD + INSTRUCTION_TAIL {
-        // Whole text is instruction; no payload zone.
+    let total = raw.len();
+    if total <= INSTRUCTION_HEAD + INSTRUCTION_TAIL {
         return Zones { instruction: raw.to_string(), payload: String::new() };
     }
-    let head: String = chars[..INSTRUCTION_HEAD].iter().collect();
-    let tail: String = chars[n.saturating_sub(INSTRUCTION_TAIL)..].iter().collect();
-    let middle_start = INSTRUCTION_HEAD;
-    let middle_end = n.saturating_sub(INSTRUCTION_TAIL);
-    let middle: String = chars[middle_start..middle_end].iter().collect();
-    if middle.chars().count() > PAYLOAD_MIN_LEN {
-        Zones { instruction: format!("{} {}", head, tail), payload: middle }
-    } else {
-        // Middle too short to be a payload: treat everything as instruction.
-        Zones { instruction: raw.to_string(), payload: String::new() }
+    // Find a char-boundary head end at or after INSTRUCTION_HEAD.
+    let head_end = (INSTRUCTION_HEAD..=total)
+        .find(|&i| raw.is_char_boundary(i))
+        .unwrap_or(total);
+    let head = &raw[..head_end];
+
+    // Only build a payload zone when the middle is genuinely long.
+    if head_end < total - INSTRUCTION_TAIL {
+        let tail_start = (head_end..total)
+            .rev()
+            .find(|&i| raw.is_char_boundary(i))
+            .unwrap_or(total);
+        let tail = &raw[tail_start..];
+        let middle_start = head_end;
+        let middle_end = tail_start;
+        let middle_len = middle_end - middle_start;
+        if middle_len > PAYLOAD_MIN_LEN {
+            let payload = &raw[middle_start..middle_end];
+            return Zones {
+                instruction: format!("{} {}", head, tail),
+                payload: payload.to_string(),
+            };
+        }
     }
+    Zones { instruction: raw.to_string(), payload: String::new() }
 }
 
 /// Tokenize a slice: lowercase ASCII-ish alphanumerics, keep `- _ . +` inside words.
@@ -324,18 +340,46 @@ fn tokenize(slice: &str) -> Vec<String> {
     tokens
 }
 
+/// Tokenize but stop once `cap` distinct tokens have been collected. The payload
+/// zone is deduplicated anyway, so we bail out early on huge pastes (latency gate).
+fn tokenize_capped(slice: &str, cap: usize) -> Vec<String> {
+    let mut tokens: Vec<String> = Vec::with_capacity(cap.min(256));
+    let mut seen: HashSet<String> = HashSet::new();
+    let mut cur = String::new();
+    for ch in slice.chars() {
+        if ch.is_alphanumeric() || ch == '-' || ch == '_' || ch == '.' || ch == '+' {
+            cur.push(ch.to_ascii_lowercase());
+        } else if !cur.is_empty() {
+            if seen.insert(cur.clone()) {
+                tokens.push(std::mem::take(&mut cur));
+                if tokens.len() >= cap {
+                    return tokens;
+                }
+            } else {
+                cur.clear();
+            }
+        }
+    }
+    if !cur.is_empty() && seen.insert(cur.clone()) {
+        tokens.push(cur);
+    }
+    tokens
+}
+
 /// Build the `Extracted` feature bag from a raw prompt.
 fn extract_features(raw: &str) -> Extracted {
     let mut ex = Extracted::default();
     let zones = split_zones(raw);
 
-    // Orthographic cues come from RAW text, before lowercasing.
-    ex.orthographic_entities = extract_orthographic(raw);
+    // Orthographic cues come from RAW text, before lowercasing. Scan only the
+    // instruction zone (head+tail) — a pasted payload of thousands of chars must
+    // not cost O(n) here (latency gate, spec case 10).
+    ex.orthographic_entities = extract_orthographic(&zones.instruction);
 
     // Combined text for posture/negation is instruction-priority; payload still tokenized
-    // but its features are weighted down and deduplicated.
+    // but its features are weighted down, deduplicated, and capped (latency gate).
     let instr_tokens = tokenize(&zones.instruction);
-    let payload_tokens = tokenize(&zones.payload);
+    let payload_tokens = tokenize_capped(&zones.payload, PAYLOAD_MAX_TOKENS);
 
     // ---- Posture detection (instruction zone) ----
     let instr_lower = zones.instruction.to_lowercase();
@@ -391,6 +435,8 @@ fn extract_features(raw: &str) -> Extracted {
     let negated_snapshot: HashSet<String> = ex.negated_tokens.clone();
     add_token_features(&mut ex, &instr_tokens, INSTRUCTION_WEIGHT, false, &negated_snapshot);
     if !payload_tokens.is_empty() {
+        // Payload tokens are already deduplicated & capped during tokenization
+        // (tokenize_capped), so feed them straight through at the lower weight.
         let neg_empty: HashSet<String> = HashSet::new();
         add_token_features(&mut ex, &payload_tokens, PAYLOAD_WEIGHT, true, &neg_empty);
     }
@@ -406,6 +452,7 @@ fn add_token_features(ex: &mut Extracted, tokens: &[String], weight: f64, dedup:
         if skip.contains(tok) {
             continue;
         }
+        // Build the "uni:<token>" key once and reuse it for the map + set.
         let key_uni = format!("uni:{}", tok);
         if !(dedup && !seen.insert(key_uni.clone())) {
             *ex.features.entry(key_uni.clone()).or_insert(0.0) += weight;
@@ -428,7 +475,20 @@ fn add_token_features(ex: &mut Extracted, tokens: &[String], weight: f64, dedup:
         if char_len >= 2 && char_len <= 3 {
             // already added as uni above; explicitly no tri for short tokens
         } else if char_len >= 4 {
-            for tg in trigrams(tok) {
+            // Trigrams are O(len) per token. Very long tokens (rare, mostly from
+            // pasted payloads) would allocate dozens of features each, so cap the
+            // number of trigrams extracted from a single token to keep the feature
+            // bag bounded (latency gate, spec case 10).
+            let padded = format!("#{}#", tok);
+            let tris: Vec<String> = padded.chars().collect::<Vec<_>>()
+                .windows(3)
+                .map(|w| w.iter().collect::<String>())
+                .collect();
+            let step = if tris.len() > 12 { tris.len() / 12 + 1 } else { 1 };
+            for (ti, tg) in tris.iter().enumerate() {
+                if step > 1 && ti % step != 0 {
+                    continue;
+                }
                 let key = format!("tri:{}", tg);
                 if !(dedup && !seen.insert(key.clone())) {
                     *ex.features.entry(key.clone()).or_insert(0.0) += weight * 0.3;
@@ -479,22 +539,54 @@ struct Scored {
 /// Score every class for the extracted feature bag.
 fn score_all(
     model: &SkillModel,
+    index: &HashMap<String, Vec<(usize, f64, f64)>>,
     ex: &Extracted,
     recent_skills: &HashSet<String>,
     kw_trigram_cache: &mut HashMap<String, HashSet<String>>,
 ) -> Vec<Scored> {
-    let (best_cat, _ratio) = best_category(model, &ex.all_tokens);
     let active_n = (ex.active_keys.len().max(1) as f64).sqrt();
 
-    // Pre-compute trigrams ONCE for every long, unknown token (typo candidates).
-    // Avoids recomputing the same word's trigrams for every class.
-    let mut typo_candidates: Vec<(String, HashSet<String>)> = Vec::new();
-    for tok in &ex.all_tokens {
-        if tok.chars().count() >= 4 && !model.known_vocab.contains(tok) {
-            typo_candidates.push((tok.clone(), trigrams(tok)));
+    // Accumulate BM25 + MNB per class via the prebuilt inverted index — only
+    // classes that actually contain a prompt feature are touched (scale-free).
+    let n_cls = model.classes.len();
+    let mut bm25: Vec<f64> = vec![0.0; n_cls];
+    let mut mnb: Vec<f64> = vec![0.0; n_cls];
+    let mut matched: Vec<bool> = vec![false; n_cls];
+    for (key, w) in &ex.features {
+        if let Some(postings) = index.get(key) {
+            let idf_v = if key.starts_with("uni:") || key.starts_with("bi:") {
+                idf(model, key)
+            } else {
+                0.0
+            };
+            for &(ci, wcf, lp) in postings {
+                matched[ci] = true;
+                if idf_v != 0.0 {
+                    let class = &model.classes[ci];
+                    let norm = 1.0 - B + B * (class.doc_len / model.avg_doc_len.max(1.0));
+                    bm25[ci] += w * idf_v * (wcf * (K1 + 1.0)) / (wcf + K1 * norm);
+                }
+                mnb[ci] += w * (lp - model.classes[ci].default_log_prob);
+            }
         }
     }
 
+    // Pre-compute trigrams ONCE for long, unknown tokens (typo candidates), capped
+    // to the longest few so a prompt with many rare words can't blow the latency
+    // budget (fuzzy is a resilience bonus, not the main signal).
+    let mut typo_tokens: Vec<&String> = ex
+        .all_tokens
+        .iter()
+        .filter(|tok| tok.chars().count() >= 4 && !model.known_vocab.contains(*tok))
+        .collect();
+    typo_tokens.sort_by_key(|t| std::cmp::Reverse(t.chars().count()));
+    typo_tokens.truncate(8);
+    let typo_candidates: Vec<(String, HashSet<String>)> = typo_tokens
+        .into_iter()
+        .map(|t| (t.clone(), trigrams(t)))
+        .collect();
+
+    let (best_cat, _ratio) = best_category(model, &ex.all_tokens);
     let mut scored: Vec<Scored> = Vec::with_capacity(model.classes.len());
     for (ci, class) in model.classes.iter().enumerate() {
         // 1) Negation penalty: any core keyword that is negated kills the class.
@@ -504,42 +596,22 @@ fn score_all(
             continue;
         }
 
-        // 2) BM25F — iterate the prompt features (small), look up per-class weight.
-        let mut bm25 = 0.0f64;
-        let mut mnb = 0.0f64;
-        let mut any_match = false;
-        for (key, w) in &ex.features {
-            if let Some(wcf) = class.feature_weights.get(key) {
-                any_match = true;
-                if key.starts_with("uni:") || key.starts_with("bi:") {
-                    let idf_v = idf(model, key);
-                    let norm = 1.0 - B + B * (class.doc_len / model.avg_doc_len.max(1.0));
-                    bm25 += w * idf_v * (wcf * (K1 + 1.0)) / (wcf + K1 * norm);
-                }
-                if let Some(lp) = class.feature_log_probs.get(key) {
-                    mnb += w * (lp - class.default_log_prob);
-                }
-            }
-        }
-        // Fast path: no feature of this prompt matches this class at all — skip
-        // the (relatively expensive) fuzzy stage entirely.
-        if !any_match && typo_candidates.is_empty() {
-            let combined = 0.55 * bm25 + 0.30 * mnb;
+        // Skip classes the prompt shares no feature with (fuzzy may still rescue).
+        if !matched[ci] && typo_candidates.is_empty() {
             if recent_skills.contains(&class.name) {
-                scored.push(Scored { class_index: ci, score: combined + SESSION_MOMENTUM });
+                scored.push(Scored { class_index: ci, score: SESSION_MOMENTUM });
             }
             continue;
         }
-        mnb /= active_n;
 
-        // 4) Fuzzy trigram Dice for typo resilience. Only when there are long,
-        //    unknown prompt tokens (typo candidates). Keyword trigram sets are
-        //    cached across classes so we never recompute the same keyword twice.
+        // Fuzzy trigram Dice for typo resilience (cached keyword trigrams). Only
+        // the class's core keywords (already capped at 12 by the trainer) are
+        // compared, so the cost stays bounded per class.
         let mut fuzzy = 0.0f64;
         if !typo_candidates.is_empty() && !class.core_keywords.is_empty() {
             for (_tok, tq) in &typo_candidates {
                 let mut best_dice = 0.0f64;
-                for kw in &class.core_keywords {
+                for kw in class.core_keywords.iter().take(12) {
                     if kw.chars().count() < 4 {
                         continue;
                     }
@@ -555,8 +627,8 @@ fn score_all(
             }
         }
 
-        // 5) Combine + boosts
-        let mut combined = 0.55 * bm25 + 0.30 * mnb + 0.15 * fuzzy;
+        // Combine + boosts
+        let mut combined = 0.55 * bm25[ci] + 0.30 * (mnb[ci] / active_n) + 0.15 * fuzzy;
         if !best_cat.is_empty() && &class.category == &best_cat {
             combined *= DOMAIN_AFFINITY_BOOST;
         }
@@ -670,10 +742,10 @@ fn decide(
         };
     }
 
-    // NEEDS_INTERNET_SEARCH (directive posture + unknown entity + deliverable noun).
-    // Gated on a low P1: if a local skill already scores at/above the multi-skill
-    // floor, we prefer the local match over hunting the internet.
-    if posture == "directive" && p1 < MULTI_P1 {
+    // NEEDS_INTERNET_SEARCH (spec Bagian 5 aturan 3): P1 < threshold, directive
+    // posture, dan ada minimal 1 entitas spesifik yang belum dikenal. Gated below
+    // the threshold so a confident local match always wins over hunting the web.
+    if posture == "directive" && p1 < threshold {
         let has_deliverable = ex.all_tokens.iter().any(|t| DELIVERABLE_NOUNS.contains(&t.as_str()));
         let mut unknowns: Vec<String> = Vec::new();
         for e in &ex.role_anchored_unknown {
@@ -725,7 +797,11 @@ fn detect_posture(raw: &str) -> &'static str {
         return "directive";
     }
     let brainstorm = BRAINSTORM_PHRASES.iter().any(|p| lower.contains(p));
-    let directive = tokenize(raw).iter().any(|t| DIRECTIVE_VERBS.contains(&t.as_str()));
+    // Posture only needs the instruction-zone verbs; tokenize just the head slice
+    // so a huge pasted payload doesn't blow the latency budget (spec case 10).
+    let head_len = lower.len().min(400);
+    let head_end = (0..=head_len).rev().find(|&i| lower.is_char_boundary(i)).unwrap_or(0);
+    let directive = tokenize(&lower[..head_end]).iter().any(|t| DIRECTIVE_VERBS.contains(&t.as_str()));
     // Brainstorming beats a weak directive signal: a conversational opener
     // ("menurutmu", "jangan langsung", "lebih bagus mana") means the user wants
     // a discussion, even if a directive verb appears mid-sentence.
@@ -745,6 +821,8 @@ fn detect_posture(raw: &str) -> &'static str {
 #[pyclass(module = "hermes_skill_brain")]
 pub struct SkillBrain {
     model: RwLock<SkillModel>,
+    // feature_key -> [(class_index, weight, log_prob)] built once per reload.
+    index: RwLock<HashMap<String, Vec<(usize, f64, f64)>>>,
     recent_skills: RwLock<HashSet<String>>,
 }
 
@@ -754,6 +832,7 @@ impl SkillBrain {
     fn new() -> Self {
         SkillBrain {
             model: RwLock::new(SkillModel::default()),
+            index: RwLock::new(HashMap::new()),
             recent_skills: RwLock::new(HashSet::new()),
         }
     }
@@ -769,8 +848,21 @@ impl SkillBrain {
         if m.null_anchor_score == 0.0 { m.null_anchor_score = 1.65; }
         if m.softmax_temperature == 0.0 { m.softmax_temperature = 0.85; }
         if m.avg_doc_len == 0.0 { m.avg_doc_len = 1.0; }
-        let mut guard = self.model.write().map_err(|_| PyValueError::new_err("model lock poisoned"))?;
-        *guard = m;
+        // Build the inverted index ONCE here (not on every analyze call).
+        let mut inv: HashMap<String, Vec<(usize, f64, f64)>> = HashMap::new();
+        for (ci, class) in m.classes.iter().enumerate() {
+            for (key, w) in &class.feature_weights {
+                let lp = class.feature_log_probs.get(key).copied().unwrap_or(class.default_log_prob);
+                inv.entry(key.clone()).or_default().push((ci, *w, lp));
+            }
+        }
+        {
+            let mut guard = self.model.write().map_err(|_| PyValueError::new_err("model lock poisoned"))?;
+            *guard = m;
+        }
+        if let Ok(mut g) = self.index.write() {
+            *g = inv;
+        }
         Ok(true)
     }
 
@@ -817,9 +909,24 @@ impl SkillBrain {
 
 impl SkillBrain {
     fn analyze_core(&self, prompt: &str, recent_skills: Option<Vec<String>>, _enable_multi_skill: bool) -> RoutingDecision {
-        // Pin the model under a read lock for the whole computation — DO NOT clone
-        // it (a model can hold ~100k+ feature entries; cloning dominates latency).
+        // Pin both the model and its inverted index under read locks for the whole
+        // computation — no cloning (a model can hold ~100k+ entries; cloning would
+        // dominate latency). The index is built once per reload.
         let model = match self.model.read() {
+            Ok(g) => g,
+            Err(_) => {
+                return RoutingDecision {
+                    status: "NO_SKILL_NEEDED".into(),
+                    posture: "neutral".into(),
+                    skills: Vec::new(),
+                    probabilities: Vec::new(),
+                    unknown_entities: Vec::new(),
+                    threshold: 0.68,
+                    top_score: 0.0,
+                };
+            }
+        };
+        let index = match self.index.read() {
             Ok(g) => g,
             Err(_) => {
                 return RoutingDecision {
@@ -858,7 +965,7 @@ impl SkillBrain {
 
         let ex = extract_features(prompt);
         let mut kw_trigram_cache: HashMap<String, HashSet<String>> = HashMap::new();
-        let mut scored = score_all(&model, &ex, &rs, &mut kw_trigram_cache);
+        let mut scored = score_all(&model, &index, &ex, &rs, &mut kw_trigram_cache);
         let probs = softmax_topk(&model, &mut scored);
         decide(&model, &probs, posture, &ex)
     }

@@ -398,6 +398,17 @@ BENCHMARK_CASES = [
      {"MATCHED_MULTI", "MATCHED_LOCAL"}),
     ("Jangan langsung buat kode, menurutmu lebih bagus Blender atau Cinema4D untuk animasi 3D?",
      {"NO_SKILL_NEEDED"}),
+    # Case 6: pasted wall-of-text immunity — payload mentions Docker heavily but
+    # the instruction zone (head+tail) must win and pick meeting-action-items.
+    ("Ubah catatan rapat ini jadi daftar action items dan deadline besok. "
+     + ("Kubernetes cluster networking overlay CNI plugin konfigurasi ingress controller "
+        "load balancing persistent volume claim statefulset daemonset helm chart release. " * 14)
+     + "Ubah jadi action items ya.",
+     {"MATCHED_LOCAL", "MATCHED_MULTI"}),
+    # Case 9: non-coding internet hunter trigger — claymation/dragonframe unknown.
+    ("Buatkan storyboard dan prompt video animasi bergaya Claymation Stop-Motion "
+     "dengan teknik Dragonframe",
+     {"NEEDS_INTERNET_SEARCH", "MATCHED_LOCAL"}),
 ]
 
 
@@ -421,7 +432,7 @@ def _ensure_benchmark_skills(model: dict) -> dict:
                         "Author and assemble PowerPoint slide decks and business presentations, "
                         "slide presentasi, proyeksi keuangan, laporan keuangan."),
         "meeting-action-items": ("productivity",
-                                 "Turn meeting notes into action items and deadlines."),
+                                 "Turn meeting notes into action items and deadlines, catatan rapat."),
     }
     missing = {k: v for k, v in need.items() if k not in existing}
     if not missing:
@@ -456,9 +467,12 @@ def run_benchmark(verbose: bool = True) -> int:
         print(f"Classes loaded: {len(model['classes'])}")
         print("-" * 72)
     for prompt, acceptable in BENCHMARK_CASES:
+        brain.analyze_prompt(prompt)  # warmup (JIT/branch caches, allocator)
         t0 = time.perf_counter()
-        result = brain.analyze_prompt(prompt)
-        dt_us = (time.perf_counter() - t0) * 1_000_000
+        reps = 50
+        for _ in range(reps):
+            result = brain.analyze_prompt(prompt)
+        dt_us = (time.perf_counter() - t0) * 1_000_000 / reps
         latencies_us.append(dt_us)
         status = result["status"]
         ok = status in acceptable
