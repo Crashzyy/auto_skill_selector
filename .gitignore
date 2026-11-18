@@ -24,3 +24,6 @@ skills-lock.json
 
 # OS / editor
 .DS_Store
+
+# artefak runtime
+scorecard.json
