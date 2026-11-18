@@ -775,9 +775,14 @@ def build_model(records: list[dict]) -> dict:
                     sum((x - neg_mean) ** 2 for x in neg_scores) / len(neg_scores))
                 s_neg_bound = max(neg_scores) + 0.25 * neg_std
                 pos_sorted = sorted(pos_scores)
-                pos_q1 = pos_sorted[len(pos_sorted) // 4]
-                gap = max(0.2, pos_q1 - s_neg_bound)
-                null_anchor = round(s_neg_bound + 0.35 * gap, 4)
+                pos_median = pos_sorted[len(pos_sorted) // 2]
+                gap = max(0.2, pos_median - s_neg_bound)
+                # Skor self-match mentah tumbuh proporsional dengan panjang dokumen
+                # (avg_doc_len ~100), sehingga θ₀ mentah membengkak dan menekan
+                # seluruh probabilitas. Normalisasi terhadap avg_doc_len agar θ₀
+                # berada di rentang 0.2-0.6 yang membuat threshold 0.68 bekerja.
+                null_anchor = round(
+                    (s_neg_bound + 0.35 * gap) / max(1.0, avg_doc_len), 4)
         except Exception:
             null_anchor = 1.65
 
@@ -814,6 +819,8 @@ def train_and_save(skills_root: Path | None = None) -> dict:
 # ---------------------------------------------------------------------------
 
 # Seed skills used when ~/.hermes/skills is empty (so the benchmark is runnable).
+# Dibagi merata ke 9 pilar (3 skill/pilar) agar domain_parity_score (gerbang 2)
+# dapat diukur secara adil antar-domain, bukan condong ke pemrograman.
 _SEED_SKILLS = {
     "finance": {
         "dcf-model": "Build discounted cash flow (DCF) valuation workbooks in Excel with WACC and free cash flow.",
@@ -826,7 +833,7 @@ _SEED_SKILLS = {
         "cloudflare-temporary-deploy": "Deploy applications temporarily to Cloudflare Workers.",
         "kubernetes-ops": "Operate Kubernetes clusters, pods and deployments.",
     },
-    "creative": {
+    "3d-animation": {
         "unreal-mcp": "Control Unreal Engine scenes, cameras, lighting and rendering for 3D animation.",
         "blender-mcp": "Drive Blender for 3D modeling, scenes, camera and animation rendering.",
         "comfyui": "Compose image and video generation pipelines in ComfyUI.",
@@ -834,6 +841,33 @@ _SEED_SKILLS = {
     "productivity": {
         "meeting-action-items": "Turn meeting notes into action items and deadlines.",
         "pdf": "Read, create and manipulate PDF documents.",
+        "weekly-review-planning": "Plan weekly priorities, review progress and schedule work.",
+    },
+    # --- Pilar yang sebelumnya belum terwakili di seed (Bias 6 / domain parity) ---
+    "data-analytics": {
+        "jupyter-notebook": "Explore datasets, clean data and build charts in Jupyter notebooks.",
+        "bi-dashboard": "Build business intelligence dashboards with KPI, funnel and cohort charts.",
+        "forecast-model": "Fit regression and time series forecast models on tabular data.",
+    },
+    "video-audio": {
+        "manim-video": "Animate mathematical explanations into MP4 videos with Manim.",
+        "songwriting-music": "Write song lyrics and structure music with Suno AI prompts.",
+        "video-storyboard": "Draft video storyboards and shot lists from a creative brief.",
+    },
+    "design": {
+        "claude-design": "Design landing pages, UI prototypes and design systems with tokens.",
+        "architecture-diagram": "Draw dark-themed architecture and cloud diagrams as SVG.",
+        "infographic-poster": "Compose infographics and posters with balanced typography.",
+    },
+    "writing": {
+        "humanizer": "Rewrite stiff AI-sounding prose into natural human voice.",
+        "seo-article": "Write SEO articles and blog posts with a clear editorial structure.",
+        "youtube-content": "Turn YouTube transcripts into summaries, threads and blogs.",
+    },
+    "research": {
+        "arxiv": "Search arXiv papers by keyword, author and category.",
+        "grounded-citations": "Ground answers in cited, verifiable academic sources.",
+        "osint-investigation": "Run open-source intelligence recon and track competitor news.",
     },
 }
 
@@ -1030,9 +1064,9 @@ def _ensure_benchmark_skills(model: dict) -> dict:
                               "Manage Docker containers, images, docker-compose and container deployment."),
         "cloudflare-temporary-deploy": ("software-development",
                                         "Deploy applications temporarily to Cloudflare Workers."),
-        "blender-mcp": ("creative",
+        "blender-mcp": ("3d-animation",
                         "Drive Blender for 3D modeling, scenes, camera and animation rendering."),
-        "unreal-mcp": ("creative",
+        "unreal-mcp": ("3d-animation",
                        "Control Unreal Engine scenes, cameras, lighting and rendering for 3D animation."),
         "dcf-model": ("finance",
                       "Build discounted cash flow (DCF) valuation workbooks in Excel with WACC, "
@@ -1062,34 +1096,21 @@ def _ensure_benchmark_skills(model: dict) -> dict:
     dls = [c["doc_len"] for c in model["classes"] if c.get("doc_len")]
     if dls:
         model["avg_doc_len"] = round(sum(dls) / len(dls), 4)
-    # θ₀ dikalibrasi dari SEBARAN skor BM25F self-match aktual. Ambil persentil
-    # bawah (~25%) dari skor self-match semua kelas: ini menempatkan anchor di
-    # bawah mayoritas "match bagus" (yang skornya lebih tinggi) tapi di atas
-    # "tidak match" (skor ~0). Pendekatan persentil menjaga θ₀ tetap berada di
-    # dalam sebaran skor nyata, apa pun skala bobot dokumen (100.0).
-    vals: list[float] = []
-    for c in model["classes"]:
-        if not c.get("feature_weights"):
-            continue
-        probe = f"{c['name']} {c['description']}"
-        s = _self_match_score(c, probe, model["idf_table"], model["avg_doc_len"])
-        if s > 0:
-            vals.append(s)
-    if vals:
-        vals.sort()
-        # Kalibrasi θ₀ terhadap skala skor BM25F aktual. Self-match sempurna tumbuh
-        # proporsional dengan panjang dokumen (avg_doc_len), jadi θ₀ dinormalkan
-        # dengan membagi median self-match oleh avg_doc_len lalu diskalakan agar
-        # anchor berada di antara "tidak match" (skor ~0) dan "match bagus".
-        median_self = vals[len(vals) // 2]
-        model["null_anchor_score"] = round(
-            (median_self / max(1.0, model["avg_doc_len"])) * 1.5, 4)
+    # θ₀ (null_anchor_score) TIDAK dihitung ulang di sini. Rumus ROC calibration
+    # di build_model (Bias 5) adalah sumber kebenaran tunggal untuk θ₀; memblok
+    # formula median/avg_doc_len di sini pernah menimpanya dengan nilai ~6.5 dan
+    # membuat kasus negasi Docker→Cloudflare gagal (p1 0.079 < threshold).
     return model
 
 
 def run_benchmark(verbose: bool = True) -> int:
     brain_mod = _import_brain()
     brain = brain_mod.SkillBrain()
+    # Bangun korpus seed 9 pilar bila katalog kosong, supaya domain_parity_score
+    # (gerbang 2) diukur dari skill merata lintas-domain, bukan 7 skill sintetis.
+    seeded = seed_skills_if_empty(get_skills_root())
+    if verbose and seeded:
+        print("Katalog kosong: menanam korpus seed 9 pilar ke skills/.")
     model = train_and_save()
     model = _ensure_benchmark_skills(model)
     brain.reload(json.dumps(model, ensure_ascii=False))
