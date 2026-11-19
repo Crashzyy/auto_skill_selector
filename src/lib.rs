@@ -551,6 +551,14 @@ const BAN_TRIGGERS: &[&str] = &[
     "jgn pakai", "jangan pake", "do not use", "don't use", "dont use", "never use",
     "not in", "instead of", "rather than", "without", "avoid", "except", "ban",
     "tanpa", "hindari", "selain", "kecuali", "bukan", "no",
+    // Varian gaul negasi + pakai (Fase 2.2): "ga usah pake", "gak pake",
+    // "tidak usah pakai", "ga pakai", "enggak pakai".
+    "ga usah pake", "ga usah pakai", "gak usah pakai", "gak usah pake",
+    "tidak usah pakai", "tidak usah pake", "ga pakai", "ga pake",
+    "gak pakai", "gak pake", "enggak pakai", "enggak pake",
+    "nggak pakai", "nggak pake",
+    // Substitusi eksplisit: "ganti X dengan Y" / "replace X with Y" melarang X.
+    "ganti", "replace",
 ];
 
 /// Non-prohibition idioms: the cue word is part of a fixed expression, NOT a
@@ -799,6 +807,22 @@ fn global_negation_sieve(raw: &str) -> SieveResult {
                 break;
             }
         }
+        // Positive-use guard: "pake/pakai X" is a ban cue ONLY when negated.
+        // A negation word within the 2 preceding tokens ("ga usah pake",
+        // "gak pake", "tidak usah pakai") makes it a prohibition; otherwise
+        // "pake csv aja" is a positive instruction and must NOT ban csv.
+        if let Some((_, trig)) = matched_trigger {
+            let first = trig.split(' ').next().unwrap_or("");
+            if matches!(first, "pake" | "pakai") {
+                let negated = (i.saturating_sub(2)..i).any(|k| {
+                    matches!(words_ref[k], "ga" | "gak" | "nggak" | "enggak" | "tidak"
+                        | "jangan" | "jgn" | "tanpa" | "usah" | "dilarang" | "stop" | "bukan")
+                });
+                if !negated {
+                    matched_trigger = None;
+                }
+            }
+        }
         if let Some((tlen, trig)) = matched_trigger {
             // Non-prohibition idiom ("jangan lupa", "no worries", "no 1:",
             // "bukan itu"): skip the cue entirely — no ban, no stripping.
@@ -828,8 +852,9 @@ fn global_negation_sieve(raw: &str) -> SieveResult {
                     break;
                 }
                 // "pakai"/"gunakan" after the cue is part of the prohibition
-                // phrase itself ("jangan buat pakai X", "gausah pake X").
-                if matches!(w, "pakai" | "pake" | "gunakan" | "make" | "use" | "using") {
+                // phrase itself ("jangan buat pakai X", "gausah pake X",
+                // "tanpa menggunakan makro").
+                if matches!(w, "pakai" | "pake" | "gunakan" | "menggunakan" | "make" | "use" | "using") {
                     j += 1;
                     continue;
                 }
