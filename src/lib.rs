@@ -388,6 +388,35 @@ fn contains_phrase_words(lower: &str, phrase: &str) -> bool {
     false
 }
 
+/// Chit-chat / non-directive cues (E07/E08/E09/E11/E12/E17). A prompt carrying
+/// one of these AND no explicit imperative ask is social, not a task: a question
+/// about a concept, venting, a cancellation, a compliment, or a idiom like
+/// "bikin penasaran". Matched on word boundaries to avoid substring hits.
+const CHITCHAT_CUES: &[&str] = &[
+    "apa sih", "apa si", "bisa gak", "bisa ga", "bisa nggak", "gimana sih",
+    "kenapa sih", "bikin penasaran", "bikin penasaran", "gak jadi", "ga jadi",
+    "batal", "urung", "capek banget", "capek sekali", "males", "magerr",
+    "bagus banget", "keren banget", "mantap banget", "wuih", "wah",
+];
+/// Explicit imperative markers that override a chitchat cue.
+const IMPERATIVE_MARKERS: &[&str] = &[
+    "tolong", "bikinin", "buatkan", "buatlah", "susunkan", "rancangkan",
+    "ekstrak", "konversikan", "ringkas", "ambilkan", "carikan", "please",
+    "bantu", "bantukan", "tolongin",
+];
+fn is_chitchat(lower: &str, tokens: &[String]) -> bool {
+    let has_cue = CHITCHAT_CUES.iter().any(|c| contains_phrase_words(lower, c));
+    if !has_cue { return false; }
+    // An explicit imperative ask wins over the social cue.
+    if tokens.iter().any(|t| IMPERATIVE_MARKERS.contains(&t.as_str())) {
+        return false;
+    }
+    // A concrete deliverable + an execution verb still reads as a real task
+    // ("capek, tapi tolong bikin slide" has tolong above; plain "bikin slide"
+    // with no chitchat cue never reaches here).
+    true
+}
+
 fn is_conversational(lower: &str, tokens: &[String]) -> bool {
     // Pure greeting / very short social turn. Match greetings on word
     // boundaries — "hi" must not fire inside "this" (M01 "summarize this pdf").
@@ -2265,6 +2294,9 @@ impl SkillBrain {
         // ---- Stage 0: conversational / meta-query bypass ----
         let head_tokens = tokenize(&structural_text);
         if !has_explicit_pin && is_conversational(&structural_text, &head_tokens) {
+            return RoutingDecision::empty("NO_SKILL_NEEDED", threshold);
+        }
+        if !has_explicit_pin && is_chitchat(&structural_text, &head_tokens) {
             return RoutingDecision::empty("NO_SKILL_NEEDED", threshold);
         }
 
