@@ -956,6 +956,11 @@ const CLAUSE_CONNECTORS: &[&str] = &[
     "as well as", "followed by",
 ];
 
+// Colloquial (WhatsApp-style) clause cues. Each marks the START of a new
+// request when it follows a period/space, e.g. "tolong ya. ambil dulu data
+// ... trus bikin grafik. abis itu bikin slide" (D09).
+const WA_CLAUSE_CUES: &[&str] = &["trus ", "terus ", "abis itu ", "nabik ", "lalu ", "next "];
+
 /// Split "1. foo 2. bar 3. baz" / "1) foo 2) bar" into segments (no regex dep).
 fn regex_lite_numbered_split(text: &str) -> Vec<String> {
     let bytes = text.as_bytes();
@@ -1039,6 +1044,9 @@ fn split_clauses_ex(text: &str) -> (Vec<String>, Vec<String>) {
     // bila ada pola digit+titik yang berpotensi jadi penanda daftar.
     let has_sep = text.contains(',') || text.contains(';')
         || CLAUSE_CONNECTORS.iter().any(|c| text.contains(c))
+        || text.contains(") ")
+        || text.contains("\n-") || text.contains("\n •") || text.contains("\n*")
+        || WA_CLAUSE_CUES.iter().any(|c| text.contains(c))
         || (text.contains(". ") && regex_lite_numbered_split(text).len() > 1);
     if !has_sep {
         let n = normalize_for_match(text);
@@ -1056,10 +1064,33 @@ fn split_clauses_ex(text: &str) -> (Vec<String>, Vec<String>) {
         }
         s
     };
-    // STEP A0: numbered lists "1. ... 2. ... 3. ..." are hard boundaries.
+    // STEP A0: numbered lists "1. ... 2. ... 3. ..." and "1) ... 2) ..."
+    // are hard boundaries. Must run on RAW text: normalize_for_match drops
+    // the ')' marker, so normalizing first would hide the list pattern (D06).
     let numbered_re = regex_lite_numbered_split(text);
     let hard: Vec<String> = if numbered_re.len() > 1 {
         numbered_re
+    } else if text.contains(") ") || text.contains("\n-") || text.contains("\n •") {
+        // Bullet/numbered-paren list: split on "N) " and newline bullets.
+        let mut parts: Vec<String> = Vec::new();
+        let mut cur = String::new();
+        for line in text.lines() {
+            let l = line.trim();
+            let is_bullet = l.starts_with("- ") || l.starts_with("• ") || l.starts_with("* ")
+                || (l.len() > 2 && l.as_bytes()[0].is_ascii_digit()
+                    && (l.as_bytes()[1] == b')' || l.as_bytes()[1] == b'.'));
+            if is_bullet && !cur.trim().is_empty() {
+                parts.push(cur.trim().to_string());
+                cur.clear();
+            }
+            let body = if is_bullet { l[2..].trim() } else { l };
+            if !body.is_empty() {
+                if !cur.is_empty() { cur.push(' '); }
+                cur.push_str(body);
+            }
+        }
+        if !cur.trim().is_empty() { parts.push(cur.trim().to_string()); }
+        if parts.len() > 1 { parts } else { text.split(';').map(|s| s.to_string()).collect() }
     } else {
         text.split(';').map(|s| s.to_string()).collect()
     };
@@ -1144,7 +1175,41 @@ fn split_clauses_ex(text: &str) -> (Vec<String>, Vec<String>) {
         }
         segments.extend(parts);
     }
-    let cleaned = segments;
+    // STEP B2: period-separated colloquial requests ("...pdf nya. trus bikin
+    // grafik. abis itu bikin slide"). Split at ". " only when BOTH sides are
+    // genuine jobs — this keeps a sentence with a trailing explanation intact
+    // (F03/F04 payload sentences are long and have no job on the right).
+    let mut sentence_parts: Vec<String> = Vec::new();
+    for seg in segments {
+        if seg.chars().count() > 240 || !seg.contains(". ") {
+            sentence_parts.push(seg);
+            continue;
+        }
+        let raw_pieces: Vec<&str> = seg.split(". ").map(|x| x.trim()).filter(|x| !x.is_empty()).collect();
+        if raw_pieces.len() < 2 {
+            sentence_parts.push(seg);
+            continue;
+        }
+        let has_job = |t: &str| -> bool {
+            let toks: Vec<String> = t.split(' ').map(|x| x.to_string()).collect();
+            has_action_verb(&toks) || has_deliverable(&toks)
+        };
+        let mut merged: Vec<String> = Vec::new();
+        let mut acc = String::new();
+        for piece in raw_pieces {
+            // A piece starting with a WA cue always opens a new clause.
+            let starts_cue = WA_CLAUSE_CUES.iter().any(|c| piece.to_lowercase().starts_with(c));
+            if !acc.is_empty() && (starts_cue || (has_job(&acc) && has_job(piece))) {
+                merged.push(acc);
+                acc = String::new();
+            }
+            if !acc.is_empty() { acc.push(' '); }
+            acc.push_str(piece);
+        }
+        if !acc.is_empty() { merged.push(acc); }
+        sentence_parts.extend(merged);
+    }
+    let cleaned = sentence_parts;
 
     // Validity filter: each clause must carry an action verb or a deliverable.
     // Merge fragments without a job into the previous clause.
