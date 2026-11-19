@@ -553,6 +553,42 @@ const BAN_TRIGGERS: &[&str] = &[
     "tanpa", "hindari", "selain", "kecuali", "bukan", "no",
 ];
 
+/// Non-prohibition idioms: the cue word is part of a fixed expression, NOT a
+/// ban ("jangan lupa" = reminder, "no worries" = reassurance, "no later than"
+/// = deadline, "bukan itu" = correction, "no 1:" = numbering). General rule:
+/// when the trigger is immediately followed by one of these continuation
+/// words, the whole cue is skipped (no ban, no stripping of the target).
+const TRIGGER_IDIOM_CONTINUATIONS: &[(&str, &[&str])] = &[
+    ("jangan", &["lupa", "sampai", "khawatir", "ragu", "malu", "takut", "baper", "sedih", "marah"]),
+    ("jgn", &["lupa", "sampai", "khawatir", "ragu"]),
+    ("no", &["worries", "worry", "problem", "problemas", "later", "more", "longer",
+             "1", "2", "3", "4", "5", "6", "7", "8", "9", "1:", "2:", "3:"]),
+    ("bukan", &["itu", "ini", "saya", "aku", "gue", "gw", "kamu", "dia", "mereka",
+                "maksudku", "maksudnya", "berarti", "artinya"]),
+    ("not", &["only", "just", "yet", "sure", "really"]),
+    ("tanpa", &["ribet", "rumit", "repot", "ribet-ribet"]),
+];
+
+/// Is the trigger at words[i..] actually a non-prohibition idiom?
+fn is_trigger_idiom(words: &[&str], i: usize, tlen: usize) -> bool {
+    let cue = words[i];
+    for (trigger_cue, continuations) in TRIGGER_IDIOM_CONTINUATIONS {
+        if cue == *trigger_cue {
+            if let Some(next) = words.get(i + tlen) {
+                let nc = clean_ban_target(next);
+                if continuations.iter().any(|c| *c == nc) {
+                    return true;
+                }
+                // "no <digit>" numbering ("no 1:", "no 2") — any pure number.
+                if cue == "no" && !nc.is_empty() && nc.chars().all(|c| c.is_ascii_digit()) {
+                    return true;
+                }
+            }
+        }
+    }
+    false
+}
+
 /// Style words that follow a negation cue but are NOT tool bans
 /// ("jgn kaku", "jangan ribet", "don't be stiff").
 const STYLE_WORDS: &[&str] = &[
@@ -763,7 +799,20 @@ fn global_negation_sieve(raw: &str) -> SieveResult {
                 break;
             }
         }
-        if let Some((tlen, _trig)) = matched_trigger {
+        if let Some((tlen, trig)) = matched_trigger {
+            // Non-prohibition idiom ("jangan lupa", "no worries", "no 1:",
+            // "bukan itu"): skip the cue entirely — no ban, no stripping.
+            if is_trigger_idiom(&words_ref, i, tlen) {
+                i += tlen;
+                continue;
+            }
+            // Weak/ambiguous cues ("no", "bukan", "not", "except", "selain",
+            // "kecuali") require POSITIVE evidence: only known tools/formats
+            // may be banned. The unknown-noun fallback ("tanpa Houdini")
+            // applies to strong prohibition cues only — otherwise ordinary
+            // nouns get over-banned ("no code comments", "bukan laporan").
+            let first_cue = trig.split(' ').next().unwrap_or("");
+            let weak_cue = matches!(first_cue, "no" | "bukan" | "not" | "except" | "selain" | "kecuali");
             // Collect ban targets after the trigger until a boundary.
             let mut j = i + tlen;
             let mut targets: Vec<String> = Vec::new();
@@ -800,10 +849,11 @@ fn global_negation_sieve(raw: &str) -> SieveResult {
                     j += 1;
                     continue;
                 }
-                // Unknown noun right after trigger: treat as a tool name too
-                // (e.g. "tanpa Houdini"), unless it's a style word.
+                // Unknown noun right after a STRONG trigger: treat as a tool
+                // name too (e.g. "tanpa Houdini"), unless it's a style word.
+                // Weak cues never reach here (positive evidence required).
                 let wc = clean_ban_target(w);
-                if !wc.is_empty() && !STYLE_WORDS.contains(&wc.as_str()) && !is_stopword(&wc)
+                if !weak_cue && !wc.is_empty() && !STYLE_WORDS.contains(&wc.as_str()) && !is_stopword(&wc)
                     && wc.len() >= 3 && targets.len() < 3 && j == i + tlen
                 {
                     targets.push(wc.clone());
