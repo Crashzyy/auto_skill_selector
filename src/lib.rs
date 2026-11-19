@@ -1406,6 +1406,30 @@ struct Zones {
     payload: String,
 }
 
+/// Detect email/quote headers at the start of a pasted head zone. Quoted text
+/// ("Dari:", "Isi:", "From:", "Subject:", "> ...") is DATA, not a user
+/// instruction: a prohibition inside a quoted email must not enter the
+/// negation sieve (scenario F05).
+fn has_quote_header(head: &str) -> bool {
+    const MARKERS: &[&str] = &[
+        "dari:", "isi:", "subject:", "from:", "to:", "cc:", "bcc:",
+        "hal:", "perihal:", "terkirim:", "sent:", " forwarded ", "forwarded:",
+        "begin forwarded message", "original message",
+    ];
+    for line in head.lines() {
+        let t = line.trim_start().to_lowercase();
+        if t.starts_with('>') {
+            return true;
+        }
+        for m in MARKERS {
+            if t.starts_with(m) {
+                return true;
+            }
+        }
+    }
+    false
+}
+
 fn split_zones(raw: &str) -> Zones {
     let total = raw.len();
     if total <= INSTRUCTION_HEAD + INSTRUCTION_TAIL {
@@ -1478,6 +1502,44 @@ struct Extracted {
     slang_ratio: f64,
 }
 
+/// Known file extensions used both for compound-token decomposition and for
+/// exempting filenames from the unknown-tool detector.
+const FILE_EXTENSIONS: &[&str] = &[
+    ".pdf", ".xlsx", ".xls", ".csv", ".docx", ".doc", ".pptx", ".ppt",
+    ".json", ".html", ".htm", ".md", ".sql", ".png", ".jpg", ".jpeg",
+    ".svg", ".mp4", ".mp3", ".wav", ".tex", ".zip", ".txt",
+];
+
+fn is_filename_token(tok: &str) -> bool {
+    let lower = tok.to_lowercase();
+    FILE_EXTENSIONS.iter().any(|e| lower.ends_with(e))
+}
+
+/// Decompose a compound token (URL path, `name-with-dash.xlsx`,
+/// `penjualan_2024.xlsx`) into its meaningful parts so tool/domain keywords
+/// inside a filename are not lost. Only splits on structural separators —
+/// never on ordinary words — so it cannot invent new vocabulary.
+fn compound_token_parts(tok: &str) -> Vec<String> {
+    let mut parts: Vec<String> = Vec::new();
+    // Reject pure protocol/host tokens like https:// which carry no signal.
+    for seg in tok.split(|c: char| matches!(c, '/' | '-' | '_' | '.' | ':')) {
+        let s = seg.trim_matches(|c: char| !c.is_alphanumeric());
+        if s.is_empty() || s.len() < 2 {
+            continue;
+        }
+        // Drop pure numeric segments (years, versions) and bare protocol/host
+        // labels; keep alphabetic keywords (excel, pdf, keuangan, laporan).
+        if s.chars().all(|c| c.is_ascii_digit()) {
+            continue;
+        }
+        if matches!(s, "https" | "http" | "www" | "com" | "org" | "net" | "io" | "co") {
+            continue;
+        }
+        parts.push(s.to_string());
+    }
+    parts
+}
+
 fn add_features(ex: &mut Extracted, tokens: &[String], weight: f64, dedup: bool,
                 known: &HashSet<String>, lex: &Lexicon, bigram_boost: bool) {
     let mut seen: HashSet<String> = HashSet::new();
@@ -1491,6 +1553,32 @@ fn add_features(ex: &mut Extracted, tokens: &[String], weight: f64, dedup: bool,
             ex.active_keys.insert(key_uni);
         }
         ex.all_tokens.insert(tok.clone());
+
+        // Compound tokens (URL path, filename + extension): decompose at a
+        // reduced weight so a tool/domain word inside a filename still counts.
+        // Gated on a real URL path or a known file extension — NOT on a bare
+        // hyphenated skill name, which would let an injected skill name match
+        // itself (injection resistance, case L02).
+        let decomposable = tok.contains('/') || tok.contains('_') || is_filename_token(tok);
+        if decomposable {
+            for part in compound_token_parts(tok) {
+                if part == *tok { continue; }
+                let pk = format!("uni:{}", part);
+                if !(dedup && !seen.insert(pk.clone())) {
+                    *ex.features.entry(pk.clone()).or_insert(0.0) += weight * 0.6;
+                    ex.active_keys.insert(pk);
+                }
+                if let Some(idn) = lex.en_to_id.get(part.as_str()) {
+                    for w in idn.split(' ') {
+                        let ek = format!("uni:{}", w);
+                        if !(dedup && !seen.insert(ek.clone())) {
+                            *ex.features.entry(ek.clone()).or_insert(0.0) += weight * 0.45;
+                            ex.active_keys.insert(ek);
+                        }
+                    }
+                }
+            }
+        }
 
         // Morphology (gated): KPST + affix stripping.
         if tok.chars().count() >= 5 {
@@ -2010,8 +2098,12 @@ impl SkillBrain {
         let lower = prompt.to_lowercase();
         let z0 = split_zones(&lower);
         let has_payload = !z0.payload.is_empty();
+        // A quoted email/forward (Dari:, Isi:, > ...) in the head is DATA,
+        // not a user instruction. Exclude it from the structural text so a
+        // prohibition inside the quote cannot enter the sieve (F05).
+        let head_is_quote = has_payload && has_quote_header(&z0.head);
         let structural_text: String = if has_payload {
-            if z0.head.is_empty() {
+            if z0.head.is_empty() || head_is_quote {
                 z0.instruction.clone()
             } else {
                 format!("{} {}", z0.head, z0.instruction)
@@ -2037,7 +2129,11 @@ impl SkillBrain {
             pin_res.stripped_text.clone()
         } else if has_payload {
             let zr = split_zones(prompt);
-            if zr.head.is_empty() { zr.instruction } else { format!("{} {}", zr.head, zr.instruction) }
+            if zr.head.is_empty() || head_is_quote {
+                zr.instruction
+            } else {
+                format!("{} {}", zr.head, zr.instruction)
+            }
         } else {
             prompt.to_string()
         };
@@ -2171,8 +2267,11 @@ impl SkillBrain {
             // this clause even if a generic local skill weakly matches.
             // ALL-CAPS format tokens (PDF, CSV) are exempt; only names with
             // lowercase letters (TitleCase) or digit-suffixed tool names qualify.
+            // A filename with a KNOWN extension ("penjualan_2024.xlsx") is a
+            // document, not an unknown tool — exempt it (F08).
             let mut tool_candidates: Vec<String> = Vec::new();
             for (i, t) in ct.iter().enumerate() {
+                if is_filename_token(t) { continue; }
                 if i > 0 && matches!(ct[i - 1].as_str(), "di" | "in" | "pakai" | "pake"
                     | "using" | "with" | "via" | "menggunakan" | "software" | "tool") {
                     tool_candidates.push(t.clone());
