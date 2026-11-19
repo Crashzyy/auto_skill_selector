@@ -160,12 +160,13 @@ def check_case(case: dict, result: dict) -> tuple[bool, list[str]]:
 
 def _hook_normalize(text: str) -> str:
     """Normalisasi jalur produksi (cermin __init__.py::_normalize_unicode):
-    buang karakter Cf (zero-width/bidi) lalu NFKC. Dipakai runner/fuzz agar
-    mengukur perilaku hook+Rust, bukan Rust saja."""
+    buang karakter Cf (zero-width/bidi) & Cs (lone surrogate) lalu NFKC.
+    Dipakai runner/fuzz agar mengukur perilaku hook+Rust, bukan Rust saja."""
     import unicodedata
     if not text or text.isascii():
         return text
-    return unicodedata.normalize("NFKC", "".join(c for c in text if unicodedata.category(c) != "Cf"))
+    return unicodedata.normalize("NFKC", "".join(
+        c for c in text if unicodedata.category(c) not in ("Cf", "Cs")))
 
 
 def run_v2(verbose: bool = True, out_path: Path | None = None) -> dict:

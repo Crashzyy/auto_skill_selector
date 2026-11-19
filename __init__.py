@@ -257,10 +257,14 @@ def _build_clarify_context(note: str) -> str:
 # ---------------------------------------------------------------------------
 
 def _normalize_unicode(text: str) -> str:
-    """Normalisasi Unicode SEBELUM masuk mesin Rust (Fase 1.3).
+    """Normalisasi Unicode SEBELUM masuk mesin Rust (Fase 1.3/1.4).
 
     - Buang karakter format Cf (zero-width space/joiner, BOM, bidi override)
       yang memecah token: "bu\\u200bat" -> "buat".
+    - Buang lone surrogate (Cs): tidak bisa dienkode UTF-8; PyO3 menolaknya
+      dengan UnicodeEncodeError. Tanpa ini satu pesan rusak menggagalkan
+      giliran (stress lone_surrogate, Fase 0). Proses tidak pernah mati
+      (bukan panic Rust), tapi giliran tetap harus jalan.
     - NFKC: fullwidth -> ASCII ("ＢＵＡＴ" -> "BUAT"), ligature, dsb.
     - Homoglyph Cyrillic (а vs a) TIDAK ditangani di sini (putusan owner:
       dicatat saja, Fase berikutnya).
@@ -272,7 +276,8 @@ def _normalize_unicode(text: str) -> str:
     # Fast path: ASCII murni tidak perlu apa-apa.
     if text.isascii():
         return text
-    stripped = "".join(ch for ch in text if unicodedata.category(ch) != "Cf")
+    stripped = "".join(ch for ch in text
+                       if unicodedata.category(ch) not in ("Cf", "Cs"))
     return unicodedata.normalize("NFKC", stripped)
 
 

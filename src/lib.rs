@@ -1073,6 +1073,23 @@ fn split_clauses(text: &str) -> Vec<String> {
 
     // Validity filter: each clause must carry an action verb or a deliverable.
     // Merge fragments without a job into the previous clause.
+    // Also merge quantity-spec fragments ("10 slide", "5 halaman", "3 poin")
+    // into the previous clause — they specify the SAME deliverable, not a new
+    // job (putusan owner I02; must not break D16 "laporan, grafik, dan slide").
+    const QUANTITY_UNITS: &[&str] = &[
+        "slide", "salindia", "halaman", "poin", "point", "points", "baris",
+        "kolom", "paragraf", "kata", "menit", "detik", "lembar", "buah",
+        "bab", "bagian", "grafik", "tabel", "gambar", "foto", "video",
+    ];
+    let is_quantity_spec = |ct: &[String]| -> bool {
+        // Pure "<number> <unit> [tail words]" with NO action verb.
+        if ct.len() < 2 || has_action_verb(ct) {
+            return false;
+        }
+        let first = ct[0].trim_matches(|c: char| !c.is_ascii_digit());
+        !first.is_empty() && first.chars().all(|c| c.is_ascii_digit())
+            && QUANTITY_UNITS.contains(&ct[1].as_str())
+    };
     let mut valid: Vec<String> = Vec::new();
     for c in cleaned {
         // Strip a leading clause connector left at the segment head.
@@ -1088,7 +1105,11 @@ fn split_clauses(text: &str) -> Vec<String> {
         let c = c.to_string();
         let ct: Vec<String> = c.split(' ').map(|s| s.to_string()).collect();
         let has_job = has_action_verb(&ct) || has_deliverable(&ct);
-        if has_job || valid.is_empty() {
+        if !valid.is_empty() && is_quantity_spec(&ct) {
+            if let Some(last) = valid.last_mut() {
+                *last = format!("{} {}", last, c);
+            }
+        } else if has_job || valid.is_empty() {
             valid.push(c);
         } else if let Some(last) = valid.last_mut() {
             *last = format!("{} {}", last, c);
