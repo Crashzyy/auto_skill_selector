@@ -1030,9 +1030,9 @@ fn is_compound_join(left: &[String], right: &[String]) -> bool {
 
 /// Split sanitized text into <=3 sub-clauses. A split is only valid when each
 /// segment carries its own action verb or distinct deliverable.
-fn split_clauses(text: &str) -> Vec<String> {
+fn split_clauses_ex(text: &str) -> (Vec<String>, Vec<String>) {
     if text.trim().is_empty() {
-        return vec![text.to_string()];
+        return (vec![text.to_string()], Vec::new());
     }
     // Fast path: tanpa pemisah klausa (koma/titik-koma/connector/daftar nomor)
     // -> satu klausa. Cek substring dulu (murah); scan daftar nomor hanya
@@ -1042,7 +1042,7 @@ fn split_clauses(text: &str) -> Vec<String> {
         || (text.contains(". ") && regex_lite_numbered_split(text).len() > 1);
     if !has_sep {
         let n = normalize_for_match(text);
-        return if n.is_empty() { vec![text.to_string()] } else { vec![n] };
+        return if n.is_empty() { (vec![text.to_string()], Vec::new()) } else { (vec![n], Vec::new()) };
     }
     // Strip a leading contrast pivot left over from the Stage-2 sieve.
     let text = {
@@ -1195,6 +1195,9 @@ fn split_clauses(text: &str) -> Vec<String> {
     }
 
     // Cap at 3: merge same-domain extras, else keep the 3 highest-deliverable.
+    // The overflow is reported as `dropped` so the decision gate can surface
+    // an explicit note to the user (spec §1.3 Stage 3, max 3 sub-clauses).
+    let mut dropped: Vec<String> = Vec::new();
     if valid.len() > 3 {
         let mut scored: Vec<(usize, usize, String)> = valid.iter().enumerate().map(|(i, c)| {
             let ct: Vec<String> = c.split(' ').map(|s| s.to_string()).collect();
@@ -1203,11 +1206,16 @@ fn split_clauses(text: &str) -> Vec<String> {
             (i, score, c.clone())
         }).collect();
         scored.sort_by(|a, b| b.1.cmp(&a.1).then(a.0.cmp(&b.0)));
+        dropped = scored.iter().skip(3).map(|(_, _, c)| c.clone()).collect();
         scored.truncate(3);
         scored.sort_by(|a, b| a.0.cmp(&b.0));
         valid = scored.into_iter().map(|(_, _, c)| c).collect();
     }
-    valid
+    (valid, dropped)
+}
+
+fn split_clauses(text: &str) -> Vec<String> {
+    split_clauses_ex(text).0
 }
 
 // ---------------------------------------------------------------------------
@@ -1799,6 +1807,7 @@ pub struct RoutingDecision {
     pub sanitized_prompt: String,
     pub clauses: Vec<ClauseResult>,
     pub hunt_clauses: Vec<String>,
+    pub dropped_clauses: Vec<String>,
     pub pinned: Vec<String>,
     pub clarify_note: String,
     pub threshold: f64,
@@ -1815,6 +1824,7 @@ impl RoutingDecision {
             sanitized_prompt: String::new(),
             clauses: Vec::new(),
             hunt_clauses: Vec::new(),
+            dropped_clauses: Vec::new(),
             pinned: Vec::new(),
             clarify_note: String::new(),
             threshold,
@@ -2116,7 +2126,7 @@ impl SkillBrain {
         }
 
         // ---- Stage 3: multi-clause split (max 3) ----
-        let clauses = split_clauses(&sieve.sanitized);
+        let (clauses, dropped_clauses) = split_clauses_ex(&sieve.sanitized);
 
         // ---- Ambiguity check on the whole ask (single-clause vague actions) ----
         if clauses.len() == 1 && is_ambiguous_action(&sanitized_norm) {
@@ -2234,6 +2244,7 @@ impl SkillBrain {
             sanitized_prompt: sieve.sanitized.clone(),
             clauses: clause_results,
             hunt_clauses: hunt_clauses.clone(),
+            dropped_clauses: dropped_clauses.clone(),
             pinned: Vec::new(),
             clarify_note: String::new(),
             threshold,
@@ -2255,6 +2266,14 @@ impl SkillBrain {
             d.status = "NO_SKILL_NEEDED".into();
             d.skills.clear();
             d.probabilities.clear();
+        }
+        if !dropped_clauses.is_empty() {
+            let preview = dropped_clauses.iter().map(|c| format!("'{}'", c))
+                .collect::<Vec<_>>().join(", ");
+            d.clarify_note = format!(
+                "Ada {} permintaan lagi di luar batas 3 klausa yang tidak diproses: {}. Sampaikan secara terpisah bila ingin dikerjakan.",
+                dropped_clauses.len(), preview
+            );
         }
         d
     }
@@ -2295,6 +2314,11 @@ fn to_py_dict(py: Python<'_>, d: &RoutingDecision) -> PyResult<PyObject> {
         hunts.append(h)?;
     }
     dict.set_item("hunt_clauses", &hunts)?;
+    let dropped = PyList::empty_bound(py);
+    for x in &d.dropped_clauses {
+        dropped.append(x)?;
+    }
+    dict.set_item("dropped_clauses", &dropped)?;
     let pinned = PyList::empty_bound(py);
     for p in &d.pinned {
         pinned.append(p)?;
