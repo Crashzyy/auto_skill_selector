@@ -412,50 +412,130 @@ fn is_conversational(lower: &str, tokens: &[String]) -> bool {
 // Stage 1 — explicit skill override & pinning
 // ---------------------------------------------------------------------------
 
+#[derive(Debug, Default)]
+struct PinResult {
+    /// Resolved skill names (exist in the model, legal candidates).
+    resolved: Vec<String>,
+    /// Count of explicit pin requests whose target does NOT exist in the
+    /// model. The raw name is NEVER stored/echoed (prompt-injection vector,
+    /// audit S-1/H-5) — only the fact that an unknown pin was requested.
+    unknown_count: usize,
+    /// Prompt text with pin trigger+name fragments removed (safe for scoring
+    /// and for hunt clauses — unknown names never leak downstream).
+    stripped_text: String,
+}
+
 /// Extract pinned skill names from "/skill <name>", "pakai skill <name>",
-/// "gunakan skill <name>", "use skill <name>", "@skill <name>", "@<name>".
-fn extract_pins(lower: &str, classes: &[SkillClass]) -> Vec<String> {
-    let mut pins: Vec<String> = Vec::new();
+/// "gunakan skill <name>", "use skill <name>", "@skill <name>".
+/// Multi-word triggers are matched on the token stream (so "pakai skill X"
+/// anywhere in the sentence works, incl. after "lalu"). Bare "@slug" only at
+/// message start; mid-sentence mentions and emails are never pins (A08/A09).
+fn extract_pins(lower: &str, classes: &[SkillClass]) -> PinResult {
+    let mut out = PinResult::default();
     let toks: Vec<&str> = lower.split_whitespace().collect();
-    let triggers = ["/skill", "pakai skill", "gunakan skill", "use skill", "with skill", "@skill"];
-    for (i, t) in toks.iter().enumerate() {
-        let tt = t.trim_matches(|c: char| !c.is_alphanumeric() && c != '/' && c != '@' && c != '-' && c != '_');
-        if triggers.contains(&tt) || triggers.contains(&t.to_string().as_str()) {
-            if let Some(next) = toks.get(i + 1) {
-                let cand = next.trim_matches(|c: char| !c.is_alphanumeric() && c != '-' && c != '_');
-                if !cand.is_empty() {
-                    pins.push(cand.to_string());
-                }
-            }
-        }
-    }
-    // Bare @mention of a known skill slug.
-    for t in &toks {
-        if let Some(stripped) = t.strip_prefix('@') {
-            let cand = stripped.trim_matches(|c: char| !c.is_alphanumeric() && c != '-' && c != '_');
-            if !cand.is_empty() && cand != "skill" {
-                pins.push(cand.to_string());
-            }
-        }
-    }
-    // Resolve pins against known classes (exact name/slug, case-insensitive).
-    let mut resolved: Vec<String> = Vec::new();
-    for p in pins {
-        let pl = p.to_lowercase();
-        for c in classes {
-            if c.name.to_lowercase() == pl {
-                if !resolved.contains(&c.name) {
-                    resolved.push(c.name.clone());
-                }
+    let clean_tok = |t: &str| -> String {
+        t.trim_matches(|c: char| !c.is_alphanumeric() && c != '/' && c != '@' && c != '-' && c != '_').to_string()
+    };
+    let cleaned: Vec<String> = toks.iter().map(|t| clean_tok(t)).collect();
+    let triggers: &[&[&str]] = &[
+        &["pakai", "skill"], &["gunakan", "skill"], &["use", "skill"], &["with", "skill"],
+        &["/skill"], &["@skill"],
+    ];
+    let mut candidates: Vec<String> = Vec::new();
+    let mut consumed: Vec<bool> = vec![false; toks.len()];
+    // Question guard: "jelaskan cara pakai skill di Hermes" / "I'm dealing
+    // with skill issues" are NOT pin requests (audit A13/A14).
+    let question_ctx = cleaned.iter().any(|t| matches!(t.as_str(),
+        "cara" | "how" | "what" | "apa" | "jelaskan" | "explain" | "issues" | "issue" | "problems"))
+        || lower.trim_end().ends_with('?');
+    let mut i = 0usize;
+    while i < cleaned.len() {
+        let mut matched_len = 0usize;
+        for trig in triggers {
+            let n = trig.len();
+            if i + n <= cleaned.len() && cleaned[i..i + n] == trig[..] {
+                matched_len = n;
                 break;
             }
         }
-        // Unresolved pin kept as-is so Stage 5 can report it (hunt/clarify).
-        if !resolved.iter().any(|r| r.to_lowercase() == pl) {
-            resolved.push(p);
+        if matched_len > 0 {
+            let name_idx = i + matched_len;
+            let next_clean = toks.get(name_idx)
+                .map(|t| t.trim_matches(|c: char| !c.is_alphanumeric() && c != '-' && c != '_'))
+                .unwrap_or("");
+            // Natural-language continuation after the trigger ("pakai skill
+            // di Hermes", "with skill issues"): prose, not a pin. Slash/@
+            // forms stay explicit commands regardless.
+            let is_slash = cleaned[i].starts_with('/') || cleaned[i].starts_with('@');
+            let prose_continuation = next_clean.is_empty()
+                || is_stopword(next_clean)
+                || matches!(next_clean, "di" | "itu" | "ini" | "issues" | "issue" | "problems" | "yang");
+            if !is_slash && (question_ctx || prose_continuation) {
+                i += 1;
+                continue;
+            }
+            for k in i..i + matched_len { consumed[k] = true; }
+            if let Some(next) = toks.get(name_idx) {
+                let cand = next.trim_matches(|c: char| !c.is_alphanumeric() && c != '-' && c != '_');
+                let cand_clean = clean_tok(cand);
+                let is_trigger = triggers.iter().any(|tr| tr.len() == 1 && tr[0] == cand_clean);
+                if !cand.is_empty() && !is_trigger {
+                    candidates.push(cand.to_string());
+                    consumed[name_idx] = true;
+                } else {
+                    out.unknown_count += 1; // explicit pin with no usable name
+                }
+            } else {
+                out.unknown_count += 1; // trailing trigger with nothing after
+            }
+            i += matched_len + 1;
+            continue;
+        }
+        i += 1;
+    }
+    // Bare @mention at the START of the message is an explicit address to a
+    // skill/bot. Known slug -> resolved pin; unknown -> unknown pin attempt
+    // (hunt/clarify, never echoed). Mid-sentence mentions ("tag @budi") and
+    // emails ("budi@gmail.com") are never pins (audit A02/A08/A09).
+    if !consumed.first().copied().unwrap_or(true) {
+        if let Some(first) = toks.first() {
+            if let Some(stripped) = first.strip_prefix('@') {
+                let cand = stripped.trim_matches(|c: char| !c.is_alphanumeric() && c != '-' && c != '_');
+                if !cand.is_empty() && cand != "skill" {
+                    if classes.iter().any(|c| c.name.to_lowercase() == cand) {
+                        candidates.push(cand.to_string());
+                    } else {
+                        out.unknown_count += 1;
+                    }
+                    consumed[0] = true;
+                }
+            }
         }
     }
-    resolved
+    // Resolve candidates against known classes (exact name/slug, CI).
+    for p in candidates {
+        let pl = p.to_lowercase();
+        let mut found = false;
+        for c in classes {
+            if c.name.to_lowercase() == pl {
+                if !out.resolved.contains(&c.name) {
+                    out.resolved.push(c.name.clone());
+                }
+                found = true;
+                break;
+            }
+        }
+        if !found {
+            out.unknown_count += 1; // name deliberately dropped, never echoed
+        }
+    }
+    // Rebuild the working text without pin fragments (trigger + name).
+    let kept: Vec<&str> = toks.iter().enumerate()
+        .filter(|(i, _)| !consumed[*i])
+        .map(|(_, t)| *t)
+        .collect();
+    out.stripped_text = kept.join(" ");
+    out
 }
 
 // ---------------------------------------------------------------------------
@@ -1833,17 +1913,23 @@ impl SkillBrain {
         } else {
             lower.clone()
         };
-        let pins = extract_pins(&structural_text, &model.classes);
+        let pin_res = extract_pins(&structural_text, &model.classes);
+        let pins = pin_res.resolved.clone();
+        let has_explicit_pin = !pins.is_empty() || pin_res.unknown_count > 0;
 
         // ---- Stage 0: conversational / meta-query bypass ----
         let head_tokens = tokenize(&structural_text);
-        if pins.is_empty() && is_conversational(&structural_text, &head_tokens) {
+        if !has_explicit_pin && is_conversational(&structural_text, &head_tokens) {
             return RoutingDecision::empty("NO_SKILL_NEEDED", threshold);
         }
 
         // ---- Stage 2: GLOBAL negation sieve (BEFORE split) ----
         // On the original-cased instruction text so orthography is preserved.
-        let sieve_source: String = if has_payload {
+        // When pins were detected, run the sieve on the PIN-STRIPPED text so
+        // unknown pin names never leak into sanitized/hunt output (H-5).
+        let sieve_source: String = if has_explicit_pin {
+            pin_res.stripped_text.clone()
+        } else if has_payload {
             let zr = split_zones(prompt);
             if zr.head.is_empty() { zr.instruction } else { format!("{} {}", zr.head, zr.instruction) }
         } else {
@@ -1863,6 +1949,27 @@ impl SkillBrain {
             .cloned()
             .collect();
         let pin_conflict = !pins.is_empty() && legal_pins.is_empty();
+
+        // ---- Unknown explicit pin (audit S-1/H-5): the requested skill does
+        // not exist. NEVER echo the raw name (injection vector). Hunt for a
+        // suitable skill when there is an actionable task; otherwise clarify.
+        if pin_res.unknown_count > 0 && legal_pins.is_empty() && !pin_conflict {
+            let stoks = tokenize(&sieve.sanitized);
+            let snorm = lexicon_normalize(&stoks, lex);
+            let actionable = has_action_verb(&snorm) || has_deliverable(&snorm)
+                || has_action_verb(&stoks) || has_deliverable(&stoks);
+            let mut d = RoutingDecision::empty(
+                if actionable { "HUNT_NEW_SKILL" } else { "CLARIFY_AMBIGUOUS" }, threshold);
+            d.global_banned_set = banned_sorted;
+            d.sanitized_prompt = sieve.sanitized.clone();
+            if actionable {
+                d.hunt_clauses = vec![sieve.sanitized.clone()];
+                d.clarify_note = "Skill yang diminta secara eksplisit tidak ditemukan di katalog lokal. Nama tidak diteruskan apa adanya; cari skill yang sesuai untuk pekerjaan ini.".into();
+            } else {
+                d.clarify_note = "Skill yang diminta secara eksplisit tidak ditemukan dan pekerjaannya belum jelas. Tanyakan skill/pekerjaan mana yang dimaksud.".into();
+            }
+            return d;
+        }
 
         // ---- Contradiction check (spec state 6): the ONLY requested target is
         // banned, e.g. "buatkan workbook .xlsx tapi dilarang pakai excel/spreadsheet".
@@ -1887,7 +1994,11 @@ impl SkillBrain {
 
         // ---- Explicit pin shortcut (bypass scoring, spec scenario 8) ----
         if !legal_pins.is_empty() {
-            let mut d = RoutingDecision::empty("MATCHED_SINGLE", threshold);
+            // Mixed pins (some resolved, some unknown): keep the legal pin,
+            // hunt for the missing one — never echo the unknown name (A12).
+            let mixed = pin_res.unknown_count > 0;
+            let mut d = RoutingDecision::empty(
+                if mixed { "MATCHED_PARTIAL_AND_HUNT" } else { "MATCHED_SINGLE" }, threshold);
             d.skills = vec![legal_pins[0].clone()];
             d.probabilities = vec![(legal_pins[0].clone(), 1.0)];
             d.global_banned_set = banned_sorted;
@@ -1901,6 +2012,10 @@ impl SkillBrain {
                 probability: 1.0,
                 top_score: 1.0,
             });
+            if mixed {
+                d.hunt_clauses = vec![sieve.sanitized.clone()];
+                d.clarify_note = "Sebagian skill yang diminta eksplisit tidak ada di katalog lokal; cari skill untuk bagian pekerjaan yang belum tercakup.".into();
+            }
             return d;
         }
 
