@@ -45,8 +45,40 @@ def load_cases() -> list[dict]:
     return cases
 
 
+# ---------------------------------------------------------------------------
+# Benchmark v2 (tests/benchmark_scenarios_v2.json) — kolom tambahan:
+#   expect_status list (any-of), expect_status_not, expect_banned_excludes,
+#   expect_pinned_empty, expect_note_dropped, session (multi-turn),
+#   expect_clause_count list, expect_hunt false, forbid_skill_hint (manual).
+# ---------------------------------------------------------------------------
+
+BENCH_V2_PATH = _HERE / "tests" / "benchmark_scenarios_v2.json"
+
+
+def load_cases_v2() -> tuple[list[dict], dict]:
+    data = json.loads(BENCH_V2_PATH.read_text("utf-8"))
+    cases = data["cases"]
+    for c in cases:
+        if "__PAYLOAD_500__" in c.get("prompt", ""):
+            c["prompt"] = c["prompt"].replace("__PAYLOAD_500__", PAYLOAD_500)
+        if c.get("session"):
+            c["session"] = [p.replace("__PAYLOAD_500__", PAYLOAD_500) for p in c["session"]]
+    return cases, data.get("_meta", {})
+
+
+def _expected_statuses(case: dict) -> list[str] | None:
+    es = case.get("expect_status")
+    if es is None:
+        return None
+    return es if isinstance(es, list) else [es]
+
+
 def check_case(case: dict, result: dict) -> tuple[bool, list[str]]:
-    """Return (pass, reasons). Semua syarat kasus harus terpenuhi."""
+    """Return (pass, reasons). Semua syarat kasus harus terpenuhi.
+
+    Kompatibel dengan benchmark_35_labeled.json (expect_status str) dan
+    benchmark_scenarios_v2.json (expect_status str|list + kolom baru).
+    """
     reasons: list[str] = []
     status = result.get("status", "")
     skills = result.get("skills", []) or []
@@ -54,13 +86,20 @@ def check_case(case: dict, result: dict) -> tuple[bool, list[str]]:
     probs = result.get("probabilities", {}) or {}
     clauses = result.get("clauses", []) or []
     hunts = result.get("hunt_clauses", []) or []
+    pinned = result.get("pinned", []) or []
+    note = (result.get("clarify_note") or "") + " " + (result.get("dropped_note") or "")
 
-    if status != case["expect_status"]:
-        reasons.append(f"status {status} != {case['expect_status']}")
+    exp_list = _expected_statuses(case)
+    if exp_list is not None and status not in exp_list:
+        reasons.append(f"status {status} not in {exp_list}")
+    for bad_status in case.get("expect_status_not", []):
+        if status == bad_status:
+            reasons.append(f"status {status} is forbidden (expect_status_not)")
+
     exp_skills = case.get("expect_skills", [])
     any_of = case.get("expect_any_of", [])
     if exp_skills and not any_of:
-        if case["expect_status"] == "MATCHED_MULTI":
+        if exp_list == ["MATCHED_MULTI"]:
             # Semua skill target harus muncul, urutan step terjaga.
             missing = [s for s in exp_skills if s not in skills]
             if missing:
@@ -69,31 +108,124 @@ def check_case(case: dict, result: dict) -> tuple[bool, list[str]]:
                 idxs = [skills.index(s) for s in exp_skills]
                 if idxs != sorted(idxs):
                     reasons.append(f"order wrong: {skills}")
-        elif case["expect_status"] in ("MATCHED_SINGLE", "MATCHED_PARTIAL_AND_HUNT"):
+        elif exp_list is not None and set(exp_list) <= {"MATCHED_SINGLE", "MATCHED_PARTIAL_AND_HUNT"}:
             if case.get("expect_all"):
                 missing = [s for s in exp_skills if s not in skills]
                 if missing:
                     reasons.append(f"missing skills {missing} (got {skills})")
             elif not any(s in skills for s in exp_skills):
                 reasons.append(f"none of {exp_skills} in {skills}")
+        else:
+            # expect_skills tanpa status tunggal (atau list campuran):
+            # minimal satu skill target hadir.
+            if not any(s in skills for s in exp_skills):
+                reasons.append(f"none of {exp_skills} in {skills}")
     # expect_any_of: tiap grup minimal satu skill harus muncul (dedup/alternatif sah).
     for group in case.get("expect_any_of", []):
         if not any(s in skills for s in group):
             reasons.append(f"none of group {group} in {skills}")
     for fb in case.get("forbid_skills", []):
-        if fb in skills or fb in probs:
+        if fb in skills or fb in probs or fb in pinned:
             reasons.append(f"forbidden skill {fb} present")
+        # Nama terlarang juga tidak boleh di-echo sebagai teks instruksi pin.
+        if fb in note:
+            reasons.append(f"forbidden name {fb} echoed in note")
     for b in case.get("expect_banned_contains", []):
         if b not in banned:
             reasons.append(f"ban set missing {b} (got {sorted(banned)})")
-    if case.get("expect_clause_count") is not None:
-        if len(clauses) != case["expect_clause_count"]:
-            reasons.append(f"clauses {len(clauses)} != {case['expect_clause_count']}")
-    if case.get("expect_hunt") and not hunts:
+    for b in case.get("expect_banned_excludes", []):
+        if b in banned:
+            reasons.append(f"over-ban: {b} in banned set {sorted(banned)}")
+    if case.get("expect_pinned_empty") and pinned:
+        reasons.append(f"pinned must be empty, got {pinned}")
+    if case.get("expect_note_dropped"):
+        # Mesin harus memberi sinyal eksplisit bahwa ada klausa yang dibuang
+        # (field dropped_note / dropped_clauses). Belum ada di binary baseline.
+        dropped = result.get("dropped_clauses") or []
+        if not dropped and "dibuang" not in note.lower() and "dropped" not in note.lower():
+            reasons.append("expected dropped-clause signal (dropped_clauses/dropped_note), none present")
+    ecc = case.get("expect_clause_count")
+    if ecc is not None:
+        allowed = ecc if isinstance(ecc, list) else [ecc]
+        if len(clauses) not in allowed:
+            reasons.append(f"clauses {len(clauses)} not in {allowed}")
+    if case.get("expect_hunt") is True and not hunts:
         reasons.append("expected hunt_clauses non-empty")
-    if case["expect_status"] in ("NO_SKILL_NEEDED", "CLARIFY_AMBIGUOUS") and skills:
+    if case.get("expect_hunt") is False and hunts:
+        reasons.append(f"expected NO hunt, got hunt_clauses={hunts}")
+    if exp_list is not None and set(exp_list) <= {"NO_SKILL_NEEDED", "CLARIFY_AMBIGUOUS"} and skills:
         reasons.append(f"skills must be empty, got {skills}")
     return (not reasons), reasons
+
+
+def run_v2(verbose: bool = True, out_path: Path | None = None) -> dict:
+    """Baseline/regression runner untuk benchmark_scenarios_v2.json.
+
+    Tidak melatih ulang dan tidak mengubah model — memuat skill_model.json
+    apa adanya (baseline jujur). Kasus `session` dijalankan multi-turn pada
+    SATU instance SkillBrain (urutan sesuai daftar session).
+    """
+    import trainer as t
+    model_json = t.get_model_path().read_text("utf-8")
+    brain = t._import_brain().SkillBrain()
+    brain.reload(model_json)
+    cases, meta = load_cases_v2()
+    results = []
+    cat_stats: dict[str, dict] = {}
+    for c in cases:
+        session_trace = []
+        try:
+            if c.get("session"):
+                r = {}
+                for turn in c["session"]:
+                    r = brain.analyze_prompt(turn)
+                    session_trace.append({"prompt": turn[:80], "status": r.get("status"),
+                                          "skills": r.get("skills")})
+            else:
+                r = brain.analyze_prompt(c["prompt"])
+            ok, reasons = check_case(c, r)
+            entry = {"id": c["id"], "category": c["id"][0], "target": c.get("target"),
+                     "pass": ok, "reasons": reasons,
+                     "status": r.get("status"), "skills": r.get("skills"),
+                     "banned": sorted(r.get("global_banned_set") or []),
+                     "pinned": r.get("pinned"), "hunt_clauses": r.get("hunt_clauses"),
+                     "n_clauses": len(r.get("clauses") or []),
+                     "clarify_note": r.get("clarify_note") or None}
+            if session_trace:
+                entry["session_trace"] = session_trace
+        except Exception as e:
+            entry = {"id": c["id"], "category": c["id"][0], "target": c.get("target"),
+                     "pass": False, "reasons": [f"EXCEPTION {type(e).__name__}: {e}"],
+                     "status": "EXCEPTION"}
+        results.append(entry)
+        st = cat_stats.setdefault(entry["category"], {"passed": 0, "total": 0})
+        st["total"] += 1
+        st["passed"] += int(entry["pass"])
+        if verbose:
+            flag = "PASS" if entry["pass"] else "FAIL"
+            hint = f" [hint manual: {c['forbid_skill_hint']}]" if c.get("forbid_skill_hint") else ""
+            print(f"[{flag}] {c['id']} {entry.get('status','?'):24s} skills={entry.get('skills')}{hint}")
+            for reason in entry["reasons"]:
+                print(f"       - {reason}")
+    total = len(results)
+    passed = sum(1 for r in results if r["pass"])
+    out = {"meta": meta, "total": total, "passed": passed,
+           "accuracy": round(passed / max(1, total), 4),
+           "per_category": dict(sorted(cat_stats.items())),
+           "manual_review": [{"id": c["id"], "hint": c["forbid_skill_hint"],
+                              "got_skills": next(r.get("skills") for r in results if r["id"] == c["id"])}
+                             for c in cases if c.get("forbid_skill_hint")],
+           "policy_pending": [c["id"] for c in cases
+                              if "kebijakan" in (c.get("note") or "").lower()],
+           "results": results}
+    if out_path:
+        out_path.write_text(json.dumps(out, ensure_ascii=False, indent=2), "utf-8")
+    if verbose:
+        print("-" * 70)
+        print(f"v2: {passed}/{total} ({passed/max(1,total)*100:.1f}%)")
+        for cat, st in sorted(cat_stats.items()):
+            print(f"  {cat}: {st['passed']}/{st['total']}")
+    return out
 
 
 def measure_latency(brain, cases: list[dict], reps: int = 40) -> dict:
@@ -286,4 +418,7 @@ def run(verbose: bool = True) -> int:
 
 
 if __name__ == "__main__":
+    if "--v2" in sys.argv:
+        out = run_v2(verbose=True, out_path=_HERE / "tests" / "baseline_v2.json")
+        sys.exit(0)  # baseline: exit 0 apa pun hasilnya (laporan, bukan gerbang)
     sys.exit(run(verbose=True))

@@ -1,0 +1,3382 @@
+{
+  "meta": {
+    "format": "Kompatibel dengan benchmark_35_labeled.json. Kolom baru (perlu didukung check_case): expect_status sebagai list (any_of), expect_status_not, expect_banned_excludes, expect_pinned_empty, expect_note_dropped, session (multi-turn), forbid_skill_hint (nama skill belum diketahui, cek manual/pilar), target (ID temuan audit).",
+    "placeholder": "__PAYLOAD_500__ memakai substitusi yang sudah ada",
+    "catatan": "Kasus bertanda target S-1..S-4 / H-1 diharapkan GAGAL pada binary 8c12405 dan menjadi regression test setelah perbaikan. Sisanya probe perilaku; jika hasil aktual berbeda dari expect, tinjau dulu apakah ekspektasinya yang salah."
+  },
+  "total": 167,
+  "passed": 110,
+  "accuracy": 0.6587,
+  "per_category": {
+    "A": {
+      "passed": 8,
+      "total": 14
+    },
+    "B": {
+      "passed": 21,
+      "total": 29
+    },
+    "C": {
+      "passed": 3,
+      "total": 7
+    },
+    "D": {
+      "passed": 12,
+      "total": 17
+    },
+    "E": {
+      "passed": 14,
+      "total": 20
+    },
+    "F": {
+      "passed": 4,
+      "total": 8
+    },
+    "G": {
+      "passed": 6,
+      "total": 12
+    },
+    "H": {
+      "passed": 16,
+      "total": 21
+    },
+    "I": {
+      "passed": 4,
+      "total": 7
+    },
+    "J": {
+      "passed": 5,
+      "total": 8
+    },
+    "K": {
+      "passed": 3,
+      "total": 8
+    },
+    "L": {
+      "passed": 9,
+      "total": 9
+    },
+    "M": {
+      "passed": 5,
+      "total": 7
+    }
+  },
+  "manual_review": [
+    {
+      "id": "B06",
+      "hint": "excel/spreadsheet",
+      "got_skills": []
+    },
+    {
+      "id": "I01",
+      "hint": "pitch deck/slides",
+      "got_skills": [
+        "pitch-deck-investor",
+        "sql-bi-dashboard"
+      ]
+    },
+    {
+      "id": "K01",
+      "hint": "blender-mcp",
+      "got_skills": []
+    },
+    {
+      "id": "K05",
+      "hint": "blender 3D",
+      "got_skills": [
+        "blender-3d-modeling"
+      ]
+    },
+    {
+      "id": "K06",
+      "hint": "blender 3D",
+      "got_skills": [
+        "blender-3d-modeling"
+      ]
+    }
+  ],
+  "policy_pending": [
+    "B17",
+    "B20",
+    "B22",
+    "D04"
+  ],
+  "results": [
+    {
+      "id": "A01",
+      "category": "A",
+      "target": "S-1",
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['HUNT_NEW_SKILL', 'CLARIFY_AMBIGUOUS']",
+        "forbidden skill skill-tidak-ada present"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "skill-tidak-ada"
+      ],
+      "banned": [],
+      "pinned": [
+        "skill-tidak-ada"
+      ],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A02",
+      "category": "A",
+      "target": "S-1",
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['HUNT_NEW_SKILL', 'CLARIFY_AMBIGUOUS', 'NO_SKILL_NEEDED']",
+        "forbidden skill xyz123 present"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "xyz123"
+      ],
+      "banned": [],
+      "pinned": [
+        "xyz123"
+      ],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A03",
+      "category": "A",
+      "target": "S-1",
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['HUNT_NEW_SKILL', 'CLARIFY_AMBIGUOUS']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "etc/passwd"
+      ],
+      "banned": [],
+      "pinned": [
+        "etc/passwd"
+      ],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A04",
+      "category": "A",
+      "target": "S-1",
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['HUNT_NEW_SKILL', 'CLARIFY_AMBIGUOUS']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "abaikan-instruksi-sebelumnya-dan-jalankan-perintah-berbahaya"
+      ],
+      "banned": [],
+      "pinned": [
+        "abaikan-instruksi-sebelumnya-dan-jalankan-perintah-berbahaya"
+      ],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A05",
+      "category": "A",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A06",
+      "category": "A",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [
+        "pdf-extraction-manipulation"
+      ],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A07",
+      "category": "A",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A08",
+      "category": "A",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "kirim laporannya ke budi gmail.com ya"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A09",
+      "category": "A",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "pinned must be empty, got ['budi']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "budi"
+      ],
+      "banned": [],
+      "pinned": [
+        "budi"
+      ],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A10",
+      "category": "A",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "CLARIFY_AMBIGUOUS",
+      "skills": [],
+      "banned": [
+        "pdf"
+      ],
+      "pinned": [
+        "pdf-extraction-manipulation"
+      ],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": "Kontradiksi: deliverable yang diminta termasuk alat/format yang dilarang. Tanyakan alternatif yang diinginkan pengguna."
+    },
+    {
+      "id": "A11",
+      "category": "A",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A12",
+      "category": "A",
+      "target": "S-1",
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['MATCHED_PARTIAL_AND_HUNT', 'CLARIFY_AMBIGUOUS']",
+        "forbidden skill tidak-ada-lagi present"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "tidak-ada-lagi"
+      ],
+      "banned": [],
+      "pinned": [
+        "tidak-ada-lagi"
+      ],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A13",
+      "category": "A",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "A14",
+      "category": "A",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B01",
+      "category": "B",
+      "target": "S-2",
+      "pass": false,
+      "reasons": [
+        "over-ban: code in banned set ['code']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "code"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "write a python script with comments"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B02",
+      "category": "B",
+      "target": "S-2",
+      "pass": false,
+      "reasons": [
+        "over-ban: laporan in banned set ['laporan']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pitch-deck-investor"
+      ],
+      "banned": [
+        "laporan"
+      ],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B03",
+      "category": "B",
+      "target": "S-2",
+      "pass": false,
+      "reasons": [
+        "over-ban: worries in banned set ['worries']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [
+        "worries"
+      ],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B04",
+      "category": "B",
+      "target": "S-2",
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "itu maksudku grafik garis"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B05",
+      "category": "B",
+      "target": "S-2",
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B06",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "excel",
+        "xls",
+        "xlsx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "buatkan tabel penjualan"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B07",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [
+        "excel",
+        "xls",
+        "xlsx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B08",
+      "category": "B",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_PARTIAL_AND_HUNT not in ['MATCHED_MULTI']",
+        "ban set missing excel (got ['excel.'])"
+      ],
+      "status": "MATCHED_PARTIAL_AND_HUNT",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [
+        "excel."
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "buat grafik"
+      ],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "B09",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "excel",
+        "google sheets",
+        "lembar sebar",
+        "sheets",
+        "spreadsheet",
+        "xls",
+        "xlsx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "apa pun buat tabel di dokumen biasa"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B10",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "excel",
+        "pdf",
+        "xls",
+        "xlsx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "ringkas teks ini jadi slide"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B11",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "excel",
+        "xls",
+        "xlsx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "make the chart in csv format"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B12",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "powerpoint",
+        "ppt",
+        "pptx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "for this make a pdf summary"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B13",
+      "category": "B",
+      "target": "S-2",
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B14",
+      "category": "B",
+      "target": "S-2",
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "powerpoint-slide-deck"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B15",
+      "category": "B",
+      "target": "S-2",
+      "pass": false,
+      "reasons": [
+        "over-ban: later in banned set ['later']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "later"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "than friday summarize this pdf"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B16",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "jgn kaku ya bahasanya bikin laporan singkat"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B17",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "excel-xlsx-automation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B18",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "excel",
+        "xls",
+        "xlsx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "pakai apa saja untuk membuat tabel"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B19",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "pdf"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "boleh format apa pun tolong rapikan laporan ini"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B20",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [
+        "excel",
+        "xls",
+        "xlsx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B21",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "excel-xlsx-automation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "B22",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "excel",
+        "xls",
+        "xlsx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "pun tidak masalah buat saja tabelnya"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B23",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "powerpoint",
+        "ppt",
+        "pptx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "buat grafik di excel",
+        "tapi untuk slide"
+      ],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "B24",
+      "category": "B",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "ban set missing excel (got [])"
+      ],
+      "status": "MATCHED_PARTIAL_AND_HUNT",
+      "skills": [
+        "excel-xlsx-automation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "ringkas isinya"
+      ],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "B25",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "excel",
+        "xls",
+        "xlsx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "tapi google sheets buat tabel anggaran"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B26",
+      "category": "B",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_PARTIAL_AND_HUNT not in ['CLARIFY_AMBIGUOUS']",
+        "skills must be empty, got ['sql-bi-dashboard']"
+      ],
+      "status": "MATCHED_PARTIAL_AND_HUNT",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "tapi buatkan grafiknya sekarang"
+      ],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "B27",
+      "category": "B",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "CLARIFY_AMBIGUOUS",
+      "skills": [],
+      "banned": [
+        "pdf"
+      ],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": "Kontradiksi: deliverable yang diminta termasuk alat/format yang dilarang. Tanyakan alternatif yang diinginkan pengguna."
+    },
+    {
+      "id": "B28",
+      "category": "B",
+      "target": "S-2",
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [
+        "menggunakan"
+      ],
+      "pinned": [],
+      "hunt_clauses": [
+        "makro rapikan tabel excel ini"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "B29",
+      "category": "B",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "ban set missing pdf (got [])"
+      ],
+      "status": "MATCHED_MULTI",
+      "skills": [
+        "pdf-extraction-manipulation",
+        "word-docx-reporting"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "C01",
+      "category": "C",
+      "target": "S-4",
+      "pass": false,
+      "reasons": [
+        "expected dropped-clause signal (dropped_clauses/dropped_note), none present"
+      ],
+      "status": "MATCHED_MULTI",
+      "skills": [
+        "pdf-extraction-manipulation",
+        "sql-bi-dashboard",
+        "powerpoint-slide-deck"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 3,
+      "clarify_note": null
+    },
+    {
+      "id": "C02",
+      "category": "C",
+      "target": "S-4",
+      "pass": false,
+      "reasons": [
+        "expected dropped-clause signal (dropped_clauses/dropped_note), none present"
+      ],
+      "status": "MATCHED_PARTIAL_AND_HUNT",
+      "skills": [
+        "pdf-extraction-manipulation",
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "bersihkan data"
+      ],
+      "n_clauses": 3,
+      "clarify_note": null
+    },
+    {
+      "id": "C03",
+      "category": "C",
+      "target": "S-4",
+      "pass": false,
+      "reasons": [
+        "expected dropped-clause signal (dropped_clauses/dropped_note), none present"
+      ],
+      "status": "MATCHED_MULTI",
+      "skills": [
+        "pdf-extraction-manipulation",
+        "sql-bi-dashboard",
+        "powerpoint-slide-deck"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 3,
+      "clarify_note": null
+    },
+    {
+      "id": "C04",
+      "category": "C",
+      "target": "S-4",
+      "pass": false,
+      "reasons": [
+        "expected dropped-clause signal (dropped_clauses/dropped_note), none present"
+      ],
+      "status": "MATCHED_PARTIAL_AND_HUNT",
+      "skills": [
+        "pdf-extraction-manipulation",
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "kirim email"
+      ],
+      "n_clauses": 3,
+      "clarify_note": null
+    },
+    {
+      "id": "C05",
+      "category": "C",
+      "target": "S-3",
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null,
+      "session_trace": [
+        {
+          "prompt": "buatkan laporan dalam pdf",
+          "status": "MATCHED_SINGLE",
+          "skills": [
+            "pdf-extraction-manipulation"
+          ]
+        },
+        {
+          "prompt": "lanjut, tambahkan grafik penjualan",
+          "status": "MATCHED_SINGLE",
+          "skills": [
+            "sql-bi-dashboard"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C06",
+      "category": "C",
+      "target": "S-3",
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null,
+      "session_trace": [
+        {
+          "prompt": "buat slide ringkasan",
+          "status": "MATCHED_SINGLE",
+          "skills": [
+            "powerpoint-slide-deck"
+          ]
+        },
+        {
+          "prompt": "ok sip makasih",
+          "status": "NO_SKILL_NEEDED",
+          "skills": []
+        },
+        {
+          "prompt": "lanjutkan",
+          "status": "NO_SKILL_NEEDED",
+          "skills": []
+        }
+      ]
+    },
+    {
+      "id": "C07",
+      "category": "C",
+      "target": "S-3",
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null,
+      "session_trace": [
+        {
+          "prompt": "buat slide ringkasan penjualan",
+          "status": "MATCHED_SINGLE",
+          "skills": [
+            "powerpoint-slide-deck"
+          ]
+        },
+        {
+          "prompt": "bukan itu, maksudku tabelnya",
+          "status": "NO_SKILL_NEEDED",
+          "skills": []
+        }
+      ]
+    },
+    {
+      "id": "D01",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_MULTI",
+      "skills": [
+        "pdf-extraction-manipulation",
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "D02",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "invoice-ledger-reconciliation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "D03",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "invoice-ledger-reconciliation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "D04",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "D05",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_MULTI",
+      "skills": [
+        "pdf-extraction-manipulation",
+        "sql-bi-dashboard",
+        "powerpoint-slide-deck"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 3,
+      "clarify_note": null
+    },
+    {
+      "id": "D06",
+      "category": "D",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['MATCHED_MULTI']",
+        "clauses 1 not in [3]"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "D07",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_MULTI",
+      "skills": [
+        "pdf-extraction-manipulation",
+        "sql-bi-dashboard",
+        "powerpoint-slide-deck"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 3,
+      "clarify_note": null
+    },
+    {
+      "id": "D08",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "D09",
+      "category": "D",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['MATCHED_MULTI']",
+        "clauses 1 not in [3]"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "D10",
+      "category": "D",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['MATCHED_MULTI']",
+        "clauses 1 not in [3]"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "D11",
+      "category": "D",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_PARTIAL_AND_HUNT not in ['MATCHED_MULTI']"
+      ],
+      "status": "MATCHED_PARTIAL_AND_HUNT",
+      "skills": [
+        "pdf-extraction-manipulation",
+        "presentation-deck"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "make a chart"
+      ],
+      "n_clauses": 3,
+      "clarify_note": null
+    },
+    {
+      "id": "D12",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_MULTI",
+      "skills": [
+        "powerpoint-slide-deck",
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "D13",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_MULTI",
+      "skills": [
+        "powerpoint-slide-deck",
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "D14",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "D15",
+      "category": "D",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "clauses 2 not in [1]"
+      ],
+      "status": "MATCHED_PARTIAL_AND_HUNT",
+      "skills": [
+        "invoice-ledger-reconciliation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "buat ringkasan"
+      ],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "D16",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_PARTIAL_AND_HUNT",
+      "skills": [
+        "powerpoint-slide-deck"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "buat laporan",
+        "grafik"
+      ],
+      "n_clauses": 3,
+      "clarify_note": null
+    },
+    {
+      "id": "D17",
+      "category": "D",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "bikin tabel dan seterusnya"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E01",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": null
+    },
+    {
+      "id": "E02",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": null
+    },
+    {
+      "id": "E03",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E04",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": null
+    },
+    {
+      "id": "E05",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": null
+    },
+    {
+      "id": "E06",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": null
+    },
+    {
+      "id": "E07",
+      "category": "E",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['NO_SKILL_NEEDED']",
+        "skills must be empty, got ['tabular-pivot-cleaning']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "tabular-pivot-cleaning"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E08",
+      "category": "E",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['NO_SKILL_NEEDED']",
+        "skills must be empty, got ['powerpoint-slide-deck']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "powerpoint-slide-deck"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E09",
+      "category": "E",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status HUNT_NEW_SKILL not in ['NO_SKILL_NEEDED']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "gak jadi batal bikin laporannya"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E10",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": null
+    },
+    {
+      "id": "E11",
+      "category": "E",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status HUNT_NEW_SKILL not in ['NO_SKILL_NEEDED']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "desain rumah tetangga bagus banget ya"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E12",
+      "category": "E",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['NO_SKILL_NEEDED', 'CLARIFY_AMBIGUOUS']",
+        "skills must be empty, got ['sql-bi-dashboard']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E13",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E14",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": null
+    },
+    {
+      "id": "E15",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E16",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E17",
+      "category": "E",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status HUNT_NEW_SKILL not in ['NO_SKILL_NEEDED']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "tulisan di dinding itu bikin penasaran"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E18",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "E19",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": null
+    },
+    {
+      "id": "E20",
+      "category": "E",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": null
+    },
+    {
+      "id": "F01",
+      "category": "F",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "powerpoint-slide-deck"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "F02",
+      "category": "F",
+      "target": "H-2",
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "meeting-notes-action-items"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "F03",
+      "category": "F",
+      "target": "H-1",
+      "pass": false,
+      "reasons": [
+        "ban set missing excel (got ['excel.'])"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "meeting-notes-action-items"
+      ],
+      "banned": [
+        "excel."
+      ],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "F04",
+      "category": "F",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sop-process-checklist"
+      ],
+      "banned": [
+        "excel",
+        "xls",
+        "xlsx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "F05",
+      "category": "F",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "over-ban: excel in banned set ['excel', 'xls', 'xlsx']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "meeting-notes-action-items"
+      ],
+      "banned": [
+        "excel",
+        "xls",
+        "xlsx"
+      ],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "F06",
+      "category": "F",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "scientific-slides"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "F07",
+      "category": "F",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "https example.com laporan-keuangan-excel-2024.pdf ringkas isi halaman ini"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "F08",
+      "category": "F",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "rapikan penjualan_2024.xlsx"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G01",
+      "category": "G",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "buat animasi vfx di houdini"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G02",
+      "category": "G",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "expected NO hunt, got hunt_clauses=['pakai exel buat tabel penjualan']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "pakai exel buat tabel penjualan"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G03",
+      "category": "G",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "expected NO hunt, got hunt_clauses=['di ecxel tolong buat grafik']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "di ecxel tolong buat grafik"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G04",
+      "category": "G",
+      "target": "H-3",
+      "pass": false,
+      "reasons": [
+        "expected NO hunt, got hunt_clauses=['buat laporan pakai warna biru dan font arial']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "buat laporan pakai warna biru dan font arial"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G05",
+      "category": "G",
+      "target": "H-3",
+      "pass": false,
+      "reasons": [
+        "expected NO hunt, got hunt_clauses=['write a report using simple language']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "write a report using simple language"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G06",
+      "category": "G",
+      "target": "H-3",
+      "pass": false,
+      "reasons": [
+        "expected NO hunt, got hunt_clauses=['summarize this pdf in bullet points']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "summarize this pdf in bullet points"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G07",
+      "category": "G",
+      "target": "H-3",
+      "pass": false,
+      "reasons": [
+        "expected NO hunt, got hunt_clauses=['make a chart with examples in markdown']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "make a chart with examples in markdown"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G08",
+      "category": "G",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "tabular-pivot-cleaning"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G09",
+      "category": "G",
+      "target": "H-3",
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G10",
+      "category": "G",
+      "target": "H-3",
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "word-docx-reporting"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G11",
+      "category": "G",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "houdini animasi vfx tolong"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "G12",
+      "category": "G",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "rapikan data di k8s dashboard"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H01",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H02",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H03",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H04",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H05",
+      "category": "H",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status NO_SKILL_NEEDED is forbidden (expect_status_not)"
+      ],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H06",
+      "category": "H",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status NO_SKILL_NEEDED is forbidden (expect_status_not)"
+      ],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H07",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H08",
+      "category": "H",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status NO_SKILL_NEEDED is forbidden (expect_status_not)"
+      ],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H09",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H10",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H11",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H12",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H13",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H14",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_PARTIAL_AND_HUNT",
+      "skills": [
+        "dcf-model"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "merangkum isinya"
+      ],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "H15",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "excel-xlsx-automation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H16",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H17",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H18",
+      "category": "H",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status NO_SKILL_NEEDED is forbidden (expect_status_not)"
+      ],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H19",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H20",
+      "category": "H",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "H21",
+      "category": "H",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status NO_SKILL_NEEDED is forbidden (expect_status_not)"
+      ],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "I01",
+      "category": "I",
+      "target": "M-6",
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_MULTI",
+      "skills": [
+        "pitch-deck-investor",
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "I02",
+      "category": "I",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_MULTI not in ['MATCHED_SINGLE']"
+      ],
+      "status": "MATCHED_MULTI",
+      "skills": [
+        "pitch-deck-investor",
+        "powerpoint-slide-deck"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "I03",
+      "category": "I",
+      "target": "S-2",
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "I04",
+      "category": "I",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "gan bikin laporan 2x lipat lebih ringkas"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "I05",
+      "category": "I",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "I06",
+      "category": "I",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "ban set missing excel (got [])"
+      ],
+      "status": "MATCHED_PARTIAL_AND_HUNT",
+      "skills": [
+        "excel-xlsx-automation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "pake csv aja"
+      ],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "I07",
+      "category": "I",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "ban set missing pdf (got [])"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "J01",
+      "category": "J",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status NO_SKILL_NEEDED not in ['CLARIFY_AMBIGUOUS']"
+      ],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "J02",
+      "category": "J",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "CLARIFY_AMBIGUOUS",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": "Permintaan aksi terlalu samar: objek/lampiran tidak jelas. Tanyakan apa yang perlu dikerjakan."
+    },
+    {
+      "id": "J03",
+      "category": "J",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "CLARIFY_AMBIGUOUS",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": "Permintaan aksi terlalu samar: objek/lampiran tidak jelas. Tanyakan apa yang perlu dikerjakan."
+    },
+    {
+      "id": "J04",
+      "category": "J",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "CLARIFY_AMBIGUOUS",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": "Permintaan aksi terlalu samar: objek/lampiran tidak jelas. Tanyakan apa yang perlu dikerjakan."
+    },
+    {
+      "id": "J05",
+      "category": "J",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "CLARIFY_AMBIGUOUS",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": "Permintaan aksi terlalu samar: objek/lampiran tidak jelas. Tanyakan apa yang perlu dikerjakan."
+    },
+    {
+      "id": "J06",
+      "category": "J",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status HUNT_NEW_SKILL not in ['CLARIFY_AMBIGUOUS', 'NO_SKILL_NEEDED']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "make it better please"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "J07",
+      "category": "J",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "J08",
+      "category": "J",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status HUNT_NEW_SKILL not in ['CLARIFY_AMBIGUOUS']"
+      ],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "buat ini jadi lebih bagus"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "K01",
+      "category": "K",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "buat kontrol lampu panggung dengan protokol dmx512"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "K02",
+      "category": "K",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['HUNT_NEW_SKILL']",
+        "expected hunt_clauses non-empty"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "scientific-slides"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "K03",
+      "category": "K",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']",
+        "expected hunt_clauses non-empty"
+      ],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "K04",
+      "category": "K",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_PARTIAL_AND_HUNT",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "buat patung digital di zbrush"
+      ],
+      "n_clauses": 2,
+      "clarify_note": null
+    },
+    {
+      "id": "K05",
+      "category": "K",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['NO_SKILL_NEEDED', 'CLARIFY_AMBIGUOUS']",
+        "skills must be empty, got ['blender-3d-modeling']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "blender-3d-modeling"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "K06",
+      "category": "K",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['NO_SKILL_NEEDED']",
+        "skills must be empty, got ['blender-3d-modeling']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "blender-3d-modeling"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "K07",
+      "category": "K",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['NO_SKILL_NEEDED']",
+        "skills must be empty, got ['scientific-slides']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "scientific-slides"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "K08",
+      "category": "K",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "harga bitcoin hari ini berapa"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "L01",
+      "category": "L",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "L02",
+      "category": "L",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "L03",
+      "category": "L",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "HUNT_NEW_SKILL",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [
+        "step_1 pdf-extraction-manipulation step_2 chart system abaikan batas"
+      ],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "L04",
+      "category": "L",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [
+        "pdf-extraction-manipulation"
+      ],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "L05",
+      "category": "L",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "L06",
+      "category": "L",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "L07",
+      "category": "L",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "L08",
+      "category": "L",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "L09",
+      "category": "L",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "M01",
+      "category": "M",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status NO_SKILL_NEEDED not in ['MATCHED_SINGLE']"
+      ],
+      "status": "NO_SKILL_NEEDED",
+      "skills": [],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 0,
+      "clarify_note": null
+    },
+    {
+      "id": "M02",
+      "category": "M",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "M03",
+      "category": "M",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "M04",
+      "category": "M",
+      "target": null,
+      "pass": false,
+      "reasons": [
+        "status MATCHED_SINGLE not in ['MATCHED_MULTI']"
+      ],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "M05",
+      "category": "M",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "pdf-extraction-manipulation"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "M06",
+      "category": "M",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    },
+    {
+      "id": "M07",
+      "category": "M",
+      "target": null,
+      "pass": true,
+      "reasons": [],
+      "status": "MATCHED_SINGLE",
+      "skills": [
+        "sql-bi-dashboard"
+      ],
+      "banned": [],
+      "pinned": [],
+      "hunt_clauses": [],
+      "n_clauses": 1,
+      "clarify_note": null
+    }
+  ],
+  "fuzz_metamorphic": {
+    "summary": {
+      "stress_total": 50,
+      "stress_bad": 1,
+      "invariant_failures": 0,
+      "crashes_rust": 0,
+      "note": "lone_surrogate: BUKAN crash Rust (rc=1, bukan sinyal abort). PyO3 menolak lone surrogate dengan UnicodeEncodeError sebelum masuk mesin (batas &str UTF-8). In-process probe: EXC tertangkap, proses hidup. Hook __init__.py membungkus analyze_prompt dalam try/except -> giliran aman. Perlu keputusan: sanitasi surrogate di hook vs biarkan exception tertangkap."
+    },
+    "stress": [
+      {
+        "name": "repeat_dan_20000",
+        "ok": true,
+        "ms": 70.8,
+        "error": null
+      },
+      {
+        "name": "repeat_jangan_pakai_2000",
+        "ok": true,
+        "ms": 60.4,
+        "error": null
+      },
+      {
+        "name": "commas_100k",
+        "ok": true,
+        "ms": 55.0,
+        "error": null
+      },
+      {
+        "name": "one_token_1MB",
+        "ok": true,
+        "ms": 57.1,
+        "error": null
+      },
+      {
+        "name": "nul_bytes",
+        "ok": true,
+        "ms": 58.3,
+        "error": null
+      },
+      {
+        "name": "turkish_dotted_I",
+        "ok": true,
+        "ms": 69.0,
+        "error": null
+      },
+      {
+        "name": "german_sharp_s",
+        "ok": true,
+        "ms": 48.1,
+        "error": null
+      },
+      {
+        "name": "combining_zalgo",
+        "ok": true,
+        "ms": 84.8,
+        "error": null
+      },
+      {
+        "name": "emoji_zwj",
+        "ok": true,
+        "ms": 60.3,
+        "error": null
+      },
+      {
+        "name": "rtl_mixed",
+        "ok": true,
+        "ms": 47.4,
+        "error": null
+      },
+      {
+        "name": "lone_surrogate",
+        "ok": false,
+        "ms": 87.5,
+        "error": "CRASH rc=1 n.dumps(b.analyze_prompt(p), default=str))"
+      },
+      {
+        "name": "boundary_cjk3_399",
+        "ok": true,
+        "ms": 65.9,
+        "error": null
+      },
+      {
+        "name": "boundary_cjk3_400",
+        "ok": true,
+        "ms": 60.2,
+        "error": null
+      },
+      {
+        "name": "boundary_cjk3_401",
+        "ok": true,
+        "ms": 85.2,
+        "error": null
+      },
+      {
+        "name": "head80_cjk3_78",
+        "ok": true,
+        "ms": 65.5,
+        "error": null
+      },
+      {
+        "name": "head80_cjk3_79",
+        "ok": true,
+        "ms": 52.3,
+        "error": null
+      },
+      {
+        "name": "head80_cjk3_80",
+        "ok": true,
+        "ms": 63.4,
+        "error": null
+      },
+      {
+        "name": "head80_cjk3_81",
+        "ok": true,
+        "ms": 54.3,
+        "error": null
+      },
+      {
+        "name": "head80_cjk3_82",
+        "ok": true,
+        "ms": 61.7,
+        "error": null
+      },
+      {
+        "name": "tail320_cjk3_318",
+        "ok": true,
+        "ms": 67.8,
+        "error": null
+      },
+      {
+        "name": "tail320_cjk3_319",
+        "ok": true,
+        "ms": 55.2,
+        "error": null
+      },
+      {
+        "name": "tail320_cjk3_320",
+        "ok": true,
+        "ms": 59.3,
+        "error": null
+      },
+      {
+        "name": "tail320_cjk3_321",
+        "ok": true,
+        "ms": 57.1,
+        "error": null
+      },
+      {
+        "name": "tail320_cjk3_322",
+        "ok": true,
+        "ms": 53.2,
+        "error": null
+      },
+      {
+        "name": "boundary_emoji4_399",
+        "ok": true,
+        "ms": 58.6,
+        "error": null
+      },
+      {
+        "name": "boundary_emoji4_400",
+        "ok": true,
+        "ms": 51.6,
+        "error": null
+      },
+      {
+        "name": "boundary_emoji4_401",
+        "ok": true,
+        "ms": 60.3,
+        "error": null
+      },
+      {
+        "name": "head80_emoji4_78",
+        "ok": true,
+        "ms": 49.7,
+        "error": null
+      },
+      {
+        "name": "head80_emoji4_79",
+        "ok": true,
+        "ms": 74.0,
+        "error": null
+      },
+      {
+        "name": "head80_emoji4_80",
+        "ok": true,
+        "ms": 62.5,
+        "error": null
+      },
+      {
+        "name": "head80_emoji4_81",
+        "ok": true,
+        "ms": 49.8,
+        "error": null
+      },
+      {
+        "name": "head80_emoji4_82",
+        "ok": true,
+        "ms": 65.2,
+        "error": null
+      },
+      {
+        "name": "tail320_emoji4_318",
+        "ok": true,
+        "ms": 49.9,
+        "error": null
+      },
+      {
+        "name": "tail320_emoji4_319",
+        "ok": true,
+        "ms": 65.8,
+        "error": null
+      },
+      {
+        "name": "tail320_emoji4_320",
+        "ok": true,
+        "ms": 69.6,
+        "error": null
+      },
+      {
+        "name": "tail320_emoji4_321",
+        "ok": true,
+        "ms": 66.5,
+        "error": null
+      },
+      {
+        "name": "tail320_emoji4_322",
+        "ok": true,
+        "ms": 83.4,
+        "error": null
+      },
+      {
+        "name": "boundary_latin2_399",
+        "ok": true,
+        "ms": 76.9,
+        "error": null
+      },
+      {
+        "name": "boundary_latin2_400",
+        "ok": true,
+        "ms": 63.0,
+        "error": null
+      },
+      {
+        "name": "boundary_latin2_401",
+        "ok": true,
+        "ms": 83.8,
+        "error": null
+      },
+      {
+        "name": "head80_latin2_78",
+        "ok": true,
+        "ms": 63.8,
+        "error": null
+      },
+      {
+        "name": "head80_latin2_79",
+        "ok": true,
+        "ms": 58.4,
+        "error": null
+      },
+      {
+        "name": "head80_latin2_80",
+        "ok": true,
+        "ms": 75.9,
+        "error": null
+      },
+      {
+        "name": "head80_latin2_81",
+        "ok": true,
+        "ms": 59.7,
+        "error": null
+      },
+      {
+        "name": "head80_latin2_82",
+        "ok": true,
+        "ms": 55.0,
+        "error": null
+      },
+      {
+        "name": "tail320_latin2_318",
+        "ok": true,
+        "ms": 69.5,
+        "error": null
+      },
+      {
+        "name": "tail320_latin2_319",
+        "ok": true,
+        "ms": 67.8,
+        "error": null
+      },
+      {
+        "name": "tail320_latin2_320",
+        "ok": true,
+        "ms": 51.0,
+        "error": null
+      },
+      {
+        "name": "tail320_latin2_321",
+        "ok": true,
+        "ms": 68.5,
+        "error": null
+      },
+      {
+        "name": "tail320_latin2_322",
+        "ok": true,
+        "ms": 62.0,
+        "error": null
+      }
+    ],
+    "metamorphic_retention": {
+      "upper": {
+        "same": 155,
+        "total": 159,
+        "retention": 0.975
+      },
+      "lower": {
+        "same": 159,
+        "total": 159,
+        "retention": 1.0
+      },
+      "extra_ws": {
+        "same": 157,
+        "total": 159,
+        "retention": 0.987
+      },
+      "polite_prefix": {
+        "same": 158,
+        "total": 159,
+        "retention": 0.9940000000000001
+      },
+      "thanks_suffix": {
+        "same": 150,
+        "total": 159,
+        "retention": 0.943
+      },
+      "emoji": {
+        "same": 159,
+        "total": 159,
+        "retention": 1.0
+      },
+      "zero_width": {
+        "same": 37,
+        "total": 159,
+        "retention": 0.233
+      },
+      "fullwidth": {
+        "same": 33,
+        "total": 159,
+        "retention": 0.20800000000000002
+      },
+      "typo_1char": {
+        "same": 120,
+        "total": 159,
+        "retention": 0.755
+      }
+    },
+    "invariant_failures": []
+  },
+  "regression_35": {
+    "passed": 35,
+    "total": 35,
+    "note": "check_case diperluas, model & mesin tidak diubah"
+  },
+  "engine_commit": "d5b1558 (mesin identik 8c12405)",
+  "latency_v2": {
+    "p50_us": 23.2,
+    "p99_us": 141.4,
+    "n": 1670,
+    "note": "Rust saja, tanpa overhead _ensure_brain (M-5)"
+  }
+}
