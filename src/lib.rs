@@ -1515,6 +1515,51 @@ fn is_filename_token(tok: &str) -> bool {
     FILE_EXTENSIONS.iter().any(|e| lower.ends_with(e))
 }
 
+/// Bounded 1-edit fuzzy correction of an unknown tool token against the known
+/// vocabulary. Generates insert/delete/substitute/transpose variants and
+/// returns the closest known word, or None. Used to recognize mistyped known
+/// tools ("exel"/"ecxel" -> "excel") instead of treating them as unknown tools.
+fn fuzzy_known_tool(tok: &str, known: &HashSet<String>) -> Option<String> {
+    // Operate on chars, not bytes: byte slicing panics on multi-byte Unicode
+    // (Cyrillic homoglyphs in H19). ASCII-only candidates are the only ones
+    // that can fuzzy-match an ASCII vocab entry, so gate on is_ascii first.
+    if !tok.is_ascii() { return None; }
+    let s = tok.to_lowercase();
+    let bytes = s.as_bytes();
+    if bytes.len() < 3 || bytes.len() > 10 { return None; }
+    let mut v = s.clone().into_bytes();
+    // Transposition FIRST: "exel" -> "excel" is a swap, and must beat the
+    // deletion "eel" which is a valid but wrong 1-edit word.
+    for i in 0..bytes.len().saturating_sub(1) {
+        v.swap(i, i + 1);
+        let cand = String::from_utf8_lossy(&v).into_owned();
+        if known.contains(&cand) { return Some(cand); }
+        v.swap(i, i + 1);
+    }
+    // substitution / deletion (a-z) at each position
+    for i in 0..bytes.len() {
+        let mut d = String::with_capacity(bytes.len() - 1);
+        d.push_str(&s[..i]); d.push_str(&s[i + 1..]);
+        if known.contains(&d) { return Some(d); }
+        for c in b'a'..=b'z' {
+            let mut v = s.clone().into_bytes();
+            v[i] = c;
+            let cand = String::from_utf8_lossy(&v);
+            if known.contains(cand.as_ref()) { return Some(cand.into_owned()); }
+        }
+    }
+    // insertion (a-z) at each position
+    for i in 0..=bytes.len() {
+        for c in b'a'..=b'z' {
+            let mut v = s.clone().into_bytes();
+            v.insert(i, c);
+            let cand = String::from_utf8_lossy(&v);
+            if known.contains(cand.as_ref()) { return Some(cand.into_owned()); }
+        }
+    }
+    None
+}
+
 /// Decompose a compound token (URL path, `name-with-dash.xlsx`,
 /// `penjualan_2024.xlsx`) into its meaningful parts so tool/domain keywords
 /// inside a filename are not lost. Only splits on structural separators —
@@ -1553,6 +1598,19 @@ fn add_features(ex: &mut Extracted, tokens: &[String], weight: f64, dedup: bool,
             ex.active_keys.insert(key_uni);
         }
         ex.all_tokens.insert(tok.clone());
+
+        // Fuzzy-correct a mistyped KNOWN tool ("exel"/"ecxel" -> "excel") so
+        // its signal is not lost, and so it is not mistaken for an unknown
+        // tool downstream. Only for tokens not already in the vocabulary.
+        if !known.contains(tok) && tok.chars().count() >= 3 {
+            if let Some(canon) = fuzzy_known_tool(tok, known) {
+                let ck = format!("uni:{}", canon);
+                if !(dedup && !seen.insert(ck.clone())) {
+                    *ex.features.entry(ck.clone()).or_insert(0.0) += weight * 0.75;
+                    ex.active_keys.insert(ck);
+                }
+            }
+        }
 
         // Compound tokens (URL path, filename + extension): decompose at a
         // reduced weight so a tool/domain word inside a filename still counts.
@@ -2269,11 +2327,29 @@ impl SkillBrain {
             // lowercase letters (TitleCase) or digit-suffixed tool names qualify.
             // A filename with a KNOWN extension ("penjualan_2024.xlsx") is a
             // document, not an unknown tool — exempt it (F08).
+            // Role-anchored candidate: a token directly after "di/pakai/using"
+            // is a TOOL reference. But if the preceding anchor is itself a
+            // noun like "warna"/"font"/"warna"/"color", the following token is
+            // an ATTRIBUTE VALUE (e.g. "font arial"), not a tool — skip it.
+            const ATTRIBUTE_NOUNS: &[&str] = &[
+                "warna", "font", "warna", "color", "colour", "ukuran", "size",
+                "gaya", "style", "jenis", "type", "format", "tema", "theme",
+            ];
             let mut tool_candidates: Vec<String> = Vec::new();
             for (i, t) in ct.iter().enumerate() {
                 if is_filename_token(t) { continue; }
                 if i > 0 && matches!(ct[i - 1].as_str(), "di" | "in" | "pakai" | "pake"
                     | "using" | "with" | "via" | "menggunakan" | "software" | "tool") {
+                    let anchor = ct[i - 1].as_str();
+                    // "font arial": anchor is "font", so "arial" is a value —
+                    // but that value is the token AFTER "font", and its own
+                    // predecessor here is "font" only when i-1 == font. In
+                    // "pakai warna biru", anchor is "warna" (a noun), not a
+                    // tool anchor — the token "warna" itself is the value.
+                    if ATTRIBUTE_NOUNS.contains(&anchor) { continue; }
+                    // "pakai warna biru": "warna" is the token after the anchor
+                    // "pakai"; recognize it as an attribute noun, not a tool.
+                    if ATTRIBUTE_NOUNS.contains(&t.to_lowercase().as_str()) { continue; }
                     tool_candidates.push(t.clone());
                 }
             }
@@ -2284,7 +2360,8 @@ impl SkillBrain {
                     && raw.chars().any(|c| c.is_alphabetic());
                 if tl.len() < 3 || !(has_lower || has_digit_suffix)
                     || is_stopword(&tl) || DELIVERABLE_NOUNS.contains(&tl.as_str())
-                    || model.known_vocab.contains(&tl) {
+                    || model.known_vocab.contains(&tl)
+                    || fuzzy_known_tool(&tl, &model.known_vocab).is_some() {
                     return false;
                 }
                 // Hanya periksa kandidat teratas (<=5): bila skill teratas
