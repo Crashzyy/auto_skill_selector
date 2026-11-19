@@ -1,0 +1,297 @@
+[
+  {
+    "id": 1,
+    "category": "negation_global",
+    "prompt": "Jangan pakai Excel, tapi ambil datanya dari PDF lalu visualisasikan pakai infografis",
+    "expect_status": "MATCHED_MULTI",
+    "expect_skills": ["pdf-extraction-manipulation", "infographic-design"],
+    "expect_banned_contains": ["excel", "xlsx"],
+    "forbid_skills": ["excel-xlsx-automation", "spreadsheet-modeling"],
+    "expect_clause_count": 2,
+    "note": "KASUS WAJIB PERSIS §5: ban {excel,xlsx}, urutan [pdf, infographic], 0 excel di top-k"
+  },
+  {
+    "id": 2,
+    "category": "negation_global",
+    "prompt": "Buatkan presentasi produk tanpa PowerPoint, pakai halaman web HTML saja",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["web-landing-design"],
+    "expect_banned_contains": ["pptx", "powerpoint"],
+    "forbid_skills": ["powerpoint-slide-deck"],
+    "note": "Larangan substitusi tunggal"
+  },
+  {
+    "id": 3,
+    "category": "negation_global",
+    "prompt": "Ambil datanya dari PDF lalu visualisasikan pakai infografis, jangan pakai Excel",
+    "expect_status": "MATCHED_MULTI",
+    "expect_skills": ["pdf-extraction-manipulation", "infographic-design"],
+    "expect_banned_contains": ["excel", "xlsx"],
+    "forbid_skills": ["excel-xlsx-automation", "spreadsheet-modeling"],
+    "note": "Larangan di AKHIR kalimat tetap berlaku global (Stage 2 sebelum split)"
+  },
+  {
+    "id": 4,
+    "category": "negation_global",
+    "prompt": "jgn pake ppt, bikinin presentasi produk dalam halaman web html aja",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["web-landing-design"],
+    "expect_banned_contains": ["ppt", "pptx"],
+    "forbid_skills": ["powerpoint-slide-deck"],
+    "note": "Larangan bahasa gaul 'jgn pake ppt' + substitusi eksplisit ke HTML"
+  },
+  {
+    "id": 5,
+    "category": "negation_global",
+    "prompt": "Jangan pakai Excel dan jangan pakai PowerPoint, buatkan laporan keuangan dalam PDF",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["pdf-extraction-manipulation"],
+    "expect_banned_contains": ["excel", "xlsx", "pptx", "powerpoint"],
+    "forbid_skills": ["excel-xlsx-automation", "powerpoint-slide-deck", "spreadsheet-modeling"],
+    "note": "Larangan 2 tool sekaligus"
+  },
+  {
+    "id": 6,
+    "category": "negation_global",
+    "prompt": "Buatkan workbook .xlsx tapi dilarang pakai Excel atau spreadsheet",
+    "expect_status": "CLARIFY_AMBIGUOUS",
+    "expect_skills": [],
+    "expect_banned_contains": ["excel", "xlsx", "spreadsheet"],
+    "forbid_skills": ["excel-xlsx-automation", "spreadsheet-modeling"],
+    "note": "Kontradiksi mutlak: tidak crash, 0 banned skill diinjeksikan"
+  },
+  {
+    "id": 7,
+    "category": "multi_job",
+    "prompt": "Ekstrak tabel dari laporan_keuangan.pdf lalu bersihkan datanya jadi CSV rapi",
+    "expect_status": "MATCHED_MULTI",
+    "expect_skills": ["pdf-extraction-manipulation", "tabular-pivot-cleaning"],
+    "expect_any_of": [["pdf-extraction-manipulation"], ["tabular-pivot-cleaning"]],
+    "expect_clause_count": 2,
+    "note": "2 pekerjaan sekuensial; kedua skill wajib muncul berurutan (pdf lalu cleaning)"
+  },
+  {
+    "id": 8,
+    "category": "multi_job",
+    "prompt": "Ambil data penjualan dari PDF, buat grafik tren, lalu susun slide presentasi",
+    "expect_status": "MATCHED_MULTI",
+    "expect_skills": ["pdf-extraction-manipulation", "sql-bi-dashboard", "powerpoint-slide-deck"],
+    "expect_clause_count": 3,
+    "note": "3 pekerjaan paralel berurutan 1→2→3"
+  },
+  {
+    "id": 9,
+    "category": "multi_job",
+    "prompt": "Buat laporan laba dan rugi kuartal ini dari data transaksi",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["invoice-ledger-reconciliation", "financial-model-dcf", "excel-xlsx-automation", "tabular-pivot-cleaning"],
+    "expect_clause_count": 1,
+    "note": "Anti over-split: 'laporan laba dan rugi' = 1 klausa (frasa benda majemuk)"
+  },
+  {
+    "id": 10,
+    "category": "multi_job",
+    "prompt": "Analisis kelebihan dan kekurangan tiga vendor ini lalu tulis ringkasan eksekutifnya",
+    "expect_status": "MATCHED_MULTI",
+    "expect_skills": ["mece-strategy-memo", "executive-brief-6pager"],
+    "note": "'kelebihan dan kekurangan' tetap 1 klausa; 'lalu tulis...' klausa ke-2"
+  },
+  {
+    "id": 11,
+    "category": "partial_hunt",
+    "prompt": "Bersihkan data CSV ini lalu buatkan animasi rig karakter 3D di Houdini",
+    "expect_status": "MATCHED_PARTIAL_AND_HUNT",
+    "expect_skills": ["tabular-pivot-cleaning"],
+    "expect_hunt": true,
+    "note": "1 match lokal + 1 miss (Houdini rigging spesifik tidak ada skill lokalnya)"
+  },
+  {
+    "id": 12,
+    "category": "partial_hunt",
+    "prompt": "Susun notula rapat ini jadi daftar tugas, lalu buatkan simulasi gempa struktur jembatan di SAP2000",
+    "expect_status": "MATCHED_PARTIAL_AND_HUNT",
+    "expect_skills": ["meeting-notes-action-items"],
+    "expect_hunt": true,
+    "note": "Partial hunt ke-2: domain teknik sipil di luar korpus"
+  },
+  {
+    "id": 13,
+    "category": "pillar_coverage",
+    "pillar": "data-analytics",
+    "prompt": "Buatkan query SQL untuk dasbor KPI penjualan bulanan",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["sql-bi-dashboard"]
+  },
+  {
+    "id": 14,
+    "category": "pillar_coverage",
+    "pillar": "3d-video-animation",
+    "prompt": "Render scene karakter 3D di Blender dengan pencahayaan sinematik",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["blender-3d-modeling"]
+  },
+  {
+    "id": 15,
+    "category": "pillar_coverage",
+    "pillar": "audio-music-podcast",
+    "prompt": "Produksi episode siniar baru: edit rekaman wawancara dan mastering loudness",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["podcast-production", "noise-reduction-mastering"]
+  },
+  {
+    "id": 16,
+    "category": "pillar_coverage",
+    "pillar": "design-ui-ux",
+    "prompt": "Desain infografis ringkasan laporan tahunan dengan tipografi rapi",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["infographic-design"]
+  },
+  {
+    "id": 17,
+    "category": "pillar_coverage",
+    "pillar": "finance-business",
+    "prompt": "Hitung valuasi perusahaan dengan metode DCF dan WACC",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["financial-model-dcf"]
+  },
+  {
+    "id": 18,
+    "category": "pillar_coverage",
+    "pillar": "writing-editorial",
+    "prompt": "Tulis artikel blog SEO tentang keamanan siber untuk pemula",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["seo-copywriting"]
+  },
+  {
+    "id": 19,
+    "category": "pillar_coverage",
+    "pillar": "productivity-office",
+    "prompt": "Gabungkan tiga berkas PDF kontrak ini jadi satu dokumen",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["pdf-extraction-manipulation"]
+  },
+  {
+    "id": 20,
+    "category": "pillar_coverage",
+    "pillar": "research-science",
+    "prompt": "Cari makalah arXiv terbaru tentang attention mechanism dan buat tinjauan pustaka",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["literature-review-citation"]
+  },
+  {
+    "id": 21,
+    "category": "pillar_coverage",
+    "pillar": "software-devops",
+    "prompt": "Buatkan Dockerfile dan pipeline CI/CD untuk aplikasi React ini",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["cicd-docker", "frontend-react-webapp"]
+  },
+  {
+    "id": 22,
+    "category": "language_kbbi",
+    "prompt": "Lakukan rekonsiliasi neraca lajur dan hitung anuitas dari salindia kuartal ini",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["invoice-ledger-reconciliation", "financial-model-dcf"],
+    "note": "KBBI baku: rekonsiliasi, neraca lajur, anuitas, salindia"
+  },
+  {
+    "id": 23,
+    "category": "language_kbbi",
+    "prompt": "Tolong memvisualisasikan data penjualan lalu menyunting takarir video promosi",
+    "expect_status": "MATCHED_MULTI",
+    "expect_skills": ["infographic-design", "subtitle-captioning"],
+    "expect_any_of": [["infographic-design", "sql-bi-dashboard"], ["subtitle-captioning"]],
+    "note": "Peluluhan K-P-S-T: memvisualisasikan→visualisasi, menyunting→sunting; visualisasi data boleh diwakili skill infografis atau dasbor BI"
+  },
+  {
+    "id": 24,
+    "category": "language_kbbi",
+    "prompt": "Mengonversi berkas lembar sebar lama menjadi laporan PDF yang rapi",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["pdf-extraction-manipulation", "spreadsheet-modeling", "excel-xlsx-automation"],
+    "note": "mengonversi→konversi (KPST), lembar sebar (KBBI spreadsheet)"
+  },
+  {
+    "id": 25,
+    "category": "language_slang",
+    "prompt": "Bikinin dek buat pitch investor yg kece dong, jgn kaku",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["pitch-deck-investor"],
+    "note": "Gaul WA + campur kode: bikinin, dek→pitch deck, yg, jgn kaku (gaya, bukan tool ban)"
+  },
+  {
+    "id": 26,
+    "category": "language_slang",
+    "prompt": "Rapihin tabel penjualan ini pake pivot, terus pdfin hasilnya buat bos",
+    "expect_status": "MATCHED_MULTI",
+    "expect_skills": ["tabular-pivot-cleaning", "pdf-extraction-manipulation"],
+    "note": "rapihin→rapikan, pdfin→pdf, terus→lalu; 2 klausa (pivot cleaning + PDF)"
+  },
+  {
+    "id": 27,
+    "category": "language_translit",
+    "prompt": "Buatkan dokumentasi teknis dan otomatisasi pengujian untuk modul baru",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["technical-documentation", "automated-testing-debugging"],
+    "note": "Transliterasi: dokumentasi→documentation, otomatisasi→automation, pengujian→testing"
+  },
+  {
+    "id": 28,
+    "category": "override_payload_vague",
+    "prompt": "/skill pdf-extraction-manipulation gabungkan 3 dokumen ini",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["pdf-extraction-manipulation"],
+    "note": "Explicit override /skill (bypass skor)"
+  },
+  {
+    "id": 29,
+    "category": "override_payload_vague",
+    "prompt": "__PAYLOAD_500__ Tolong ubah catatan di atas jadi diagram alur Mermaid",
+    "expect_status": "MATCHED_SINGLE",
+    "expect_skills": ["mermaid-architecture-diagram"],
+    "note": "Payload 500 kata + instruksi pendek di ujung; Instruction 1.0x vs Payload 0.15x"
+  },
+  {
+    "id": 30,
+    "category": "override_payload_vague",
+    "prompt": "Tolong benerin sama rapihin ini dong sekarang",
+    "expect_status": "CLARIFY_AMBIGUOUS",
+    "expect_skills": [],
+    "note": "Aksi samar tanpa objek/lampiran"
+  },
+  {
+    "id": 31,
+    "category": "conversational",
+    "prompt": "Halo! Menurutmu tren desain web tahun ini lagi condong ke arah mana ya?",
+    "expect_status": "NO_SKILL_NEEDED",
+    "expect_skills": []
+  },
+  {
+    "id": 32,
+    "category": "conversational",
+    "prompt": "Hai, apa kabar? Lagi sibuk apa hari ini?",
+    "expect_status": "NO_SKILL_NEEDED",
+    "expect_skills": []
+  },
+  {
+    "id": 33,
+    "category": "conversational",
+    "prompt": "What is the difference between supervised and unsupervised learning?",
+    "expect_status": "NO_SKILL_NEEDED",
+    "expect_skills": []
+  },
+  {
+    "id": 34,
+    "category": "conversational",
+    "prompt": "Jelaskan pengertian inflasi dan kenapa harga barang bisa naik terus",
+    "expect_status": "NO_SKILL_NEEDED",
+    "expect_skills": []
+  },
+  {
+    "id": 35,
+    "category": "conversational",
+    "prompt": "Makasih ya bantuannya kemarin, hasil presentasinya keren banget!",
+    "expect_status": "NO_SKILL_NEEDED",
+    "expect_skills": []
+  }
+]

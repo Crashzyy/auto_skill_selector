@@ -4,8 +4,8 @@ build-backend = "maturin"
 
 [project]
 name = "hermes_skill_brain"
-version = "0.1.0"
-description = "Rust core engine for the Hermes auto_skill_selector plugin"
+version = "0.2.0"
+description = "Rust core engine for the Hermes auto_skill_selector plugin (Fase 2, 6-stage pipeline)"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 

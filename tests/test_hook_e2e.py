@@ -1,10 +1,13 @@
-"""Uji end-to-end hook on_pre_llm_call di lingkungan sandbox.
+"""Uji end-to-end hook on_pre_llm_call (Fase 2) di lingkungan sandbox.
 
-Memanggil hook persis seperti Hermes memanggilnya, lalu memeriksa:
+Memanggil hook persis seperti Hermes memanggilnya (tanpa dispatcher penuh;
+uji dispatcher resmi ada di test_gateway_live.py), lalu memeriksa:
   1. Return value berbentuk {"context": ...} atau None.
-  2. Konteks skill menyebut nama skill yang benar.
-  3. Brainstorming menghasilkan None (tidak menyuntik apa pun).
+  2. Konteks skill menyebut nama skill yang benar / instruksi hunter.
+  3. Brainstorming & curhat menghasilkan None (tidak menyuntik apa pun).
   4. Tidak ada exception yang bocor ke caller.
+
+Jalankan: HERMES_HOME=/tmp/hermes-sandbox python tests/test_hook_e2e.py
 """
 import importlib.util
 import sys
@@ -16,18 +19,19 @@ plug = importlib.util.module_from_spec(_spec)
 sys.modules["auto_skill_selector"] = plug
 _spec.loader.exec_module(plug)
 
+# (prompt, expect, substring_wajib_di_konteks)
 CASES = [
-    # (prompt, expect_status_hint)  -> status tak diekspos, tapi kita cek sifat konteks
-    ("Tolong buatkan model valuasi perusahaan dengan metode DCF di Excel", "skill"),
-    ("Atur scene kamera macro dan render animasi di Unreal Engine", "skill"),
-    ("Jangan pakai Docker, tapi deploy langsung ke Cloudflare Worker", "skill"),
-    ("Jangan langsung buat kode, menurutmu lebih bagus Blender atau Cinema4D?", "none"),
-    ("Saya lagi gak punya duit buat beli kopi", "none"),
-    ("Buatkan storyboard dan prompt video animasi bergaya Claymation dengan Dragonframe", "hunter"),
+    ("Hitung valuasi perusahaan dengan metode DCF dan WACC", "skill", "financial-model-dcf"),
+    ("Render scene karakter 3D di Blender dengan pencahayaan sinematik", "skill", "blender-3d-modeling"),
+    ("Jangan pakai Excel, tapi ambil datanya dari PDF lalu visualisasikan pakai infografis",
+     "skill", "infographic-design"),
+    ("Jangan langsung buat kode, menurutmu lebih bagus Blender atau Cinema4D?", "none", None),
+    ("Saya lagi gak punya duit buat beli kopi", "none", None),
+    ("Bersihkan data CSV ini lalu buatkan animasi rig karakter 3D di Houdini", "hunter", "delegate_task"),
 ]
 
 failures = 0
-for prompt, expect in CASES:
+for prompt, expect, needle in CASES:
     try:
         out = plug.on_pre_llm_call(
             session_id="test-sess",
@@ -48,8 +52,7 @@ for prompt, expect in CASES:
     elif isinstance(out, dict) and "context" in out:
         ctx = out["context"]
         got = f"dict(context {len(ctx)} char)"
-        ok = expect in ("skill", "hunter")
-        # tampilkan cuplikan konteks utk inspeksi
+        ok = expect in ("skill", "hunter") and (needle is None or needle in ctx)
         snippet = ctx[:120].replace("\n", " ")
         print(f"  ctx: {snippet}...")
     else:

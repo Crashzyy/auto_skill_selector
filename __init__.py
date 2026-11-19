@@ -1,19 +1,25 @@
-"""auto_skill_selector — Hermes plugin entrypoint.
+"""auto_skill_selector — Hermes plugin entrypoint (Fase 2).
 
 Registers:
-  * pre_llm_call       : routes each user prompt to a local skill, chains skills,
-                         triggers the Two-Tier Internet Hunter, or stays silent.
+  * pre_llm_call       : strict 6-stage routing via the Rust brain; injects
+                         matched skills into the USER message (never the
+                         system prompt, prompt-cache safe), chains multi-step
+                         skills under the 10.000-char Hermes spill limit,
+                         triggers async skill-hunt for missing clauses, or
+                         stays silent / asks for clarification.
   * on_skill_lifecycle : retrains + reloads the Rust brain when a skill is
                          created/changed/deleted via skill_manage.
   * subagent_stop      : retrains after a Hunter subagent finishes.
   * /skill-brain       : slash command to inspect, test, or retrain the engine.
+
+RoutingDecision states (Master Prompt §1.4):
+  NO_SKILL_NEEDED | MATCHED_SINGLE | MATCHED_MULTI |
+  MATCHED_PARTIAL_AND_HUNT | HUNT_NEW_SKILL | CLARIFY_AMBIGUOUS
 """
 from __future__ import annotations
 
 import json
-import re
 import threading
-import time
 from pathlib import Path
 
 # --- Hermes-native imports with graceful fallbacks ---
@@ -22,14 +28,14 @@ try:
 except Exception:  # pragma: no cover
     plugin_data_dir = None
 
-try:
-    from hermes_yaml import safe_load as _yaml_safe_load
-except Exception:  # pragma: no cover
-    _yaml_safe_load = None
-
 _brain = None
 _brain_lock = threading.Lock()
 _logger = None
+
+# Batas injeksi Hermes pre_llm_call (spill ke disk di atas ini). Kita jaga
+# total konteks JAUH di bawah batas dengan ringkasan terstruktur.
+INJECTION_CHAR_LIMIT = 9500
+SKILL_SUMMARY_CHARS = 2200
 
 
 def _log():
@@ -106,7 +112,6 @@ def _load_model_json() -> str:
 
 
 def _ensure_brain():
-    """Lazily construct the SkillBrain and load the current model. None if unavailable."""
     mod = _import_brain()
     if mod is None:
         return None
@@ -121,48 +126,130 @@ def _ensure_brain():
 
 
 # ---------------------------------------------------------------------------
-# Two-Tier Internet Hunter instruction (spec Bagian 6)
+# Skill content lookup (ringkasan terstruktur untuk injeksi multi-skill)
 # ---------------------------------------------------------------------------
 
-def _build_hunter_context(unknown_entities: list[str]) -> str:
-    if not unknown_entities:
-        return ""
-    topics = ", ".join(f"`{u}`" for u in unknown_entities[:6])
-    return (
-        "[auto_skill_selector] Topik berikut belum ada sebagai skill lokal: "
-        f"{topics}.\n"
-        "Jalankan Akuisisi 2 Tahap:\n"
-        "1) Cek dulu apakah skill untuk topik ini sudah tersedia di katalog resmi / "
-        "Hermes Skills Hub (official / skills-sh / github) memakai CLI atau tool skill.\n"
-        "2) Jika BELUM tersedia, delegasikan ke subagent internet memakai `delegate_task` "
-        "untuk: mencari dokumentasi, best practices, parameter/CLI, dan kerangka kerja "
-        "terbaik tentang topik tersebut (web_search / web_extract); tentukan kategori folder "
-        "yang tepat (creative, finance, productivity, research, media, software-development); "
-        "lalu simpan skill baru memakai `skill_manage(action=\"create\", name=..., "
-        "category=..., content=...)` atau tulis ke "
-        "`~/.hermes/skills/<category>/<skill-name>/SKILL.md` dengan YAML frontmatter standar "
-        "(name, description, version: 1.0.0, metadata.hermes.tags, "
-        "metadata.hermes.status: probationary) beserta bagian `## When to Use`, "
-        "`## Quick Reference`, `## Procedure`, `## Pitfalls`, dan `## Verification`.\n"
-        "Setelah skill dibuat, plugin ini akan otomatis retrain dan reload tanpa perintah manual."
-    )
+def _find_skill_md(skill_name: str) -> Path | None:
+    root = _get_hermes_home() / "skills"
+    if not root.exists():
+        return None
+    slug = skill_name.lower().replace(" ", "-")
+    direct = list(root.glob(f"*/{slug}/SKILL.md"))
+    if direct:
+        return direct[0]
+    for f in root.rglob("SKILL.md"):
+        if f.parent.name.lower() == slug:
+            return f
+    return None
 
 
-def _build_skill_context(skills: list[str], probs: dict) -> str:
-    """Instruction injected into the user turn pointing the agent at the selected skill(s)."""
+def _skill_summary(skill_name: str, max_chars: int = SKILL_SUMMARY_CHARS) -> str:
+    """Ringkasan terstruktur SKILL.md: frontmatter description + When to Use
+    + Procedure awal. Cukup untuk mengarahkan LLM memuat skill lengkap."""
+    f = _find_skill_md(skill_name)
+    if f is None:
+        return f"- **{skill_name}**: muat skill ini lewat `skill_view` sebelum mengerjakan."
+    try:
+        text = f.read_text(encoding="utf-8", errors="replace")
+    except Exception:
+        return f"- **{skill_name}**: muat lewat `skill_view`."
+    import re
+    desc = ""
+    m = re.search(r'^description:\s*["\']?(.+?)["\']?\s*$', text, re.MULTILINE)
+    if m:
+        desc = m.group(1).strip()
+    body = re.sub(r"^---\s*\n.*?\n---\s*\n", "", text, count=1, flags=re.DOTALL)
+    sections = []
+    for sec in ("when to use", "procedure", "quick reference"):
+        sm = re.search(rf"^#+\s*{sec}\s*\n(.*?)(?=^#+\s|\Z)", body,
+                       re.MULTILINE | re.DOTALL | re.IGNORECASE)
+        if sm:
+            content = sm.group(1).strip()
+            content = re.sub(r"```.*?```", "[code]", content, flags=re.DOTALL)
+            sections.append(f"{sec.title()}: {content[:600]}")
+    summary = f"- **{skill_name}**: {desc}\n" + "\n".join(f"  {s}" for s in sections)
+    if len(summary) > max_chars:
+        summary = summary[:max_chars - 3] + "..."
+    return summary
+
+
+# ---------------------------------------------------------------------------
+# Context builders (user-message injection, prompt-cache safe)
+# ---------------------------------------------------------------------------
+
+def _build_skill_context(result: dict) -> str:
+    skills = result.get("skills") or []
     if not skills:
         return ""
-    lines = [
-        "[auto_skill_selector] Skill lokal yang paling cocok untuk permintaan ini:",
-    ]
-    for s in skills:
+    probs = result.get("probabilities") or {}
+    clauses = result.get("clauses") or []
+    multi = len(skills) >= 2
+    lines = ["[auto_skill_selector] Skill lokal yang paling cocok untuk permintaan ini:"]
+    if multi:
+        lines.append("Kerjakan BERURUTAN sesuai langkah berikut (step_1 → step_2 → step_3):")
+    for i, s in enumerate(skills, 1):
         p = probs.get(s)
-        lines.append(f"- **{s}**" + (f" (keyakinan {p:.2f})" if p is not None else ""))
+        conf = f" (keyakinan {p:.2f})" if p is not None else ""
+        if multi:
+            clause_text = ""
+            for cl in clauses:
+                if cl.get("skill") == s:
+                    clause_text = f" — untuk: \"{cl.get('clause', '')[:100]}\""
+                    break
+            lines.append(f"\n**step_{i}: {s}**{conf}{clause_text}")
+        else:
+            lines.append(f"\n**{s}**{conf}")
+        lines.append(_skill_summary(s))
     lines.append(
-        "Muat dan ikuti skill di atas (mis. lewat `skill_view` / load SKILL.md) sebelum "
+        "\nMuat dan ikuti skill di atas (mis. lewat `skill_view` / load SKILL.md) sebelum "
         "menjawab. Jangan menyebutkan keberadaan selektor ini kepada pengguna."
     )
-    return "\n".join(lines)
+    ctx = "\n".join(lines)
+    if len(ctx) > INJECTION_CHAR_LIMIT:
+        # Ringkas lebih agresif: hanya nama + description + instruksi langkah.
+        compact = ["[auto_skill_selector] Skill terpilih (kerjakan berurutan):"]
+        for i, s in enumerate(skills, 1):
+            compact.append(f"step_{i}: {s}")
+        compact.append("Muat tiap skill lewat `skill_view` sebelum mengerjakan langkahnya. "
+                       "Jangan menyebutkan selektor ini ke pengguna.")
+        ctx = "\n".join(compact)
+    return ctx[:INJECTION_CHAR_LIMIT]
+
+
+def _build_hunter_context(hunt_clauses: list[str], matched: list[str]) -> str:
+    if not hunt_clauses:
+        return ""
+    topics = "; ".join(f"\"{h[:120]}\"" for h in hunt_clauses[:3])
+    parts = []
+    if matched:
+        parts.append("[auto_skill_selector] Skill lokal yang cocok sudah diinjeksikan: "
+                     + ", ".join(f"**{s}**" for s in matched)
+                     + ". Kerjakan bagian itu DULU tanpa menunggu pencarian.")
+    parts.append(
+        "[auto_skill_selector] Sub-pekerjaan berikut BELUM punya skill lokal yang lolos ambang: "
+        f"{topics}.\n"
+        "Picu pencarian skill baru di LATAR BELAKANG (async, jangan memblokir pekerjaan pertama):\n"
+        "1) Delegasikan ke subagent memakai `delegate_task` untuk mencari skill yang sesuai di "
+        "katalog resmi Hermes / agentskills.io / skills.sh / repositori GitHub terbuka "
+        "(web_search / web_extract / CLI skill).\n"
+        "2) Bila skill ditemukan, pasang ke `$HERMES_HOME/skills/<kategori>/<nama>/SKILL.md` "
+        "dengan frontmatter standar (name, description, version, metadata.hermes.tags, "
+        "metadata.hermes.status: probationary) lalu plugin ini otomatis retrain.\n"
+        "3) Bila TIDAK ditemukan, riset dokumentasi/best-practice topik tersebut dan simpan "
+        "sebagai skill baru memakai `skill_manage(action=\"create\", name=..., category=..., "
+        "content=...)` dengan bagian When to Use / Quick Reference / Procedure / Pitfalls / "
+        "Verification.\n"
+        "Setelah skill baru tersedia, gunakan untuk menyelesaikan sub-pekerjaan yang tertunda."
+    )
+    return "\n\n".join(parts)[:INJECTION_CHAR_LIMIT]
+
+
+def _build_clarify_context(note: str) -> str:
+    return ("[auto_skill_selector] Permintaan pengguna perlu klarifikasi sebelum eksekusi: "
+            f"{note}\n"
+            "Ajukan pertanyaan klarifikasi singkat dan spesifik ke pengguna (objek apa yang "
+            "dimaksud / alternatif alat yang diinginkan). JANGAN memaksa memakai skill acak "
+            "dan jangan mengarang deliverable.")[:INJECTION_CHAR_LIMIT]
 
 
 # ---------------------------------------------------------------------------
@@ -170,7 +257,6 @@ def _build_skill_context(skills: list[str], probs: dict) -> str:
 # ---------------------------------------------------------------------------
 
 def _extract_text(user_message) -> str:
-    """user_message bisa str atau list[dict] multimodal — gabungkan semua bagian 'text'."""
     if isinstance(user_message, str):
         return user_message
     if isinstance(user_message, list):
@@ -203,20 +289,42 @@ def on_pre_llm_call(
         result = brain.analyze_prompt(text)
         status = result.get("status")
 
-        if status == "NEEDS_INTERNET_SEARCH":
-            ctx = _build_hunter_context(result.get("unknown_entities") or [])
+        if status == "NO_SKILL_NEEDED":
+            return None
+
+        if status == "CLARIFY_AMBIGUOUS":
+            note = result.get("clarify_note") or "Objek/latar permintaan tidak jelas."
+            return {"context": _build_clarify_context(note)}
+
+        if status == "HUNT_NEW_SKILL":
+            ctx = _build_hunter_context(result.get("hunt_clauses") or [], [])
             return {"context": ctx} if ctx else None
 
+        if status == "MATCHED_PARTIAL_AND_HUNT":
+            skill_ctx = _build_skill_context(result)
+            hunt_ctx = _build_hunter_context(
+                result.get("hunt_clauses") or [], result.get("skills") or [])
+            combined = (skill_ctx + "\n\n" + hunt_ctx).strip()
+            if len(combined) > INJECTION_CHAR_LIMIT:
+                combined = combined[:INJECTION_CHAR_LIMIT]
+            for s in result.get("skills") or []:
+                try:
+                    brain.note_skill_used(s)
+                except Exception:
+                    pass
+            return {"context": combined} if combined else None
+
+        # MATCHED_SINGLE / MATCHED_MULTI
         skills = result.get("skills") or []
         if skills:
-            ctx = _build_skill_context(skills, result.get("probabilities") or {})
+            ctx = _build_skill_context(result)
             if ctx:
                 for s in skills:
                     try:
                         brain.note_skill_used(s)
                     except Exception:
                         pass
-                return {"context": ctx[:10000]}
+                return {"context": ctx}
         return None
     except Exception as e:  # never break the turn
         _log().warning(f"auto_skill_selector pre_llm_call failed: {e}")
@@ -234,12 +342,7 @@ def _retrain_worker():
         import trainer as trainer  # type: ignore
     try:
         trainer.train_and_save()
-        brain = _ensure_brain()
-        if brain is not None:
-            js = _load_model_json()
-            if js:
-                brain.reload(js)
-        _log().info("auto_skill_selector: background retrain + reload complete")
+        _log().info("auto_skill_selector: background retrain complete")
     except Exception as e:
         _log().warning(f"auto_skill_selector retrain failed: {e}")
 
@@ -279,8 +382,6 @@ def on_subagent_stop(
     **kwargs,
 ) -> None:
     try:
-        # subagent_stop runs on the caller thread: NEVER scan disk or compile
-        # the model synchronously here. Schedule a daemon-thread retrain.
         _log().info("auto_skill_selector: subagent_stop -> scheduling background retrain")
         _spawn_retrain()
     except Exception as e:
@@ -296,7 +397,7 @@ def _handle_status() -> str:
     p = _model_path()
     if brain is None:
         return ("auto_skill_selector: modul Rust `hermes_skill_brain` belum terbangun.\n"
-                "Bangun dengan: maturin develop --release")
+                "Bangun dengan: maturin build --release")
     if not p.exists():
         return (f"auto_skill_selector: belum ada model di {p}.\n"
                 "Jalankan `/skill-brain retrain` untuk memindai skill & membangun model.")
@@ -309,12 +410,11 @@ def _handle_status() -> str:
     for c in data.get("classes", []):
         cats[c.get("category", "?")] = cats.get(c.get("category", "?"), 0) + 1
     cat_line = ", ".join(f"{k}={v}" for k, v in sorted(cats.items())) or "(kosong)"
-    return (f"auto_skill_selector status:\n"
+    return (f"auto_skill_selector status (Fase 2):\n"
             f"  model: {p}\n"
             f"  skills: {n}\n"
             f"  kategori: {cat_line}\n"
-            f"  threshold: {data.get('threshold')}\n"
-            f"  null_anchor: {data.get('null_anchor_score')} "
+            f"  theta0: {data.get('null_anchor_score')} "
             f"temp: {data.get('softmax_temperature')}")
 
 
@@ -324,9 +424,6 @@ def _handle_retrain() -> str:
     except Exception:
         import trainer as trainer  # type: ignore
     model = trainer.train_and_save()
-    brain = _ensure_brain()
-    if brain is not None:
-        brain.reload(json.dumps(model, ensure_ascii=False))
     return f"auto_skill_selector: retrain selesai, {len(model['classes'])} skill dimuat."
 
 
@@ -334,23 +431,26 @@ def _handle_test(prompt: str) -> str:
     brain = _ensure_brain()
     if brain is None:
         return "auto_skill_selector: modul Rust belum terbangun."
+    import time
     t0 = time.perf_counter()
     result = brain.analyze_prompt(prompt)
     dt_us = (time.perf_counter() - t0) * 1_000_000
-    probs = result.get("probabilities") or {}
-    top = sorted(probs.items(), key=lambda kv: kv[1], reverse=True)[:5]
     lines = [
         f"status: {result.get('status')}",
-        f"posture: {result.get('posture')}",
         f"skills: {result.get('skills')}",
-        f"top_score: {result.get('top_score'):.4f}",
+        f"global_banned_set: {result.get('global_banned_set')}",
+        f"sanitized: {result.get('sanitized_prompt', '')[:120]}",
+        f"top_score: {result.get('top_score', 0):.4f}",
         f"latency: {dt_us:.1f}us",
-        "probabilities:",
+        "clauses:",
     ]
-    for name, p in top:
-        lines.append(f"  {p:.4f}  {name}")
-    if result.get("unknown_entities"):
-        lines.append(f"unknown_entities: {result['unknown_entities']}")
+    for cl in result.get("clauses") or []:
+        lines.append(f"  [{cl.get('mode')}] {cl.get('clause', '')[:60]} -> "
+                     f"{cl.get('skill')} (p={cl.get('probability', 0):.3f})")
+    if result.get("hunt_clauses"):
+        lines.append(f"hunt_clauses: {result['hunt_clauses']}")
+    if result.get("clarify_note"):
+        lines.append(f"clarify: {result['clarify_note']}")
     return "auto_skill_selector test:\n" + "\n".join(lines)
 
 
@@ -375,6 +475,6 @@ def register(ctx) -> None:
     ctx.register_command(
         "skill-brain",
         handler=handle_skill_brain_command,
-        description="Inspect, test, or retrain the Rust auto_skill_selector engine",
+        description="Inspect, test, or retrain the Rust auto_skill_selector engine (Fase 2)",
         args_hint="[status|retrain|test <prompt>]",
     )
