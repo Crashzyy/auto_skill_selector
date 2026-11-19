@@ -237,6 +237,8 @@ const ACTION_VERBS: &[&str] = &[
     "mengonversi", "menulis", "menyusun", "membuat", "menghitung", "menganalisis",
     "menerjemahkan", "merender", "mengelola", "memproses", "mengubah", "memotong",
     "menyusun", "memoles", "mengaudit", "menguji", "memeriksa", "memvalidasi",
+    // English / colloquial action verbs commonly used by bilingual users.
+    "summarize", "summarise", "bantu", "bantukan", "help",
 ];
 
 /// Deliverable nouns — objects that imply an execution artifact.
@@ -365,9 +367,31 @@ fn effective_action_verb(tokens: &[String], verb_set: &[&str]) -> bool {
     false
 }
 
+/// True when `phrase` appears in `lower` on WORD boundaries (not as a
+/// substring of a longer word). Prevents "hi" inside "this" from matching a
+/// greeting, or "apa itu" inside "sapa itu lagi".
+fn contains_phrase_words(lower: &str, phrase: &str) -> bool {
+    let bytes = lower.as_bytes();
+    let p = phrase.as_bytes();
+    if p.is_empty() || p.len() > bytes.len() { return false; }
+    let boundary = |c: u8| !(c.is_ascii_alphanumeric() || c == b'_');
+    let mut i = 0;
+    while i + p.len() <= bytes.len() {
+        if &bytes[i..i + p.len()] == p {
+            let before_ok = i == 0 || boundary(bytes[i - 1]);
+            let after = i + p.len();
+            let after_ok = after == bytes.len() || boundary(bytes[after]);
+            if before_ok && after_ok { return true; }
+        }
+        i += 1;
+    }
+    false
+}
+
 fn is_conversational(lower: &str, tokens: &[String]) -> bool {
-    // Pure greeting / very short social turn.
-    if tokens.len() <= 4 && GREETINGS.iter().any(|g| lower.contains(g)) {
+    // Pure greeting / very short social turn. Match greetings on word
+    // boundaries — "hi" must not fire inside "this" (M01 "summarize this pdf").
+    if tokens.len() <= 4 && GREETINGS.iter().any(|g| contains_phrase_words(lower, g)) {
         return true;
     }
     // Venting / feelings without a deliverable ("lagi gak punya duit", "capek
@@ -2242,6 +2266,22 @@ impl SkillBrain {
         let head_tokens = tokenize(&structural_text);
         if !has_explicit_pin && is_conversational(&structural_text, &head_tokens) {
             return RoutingDecision::empty("NO_SKILL_NEEDED", threshold);
+        }
+
+        // ---- Vague-ask guard (J01/J06/J08) ----
+        // "tolong bantu ini", "make it better please", "buat ini jadi lebih
+        // bagus" are meta-asks with a generic pronoun/function word and NO
+        // concrete deliverable. They must not fabricate a skill match (HUNT)
+        // nor silently return NO_SKILL — ask the user to clarify instead.
+        if !has_explicit_pin {
+            let vague = ["ini", "itu", "it", "this", "that", "better", "bagus",
+                         "lebih", "sesuatu", "something", "ini aja", "yang ini"];
+            let has_vague = head_tokens.iter().any(|t| vague.contains(&t.as_str()));
+            let has_concrete = head_tokens.iter().any(|t| DELIVERABLE_NOUNS.contains(&t.as_str())
+                || EXPLICIT_TOOL_CUES.contains(&t.as_str()));
+            if has_vague && !has_concrete && head_tokens.len() <= 8 {
+                return RoutingDecision::empty("CLARIFY_AMBIGUOUS", threshold);
+            }
         }
 
         // ---- Stage 2: GLOBAL negation sieve (BEFORE split) ----
