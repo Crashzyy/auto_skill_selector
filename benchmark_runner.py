@@ -158,12 +158,23 @@ def check_case(case: dict, result: dict) -> tuple[bool, list[str]]:
     return (not reasons), reasons
 
 
+def _hook_normalize(text: str) -> str:
+    """Normalisasi jalur produksi (cermin __init__.py::_normalize_unicode):
+    buang karakter Cf (zero-width/bidi) lalu NFKC. Dipakai runner/fuzz agar
+    mengukur perilaku hook+Rust, bukan Rust saja."""
+    import unicodedata
+    if not text or text.isascii():
+        return text
+    return unicodedata.normalize("NFKC", "".join(c for c in text if unicodedata.category(c) != "Cf"))
+
+
 def run_v2(verbose: bool = True, out_path: Path | None = None) -> dict:
     """Baseline/regression runner untuk benchmark_scenarios_v2.json.
 
     Tidak melatih ulang dan tidak mengubah model — memuat skill_model.json
     apa adanya (baseline jujur). Kasus `session` dijalankan multi-turn pada
-    SATU instance SkillBrain (urutan sesuai daftar session).
+    SATU instance SkillBrain (urutan sesuai daftar session). Prompt lewat
+    _hook_normalize seperti jalur produksi (Fase 1.3+).
     """
     import trainer as t
     model_json = t.get_model_path().read_text("utf-8")
@@ -178,11 +189,11 @@ def run_v2(verbose: bool = True, out_path: Path | None = None) -> dict:
             if c.get("session"):
                 r = {}
                 for turn in c["session"]:
-                    r = brain.analyze_prompt(turn)
+                    r = brain.analyze_prompt(_hook_normalize(turn))
                     session_trace.append({"prompt": turn[:80], "status": r.get("status"),
                                           "skills": r.get("skills")})
             else:
-                r = brain.analyze_prompt(c["prompt"])
+                r = brain.analyze_prompt(_hook_normalize(c["prompt"]))
             ok, reasons = check_case(c, r)
             entry = {"id": c["id"], "category": c["id"][0], "target": c.get("target"),
                      "pass": ok, "reasons": reasons,

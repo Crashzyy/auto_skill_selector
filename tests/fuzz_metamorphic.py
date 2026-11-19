@@ -190,8 +190,33 @@ def run_metamorphic(cases, brain_call):
         print(f"[meta] retensi {k:14s} {a}/{b} = {a / max(b, 1):.1%}")
 
 
+def _hook_normalize(text: str) -> str:
+    """Cermin __init__.py::_normalize_unicode (Fase 1.3): buang Cf + NFKC.
+
+    Runner/fuzz memakai ini agar mengukur jalur produksi (hook menormalkan
+    SEBELUM Rust). Impor langsung dari plugin bila tersedia, fallback lokal.
+    """
+    try:
+        sys.path.insert(0, PLUGIN_DIR)
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("_ass_init", os.path.join(PLUGIN_DIR, "__init__.py"))
+        if spec and spec.loader:
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            return mod._normalize_unicode(text)
+    except Exception:
+        pass
+    import unicodedata
+    if not text or text.isascii():
+        return text
+    return unicodedata.normalize("NFKC", "".join(c for c in text if unicodedata.category(c) != "Cf"))
+
+
 def make_in_process_call():
-    return _ensure_brain().analyze_prompt
+    brain = _ensure_brain()
+    def call(prompt):
+        return brain.analyze_prompt(_hook_normalize(prompt))
+    return call
 
 
 def main():

@@ -256,6 +256,26 @@ def _build_clarify_context(note: str) -> str:
 # Hook: pre_llm_call
 # ---------------------------------------------------------------------------
 
+def _normalize_unicode(text: str) -> str:
+    """Normalisasi Unicode SEBELUM masuk mesin Rust (Fase 1.3).
+
+    - Buang karakter format Cf (zero-width space/joiner, BOM, bidi override)
+      yang memecah token: "bu\\u200bat" -> "buat".
+    - NFKC: fullwidth -> ASCII ("ＢＵＡＴ" -> "BUAT"), ligature, dsb.
+    - Homoglyph Cyrillic (а vs a) TIDAK ditangani di sini (putusan owner:
+      dicatat saja, Fase berikutnya).
+    Idempoten & murah (O(n)); dipanggil di hook dan tersedia untuk runner.
+    """
+    import unicodedata
+    if not text:
+        return text
+    # Fast path: ASCII murni tidak perlu apa-apa.
+    if text.isascii():
+        return text
+    stripped = "".join(ch for ch in text if unicodedata.category(ch) != "Cf")
+    return unicodedata.normalize("NFKC", stripped)
+
+
 def _extract_text(user_message) -> str:
     if isinstance(user_message, str):
         return user_message
@@ -283,6 +303,7 @@ def on_pre_llm_call(
         text = _extract_text(user_message)
         if not text or not text.strip():
             return None
+        text = _normalize_unicode(text)
         brain = _ensure_brain()
         if brain is None:
             return None
