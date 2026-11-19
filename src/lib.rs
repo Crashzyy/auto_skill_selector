@@ -637,16 +637,26 @@ fn expand_ban(term: &str, banned: &mut HashSet<String>) {
     }
 }
 
+/// Strip punctuation attached to a ban TARGET token ("excel." -> "excel",
+/// ".pdf" -> "pdf", "spreadsheet," -> "spreadsheet"). Keeps intra-word
+/// - _ (e.g. google-sheets stays one token via hyphen) but removes leading/
+/// trailing . , ; : ! ? ( ) " ' so cluster expansion & hard-mask match.
+fn clean_ban_target(tok: &str) -> String {
+    tok.trim_matches(|c: char| !c.is_alphanumeric() && c != '-' && c != '_')
+        .to_lowercase()
+}
+
 /// Is this token a plausible ban target (tool/format), not a style word?
 fn is_bannable_token(tok: &str) -> bool {
-    if STYLE_WORDS.contains(&tok) || is_stopword(tok) {
+    let clean = clean_ban_target(tok);
+    if clean.is_empty() || STYLE_WORDS.contains(&clean.as_str()) || is_stopword(&clean) {
         return false;
     }
-    if TOOL_WORDS.contains(&tok) {
+    if TOOL_WORDS.contains(&clean.as_str()) {
         return true;
     }
     // File extensions (.pdf, .pptx, ...) and known format-ish tokens.
-    if tok.starts_with('.') && tok.len() >= 3 {
+    if tok.starts_with('.') && clean.len() >= 2 {
         return true;
     }
     false
@@ -703,7 +713,7 @@ fn global_negation_sieve(raw: &str) -> SieveResult {
                     continue;
                 }
                 if is_bannable_token(w) {
-                    let clean = w.trim_start_matches('.').to_string();
+                    let clean = clean_ban_target(w);
                     targets.push(clean.clone());
                     expand_ban(&clean, &mut res.banned);
                     last_target_end = j + 1;
@@ -712,11 +722,12 @@ fn global_negation_sieve(raw: &str) -> SieveResult {
                 }
                 // Unknown noun right after trigger: treat as a tool name too
                 // (e.g. "tanpa Houdini"), unless it's a style word.
-                if !STYLE_WORDS.contains(&w) && !is_stopword(w) && w.len() >= 3
-                    && targets.len() < 3 && j == i + tlen
+                let wc = clean_ban_target(w);
+                if !wc.is_empty() && !STYLE_WORDS.contains(&wc.as_str()) && !is_stopword(&wc)
+                    && wc.len() >= 3 && targets.len() < 3 && j == i + tlen
                 {
-                    targets.push(w.to_string());
-                    expand_ban(w, &mut res.banned);
+                    targets.push(wc.clone());
+                    expand_ban(&wc, &mut res.banned);
                     last_target_end = j + 1;
                     j += 1;
                     continue;
@@ -1861,8 +1872,8 @@ impl SkillBrain {
             // Any explicit deliverable format in the sanitized text that maps
             // into the banned set means the ask contradicts its own constraint.
             sanitized_tokens.iter().any(|t| {
-                let clean = t.trim_start_matches('.');
-                banned.contains(clean) || banned.contains(t)
+                let clean = clean_ban_target(t);
+                banned.contains(&clean) || banned.contains(t)
             })
         };
         if requested_targets_banned || pin_conflict {
