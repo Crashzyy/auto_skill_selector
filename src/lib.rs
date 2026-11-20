@@ -1714,6 +1714,80 @@ fn fuzzy_known_tool(tok: &str, known: &HashSet<String>) -> Option<String> {
     None
 }
 
+/// Fase 3 P4 — gate-bearing normalization of noisy tokens (H08/H06/H21).
+///
+/// Every candidate is returned ONLY if it exists in `known`; a rule that
+/// invents a non-word never escapes (see rust-python-extension skill). The
+/// original token is kept in the stream; these are ADDITIONAL canonical forms
+/// so scoring can recover a signal without changing ban/chitchat/pin logic.
+///
+/// - H08: collapse a repeated-letter run of >=3 into one (`buaaaatkan`->buat).
+/// - H06: leet map restricted to 0o 1i 3e 4a 5s 7t on mixed letter+digit tokens.
+///        8/2/6/9 are NEVER mapped, so `k8s` stays an unknown tool (G12/HO29).
+/// - H21: trailing digit-2 reduplication on a >=4-letter stem (`grafik2`->grafik),
+///        and hyphen reduplication (`data-data`->data).
+fn normalize_noise_token(tok: &str, known: &HashSet<String>) -> Option<String> {
+    if tok.is_empty() || !tok.is_ascii() { return None; }
+    if known.contains(tok) { return None; }
+    let s = tok.to_lowercase();
+    let b = s.as_bytes();
+    if b.len() < 3 || b.len() > 24 { return None; }
+
+    // H08: a letter repeated >=3 times collapses to ONE occurrence.
+    // Keep runs of 1-2 (`mau`, `penjualan` with double letters) intact; only
+    // a run of 3+ is a stylistic elongation (`buaaaatkan` -> `buat`).
+    let mut collapsed = String::with_capacity(s.len());
+    let chars: Vec<char> = s.chars().collect();
+    let mut i = 0usize;
+    while i < chars.len() {
+        let c = chars[i];
+        let mut j = i + 1;
+        while j < chars.len() && chars[j] == c { j += 1; }
+        let run = j - i;
+        // Run of 3+ is elongation -> one letter. Runs of 1-2 are genuine.
+        let keep = if run >= 3 { 1 } else { run };
+        for _ in 0..keep { collapsed.push(c); }
+        i = j;
+    }
+    if collapsed != s && known.contains(&collapsed) { return Some(collapsed); }
+
+    // H06: leet substitution, only on tokens mixing letters and digits, and
+    // only the six sanctioned digit->letter pairs. Digit 8 stays a digit.
+    let has_alpha = b.iter().any(|c| c.is_ascii_alphabetic());
+    let has_digit = b.iter().any(|c| c.is_ascii_digit());
+    if has_alpha && has_digit {
+        let mut leeted = String::with_capacity(s.len());
+        let mut changed = false;
+        for &c in b {
+            let mapped = match c {
+                b'0' => b'o', b'1' => b'i', b'3' => b'e',
+                b'4' => b'a', b'5' => b's', b'7' => b't',
+                _ => c,
+            };
+            if mapped != c { changed = true; }
+            leeted.push(mapped as char);
+        }
+        if changed && known.contains(&leeted) { return Some(leeted); }
+    }
+
+    // H21a: trailing '2' (and '2nya') on a >=4-letter alphabetic stem.
+    if s.ends_with("2nya") || s.ends_with('2') {
+        let stem = if let Some(x) = s.strip_suffix("2nya") { x }
+                   else { s.strip_suffix('2').unwrap_or("") };
+        if stem.chars().count() >= 4 && stem.chars().all(|c| c.is_ascii_alphabetic())
+            && known.contains(stem) {
+            return Some(stem.to_string());
+        }
+    }
+    // H21b: hyphen reduplication `data-data` -> `data`.
+    if let Some((l, r)) = s.split_once('-') {
+        if !l.is_empty() && l == r && known.contains(l) {
+            return Some(l.to_string());
+        }
+    }
+    None
+}
+
 /// Decompose a compound token (URL path, `name-with-dash.xlsx`,
 /// `penjualan_2024.xlsx`) into its meaningful parts so tool/domain keywords
 /// inside a filename are not lost. Only splits on structural separators —
@@ -1761,6 +1835,18 @@ fn add_features(ex: &mut Extracted, tokens: &[String], weight: f64, dedup: bool,
                 let ck = format!("uni:{}", canon);
                 if !(dedup && !seen.insert(ck.clone())) {
                     *ex.features.entry(ck.clone()).or_insert(0.0) += weight * 0.75;
+                    ex.active_keys.insert(ck);
+                }
+            }
+            // Fase 3 P4: recover a known keyword from H-noise (repeated letters,
+            // sanctioned leet, digit-2 reduplication). Additive + vocab-gated;
+            // never removes the original token, so bans/chitchat are untouched.
+            if let Some(canon) = normalize_noise_token(tok, known) {
+                let ck = format!("uni:{}", canon);
+                if !(dedup && !seen.insert(ck.clone())) {
+                    // A recovered keyword is the real signal; weight it as a
+                    // full token (1.0x), not a weakened shadow.
+                    *ex.features.entry(ck.clone()).or_insert(0.0) += weight;
                     ex.active_keys.insert(ck);
                 }
             }
