@@ -333,11 +333,10 @@ def on_pre_llm_call(
             combined = (skill_ctx + "\n\n" + hunt_ctx).strip()
             if len(combined) > INJECTION_CHAR_LIMIT:
                 combined = combined[:INJECTION_CHAR_LIMIT]
-            for s in result.get("skills") or []:
-                try:
-                    brain.note_skill_used(s)
-                except Exception:
-                    pass
+            # S-3: pemanggilan brain.note_skill_used(s) dihapus. Metode momentum
+            # sesi sengaja tidak ada di SkillBrain Fase 2 (analyze_prompt kini
+            # hanya menerima `prompt`, tanpa recent_skills/SESSION_MOMENTUM).
+            # Loop lama menelan AttributeError setiap giliran = dead code.
             return {"context": combined} if combined else None
 
         # MATCHED_SINGLE / MATCHED_MULTI
@@ -345,11 +344,6 @@ def on_pre_llm_call(
         if skills:
             ctx = _build_skill_context(result)
             if ctx:
-                for s in skills:
-                    try:
-                        brain.note_skill_used(s)
-                    except Exception:
-                        pass
                 return {"context": ctx}
         return None
     except Exception as e:  # never break the turn
