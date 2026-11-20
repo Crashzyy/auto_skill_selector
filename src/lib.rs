@@ -1659,6 +1659,10 @@ fn fuzzy_known_tool(tok: &str, known: &HashSet<String>) -> Option<String> {
         let mut d = String::with_capacity(bytes.len() - 1);
         d.push_str(&s[..i]); d.push_str(&s[i + 1..]);
         if known.contains(&d) { return Some(d); }
+        // A digit is not a letter typo: substituting '8' with 'a' would make
+        // "k8s" look like "kas" (G12), wrongly exempting a real unknown tool.
+        // Only substitute positions that are alphabetic.
+        if bytes[i].is_ascii_digit() { continue; }
         for c in b'a'..=b'z' {
             let mut v = s.clone().into_bytes();
             v[i] = c;
@@ -2312,7 +2316,18 @@ impl SkillBrain {
             let has_concrete = head_tokens.iter().any(|t| DELIVERABLE_NOUNS.contains(&t.as_str())
                 || EXPLICIT_TOOL_CUES.contains(&t.as_str()));
             if has_vague && !has_concrete && head_tokens.len() <= 8 {
-                return RoutingDecision::empty("CLARIFY_AMBIGUOUS", threshold);
+                // Audit A1: a vague pronoun only warrants CLARIFY when the user
+                // actually asked for an action (J01 bantu, J06 make, J08 buat).
+                // Pure social turns containing "bagus"/"that" (E15/E18) are
+                // conversational (NO_SKILL), not ambiguous tasks. A concrete
+                // URL/path with an execution verb (F07 "...ringkas isi halaman
+                // ini") is a real directive, not a vague ask.
+                let has_url = head_tokens.iter().any(|t| {
+                    t.contains("://") || t.contains('/') || is_filename_token(t)
+                });
+                if has_action_verb(&head_tokens) && !has_url {
+                    return RoutingDecision::empty("CLARIFY_AMBIGUOUS", threshold);
+                }
             }
         }
 
