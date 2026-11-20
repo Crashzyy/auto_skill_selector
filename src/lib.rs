@@ -1788,6 +1788,38 @@ fn normalize_noise_token(tok: &str, known: &HashSet<String>) -> Option<String> {
     None
 }
 
+/// Fase 3 P4/H05 — greedy full-coverage vocabulary segmentation of a single
+/// long concatenated ASCII-alpha token (`buatkangrafikpenjualan` ->
+/// `buatkan grafik penjualan`). Returns a SPACE-JOINED phrase, gated so that
+/// every segment is a known word and the ENTIRE token is covered; a partial or
+/// invented segmentation never escapes. Bounded length keeps it off normal
+/// words and off short OOD identifiers like `k8s`.
+fn segment_concatenated_token(tok: &str, known: &HashSet<String>) -> Option<String> {
+    if tok.is_empty() || !tok.is_ascii() || !tok.bytes().all(|c| c.is_ascii_alphabetic()) {
+        return None;
+    }
+    if known.contains(tok) { return None; }
+    let n = tok.len();
+    if n < 8 || n > 40 { return None; }
+    let lower = tok.to_lowercase();
+    let mut parts: Vec<String> = Vec::new();
+    let mut i = 0usize;
+    while i < n {
+        let mut found = None;
+        for len in (2..=12usize).rev() {
+            if i + len > n { continue; }
+            let cand = &lower[i..i + len];
+            if known.contains(cand) { found = Some((len, cand.to_string())); break; }
+        }
+        match found {
+            Some((len, w)) => { parts.push(w); i += len; }
+            None => return None,
+        }
+    }
+    if parts.len() < 2 { return None; }
+    Some(parts.join(" "))
+}
+
 /// Decompose a compound token (URL path, `name-with-dash.xlsx`,
 /// `penjualan_2024.xlsx`) into its meaningful parts so tool/domain keywords
 /// inside a filename are not lost. Only splits on structural separators —
@@ -1848,6 +1880,16 @@ fn add_features(ex: &mut Extracted, tokens: &[String], weight: f64, dedup: bool,
                     // full token (1.0x), not a weakened shadow.
                     *ex.features.entry(ck.clone()).or_insert(0.0) += weight;
                     ex.active_keys.insert(ck);
+                }
+            }
+            // Fase 3 P4/H05: full-coverage segmentation of a concatenated token.
+            if let Some(phrase) = segment_concatenated_token(tok, known) {
+                for w in phrase.split(' ') {
+                    let ck = format!("uni:{}", w);
+                    if !(dedup && !seen.insert(ck.clone())) {
+                        *ex.features.entry(ck.clone()).or_insert(0.0) += weight;
+                        ex.active_keys.insert(ck);
+                    }
                 }
             }
         }
