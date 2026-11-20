@@ -1,0 +1,400 @@
+{
+  "meta": {
+    "created_before_phase3_code": true,
+    "source": "independent held-out, not tuned to cases",
+    "theta0_reference": 7.47,
+    "n": 52
+  },
+  "cases": [
+    {
+      "id": "HO01",
+      "prompt": "bikin laporan keuangan bulanan",
+      "expect_status": [
+        "MATCHED_SINGLE",
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "HO02",
+      "prompt": "tulis ringkasan laporan tahunan",
+      "expect_status": [
+        "MATCHED_SINGLE",
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "HO03",
+      "prompt": "bikin tabel dari data excel",
+      "expect_status": [
+        "MATCHED_SINGLE",
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "HO04",
+      "prompt": "baca data csv dan tampilkan tabelnya",
+      "expect_status": [
+        "MATCHED_SINGLE",
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "HO05",
+      "prompt": "buat chart penjualan bulan ini",
+      "expect_status": [
+        "MATCHED_SINGLE",
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "HO06",
+      "prompt": "cek data di database",
+      "expect_status": [
+        "MATCHED_SINGLE",
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "HO07",
+      "prompt": "buat visualisasi data penjualan",
+      "expect_status": [
+        "MATCHED_SINGLE",
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "HO08",
+      "prompt": "tolong konversi docx ke pdf",
+      "expect_status": [
+        "MATCHED_SINGLE",
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "HO09",
+      "prompt": "tolong bantu olah data penjualan ini",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS",
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "HO10",
+      "prompt": "analisis data penjualan kuartal ini",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS",
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "HO11",
+      "prompt": "jelaskan isi laporan ini",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS",
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "HO12",
+      "prompt": "ringkas isi dokumen ini untuk saya",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS",
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "HO13",
+      "prompt": "konfigurasi KNX untuk lampu rumah pintar",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "HO14",
+      "prompt": "pakai tool aneh bikin laporan",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "HO15",
+      "prompt": "bikin sistem kontrol PLC Modbus RTU",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "HO16",
+      "prompt": "buat jus alpukat pakai blender",
+      "expect_status": [
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ],
+      "forbid_skills": [
+        "blender-3d-modeling"
+      ]
+    },
+    {
+      "id": "HO17",
+      "prompt": "resep jus alpukat pakai blender dong",
+      "expect_status": [
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ],
+      "forbid_skills": [
+        "blender-3d-modeling"
+      ]
+    },
+    {
+      "id": "HO18",
+      "prompt": "ular python peliharaan makan apa",
+      "expect_status": [
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "HO19",
+      "prompt": "blender beli di mana ya murah",
+      "expect_status": [
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "HO20",
+      "prompt": "cara merawat ular python di rumah",
+      "expect_status": [
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "HO21",
+      "prompt": "render model 3d pakai blender",
+      "expect_status": [
+        "MATCHED_SINGLE",
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "HO22",
+      "prompt": "script python buat baca csv",
+      "expect_status": [
+        "MATCHED_SINGLE",
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "HO23",
+      "prompt": "buatkangrafikpenjualan",
+      "expect_status_not": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO24",
+      "prompt": "b1kin gr4fik penj4l4n",
+      "expect_status_not": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO25",
+      "prompt": "buaaaatkan grafiiiik penjualannn",
+      "expect_status_not": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO26",
+      "prompt": "data-data penjualan tolong dibuat grafik2nya",
+      "expect_status_not": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO27",
+      "prompt": "bikinin tabel penjualan",
+      "expect_status_not": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO28",
+      "prompt": "gr4fik penj4l4n dong",
+      "expect_status_not": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO29",
+      "prompt": "rapikan data di k8s dashboard",
+      "expect_status": [
+        "HUNT_NEW_SKILL",
+        "MATCHED_PARTIAL_AND_HUNT"
+      ]
+    },
+    {
+      "id": "HO30",
+      "prompt": "tanpa excel pun tidak masalah, buat saja tabelnya",
+      "expect_banned_excludes": [
+        "excel"
+      ]
+    },
+    {
+      "id": "HO31",
+      "prompt": "tanpa excel tidak apa-apa buat tabel",
+      "expect_banned_excludes": [
+        "excel"
+      ]
+    },
+    {
+      "id": "HO32",
+      "prompt": "without excel no problem make a chart",
+      "expect_banned_excludes": [
+        "excel"
+      ]
+    },
+    {
+      "id": "HO33",
+      "prompt": "jangan pakai excel, ambil data pdf lalu buat grafik",
+      "expect_banned_contains": [
+        "excel"
+      ]
+    },
+    {
+      "id": "HO34",
+      "prompt": "jangan pakai excel tapi kalau terpaksa ya boleh",
+      "expect_banned_contains": [
+        "excel"
+      ]
+    },
+    {
+      "id": "HO35",
+      "prompt": "do not use excel make a chart",
+      "expect_banned_contains": [
+        "excel"
+      ]
+    },
+    {
+      "id": "HO36",
+      "prompt": "hindari excel buat tabel",
+      "expect_banned_contains": [
+        "excel"
+      ]
+    },
+    {
+      "id": "HO37",
+      "prompt": "ganti excel dengan libreoffice buat tabel",
+      "expect_banned_contains": [
+        "excel"
+      ]
+    },
+    {
+      "id": "HO38",
+      "prompt": "haiii",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO39",
+      "prompt": "makasiiih",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO40",
+      "prompt": "hahaha",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO41",
+      "prompt": "halo apa kabar",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO42",
+      "prompt": "ok thanks, that's all",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO43",
+      "prompt": "siang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO44",
+      "prompt": "assalamu'alaikum",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO45",
+      "prompt": "terima kasih banyak",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO46",
+      "prompt": "hehehe",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO47",
+      "prompt": "good morning",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO48",
+      "prompt": "bye",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO49",
+      "prompt": "salam kenal",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO50",
+      "prompt": "apa kabar semua",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO51",
+      "prompt": "mantap",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "HO52",
+      "prompt": "oke siap",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    }
+  ]
+}
