@@ -2083,6 +2083,10 @@ pub struct RoutingDecision {
     pub dropped_clauses: Vec<String>,
     pub pinned: Vec<String>,
     pub clarify_note: String,
+    /// Instrumentation only (audit B): why this routing hunted.
+    /// One of "unknown_tool" | "below_theta" | "no_match", or "" when no hunt.
+    /// Never influences status/skills/scoring.
+    pub hunt_reason: String,
     pub threshold: f64,
     pub top_score: f64,
 }
@@ -2100,6 +2104,7 @@ impl RoutingDecision {
             dropped_clauses: Vec::new(),
             pinned: Vec::new(),
             clarify_note: String::new(),
+            hunt_reason: String::new(),
             threshold,
             top_score: 0.0,
         }
@@ -2381,6 +2386,7 @@ impl SkillBrain {
             d.sanitized_prompt = sieve.sanitized.clone();
             if actionable {
                 d.hunt_clauses = vec![sieve.sanitized.clone()];
+                d.hunt_reason = "unknown_tool".into();  // instrumentation only (audit B)
                 d.clarify_note = "Skill yang diminta secara eksplisit tidak ditemukan di katalog lokal. Nama tidak diteruskan apa adanya; cari skill yang sesuai untuk pekerjaan ini.".into();
             } else {
                 d.clarify_note = "Skill yang diminta secara eksplisit tidak ditemukan dan pekerjaannya belum jelas. Tanyakan skill/pekerjaan mana yang dimaksud.".into();
@@ -2431,6 +2437,7 @@ impl SkillBrain {
             });
             if mixed {
                 d.hunt_clauses = vec![sieve.sanitized.clone()];
+                d.hunt_reason = "unknown_tool".into();  // instrumentation only (audit B)
                 d.clarify_note = "Sebagian skill yang diminta eksplisit tidak ada di katalog lokal; cari skill untuk bagian pekerjaan yang belum tercakup.".into();
             }
             return d;
@@ -2453,6 +2460,7 @@ impl SkillBrain {
         let mut clause_results: Vec<ClauseResult> = Vec::new();
         let mut matched_skills: Vec<(String, f64)> = Vec::new();
         let mut hunt_clauses: Vec<String> = Vec::new();
+        let mut hunt_reasons: Vec<String> = Vec::new();
         let mut any_directive = false;
 
         for clause in &clauses {
@@ -2552,6 +2560,16 @@ impl SkillBrain {
                     let cn = lexicon_normalize(&ct, lex);
                     if has_action_verb(&cn) || has_deliverable(&cn) || has_action_verb(&ct) || has_deliverable(&ct) {
                         hunt_clauses.push(clause.clone());
+                        // Instrumentation (audit B): classify WHY. Priority:
+                        // unknown tool > below theta0 > no scored candidate.
+                        let reason = if unknown_tool {
+                            "unknown_tool"
+                        } else if best.is_some() && top_score < theta0 {
+                            "below_theta"
+                        } else {
+                            "no_match"
+                        };
+                        hunt_reasons.push(reason.to_string());
                     }
                 }
             }
@@ -2580,6 +2598,18 @@ impl SkillBrain {
             dropped_clauses: dropped_clauses.clone(),
             pinned: Vec::new(),
             clarify_note: String::new(),
+            hunt_reason: {
+                // Instrumentation only; priority unknown_tool > below_theta > no_match.
+                if hunt_reasons.iter().any(|r| r == "unknown_tool") {
+                    "unknown_tool".into()
+                } else if hunt_reasons.iter().any(|r| r == "below_theta") {
+                    "below_theta".into()
+                } else if !hunt_reasons.is_empty() {
+                    "no_match".into()
+                } else {
+                    String::new()
+                }
+            },
             threshold,
             top_score,
         };
@@ -2594,6 +2624,13 @@ impl SkillBrain {
             d.status = "HUNT_NEW_SKILL".into();
             if hunt_clauses.is_empty() {
                 d.hunt_clauses = clauses.clone();
+                // Instrumentation only (audit B): no per-clause reason was
+                // accumulated, so infer from the aggregate top score.
+                d.hunt_reason = if d.top_score > 0.0 && d.top_score < threshold {
+                    "below_theta".into()
+                } else {
+                    "no_match".into()
+                };
             }
         } else {
             d.status = "NO_SKILL_NEEDED".into();
@@ -2658,6 +2695,7 @@ fn to_py_dict(py: Python<'_>, d: &RoutingDecision) -> PyResult<PyObject> {
     }
     dict.set_item("pinned", &pinned)?;
     dict.set_item("clarify_note", d.clarify_note.clone())?;
+    dict.set_item("hunt_reason", d.hunt_reason.clone())?;
     dict.set_item("threshold", d.threshold)?;
     dict.set_item("top_score", d.top_score)?;
     Ok(dict.into_any().unbind())
