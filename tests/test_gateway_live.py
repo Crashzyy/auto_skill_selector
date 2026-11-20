@@ -117,7 +117,12 @@ def main() -> int:
 
     # 3. CLI resmi: hermes plugins validate & doctor di HERMES_HOME sandbox.
     import subprocess
-    plug_dir = str(_HERE.parent)
+    plug_dir = os.environ.get("PLUG_DIR") or "/tmp/hermes-sandbox/plugins/auto_skill_selector"
+    # Validate the INSTALLED plugin, not the source repo: the repo also holds
+    # build artifacts (.so, target/release) and adversarial fixtures
+    # (prompt-injection.md, eval-baseline.json) that the security scan flags.
+    if not os.path.isdir(plug_dir):
+        plug_dir = str(_HERE.parent)
     env = dict(os.environ)
     env["HERMES_HOME"] = os.environ.get("HERMES_HOME", "/tmp/hermes-sandbox")
     try:
