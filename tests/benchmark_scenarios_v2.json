@@ -268,7 +268,7 @@
       "expect_banned_excludes": [
         "excel"
       ],
-      "note": "preferensi emosional bukan larangan; tentukan kebijakan"
+      "note": "PUTUSAN USER C: preferensi emosional BUKAN ban"
     },
     {
       "id": "B18",
@@ -293,7 +293,10 @@
         "NO_SKILL_NEEDED",
         "MATCHED_SINGLE"
       ],
-      "note": "larangan lunak/bersyarat: putuskan kebijakan lalu kunci ekspektasinya"
+      "note": "PUTUSAN USER C: B20 = ban (larangan bersyarat tetap larangan)",
+      "expect_banned_contains": [
+        "excel"
+      ]
     },
     {
       "id": "B21",
@@ -306,7 +309,10 @@
     {
       "id": "B22",
       "prompt": "tanpa excel pun tidak masalah, buat saja tabelnya",
-      "note": "'tanpa X pun' = opsional; tentukan kebijakan"
+      "note": "PUTUSAN USER C: 'tanpa X pun tidak masalah' = opsional, BUKAN ban",
+      "expect_banned_excludes": [
+        "excel"
+      ]
     },
     {
       "id": "B23",
@@ -453,7 +459,7 @@
         1,
         2
       ],
-      "note": "ambigu, kunci setelah putuskan kebijakan"
+      "note": "PUTUSAN USER C: 1 atau 2 klausa diterima"
     },
     {
       "id": "D05",
@@ -648,10 +654,9 @@
       "id": "E19",
       "prompt": "apa itu DMX512?",
       "expect_status": [
-        "NO_SKILL_NEEDED",
-        "HUNT_NEW_SKILL"
+        "NO_SKILL_NEEDED"
       ],
-      "note": "pertanyaan murni; putuskan: hunt hanya untuk aksi"
+      "note": "PUTUSAN USER C: pertanyaan murni = NO_SKILL_NEEDED; hunt hanya untuk aksi"
     },
     {
       "id": "E20",

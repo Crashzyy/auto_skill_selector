@@ -883,6 +883,33 @@ fn global_negation_sieve(raw: &str) -> SieveResult {
                 i += tlen;
                 continue;
             }
+            // Optionality guard (audit C / B22): "tanpa X pun tidak masalah",
+            // "tanpa X tidak apa-apa", "without X no problem" mean X is
+            // OPTIONAL, not banned. General for the "tanpa"/"without" cue:
+            // if a dismissal marker follows the (optional) target within a
+            // short window, the cue is not a prohibition. "tanpa excel" alone
+            // stays a ban (B20 uses "jangan pakai", unaffected).
+            let first_cue = trig.split(' ').next().unwrap_or("");
+            if matches!(first_cue, "tanpa" | "without") {
+                let window_end = (i + tlen + 8).min(words_ref.len());
+                let dismiss = (i + tlen..window_end).any(|k| {
+                    let w = clean_ban_target(words_ref[k]);
+                    matches!(w.as_str(),
+                        "tidak" | "tak" | "gak" | "ga" | "nggak" | "enggak")
+                        && (k + 1 < window_end && {
+                            let n = clean_ban_target(words_ref[k + 1]);
+                            matches!(n.as_str(), "masalah" | "apa-apa" | "apapa" | "apa")
+                        })
+                        || matches!(w.as_str(), "boleh" | "problem" | "problems" | "okay" | "ok")
+                        || words_ref[k] == "pun" && (k + 1 < window_end
+                            && matches!(clean_ban_target(words_ref[k + 1]).as_str(),
+                                "boleh" | "tidak" | "tak" | "gak" | "ga" | "nggak"))
+                });
+                if dismiss {
+                    i += tlen;
+                    continue;
+                }
+            }
             // Weak/ambiguous cues ("no", "bukan", "not", "except", "selain",
             // "kecuali") require POSITIVE evidence: only known tools/formats
             // may be banned. The unknown-noun fallback ("tanpa Houdini")
