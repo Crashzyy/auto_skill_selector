@@ -1706,40 +1706,49 @@ fn fuzzy_known_tool(tok: &str, known: &HashSet<String>) -> Option<String> {
     let bytes = s.as_bytes();
     if bytes.len() < 3 || bytes.len() > 10 { return None; }
     let mut v = s.clone().into_bytes();
-    // Transposition FIRST: "exel" -> "excel" is a swap, and must beat the
-    // deletion "eel" which is a valid but wrong 1-edit word.
+    let mut best: Option<String> = None;
+    let mut consider = |cand: String| {
+        if !known.contains(&cand) { return; }
+        // Prefer the longest known reconstruction: "exel" -> "excel" (insert
+        // 'c') must beat the spurious deletion "eel". This is the P1a fix —
+        // a shorter generic word is not the tool the user meant.
+        let better = match &best {
+            None => true,
+            Some(b) => cand.len() > b.len() || (cand.len() == b.len() && cand < *b),
+        };
+        if better { best = Some(cand); }
+    };
+    // Transposition: "ecxel" -> "excel", "wrod" -> "word".
     for i in 0..bytes.len().saturating_sub(1) {
         v.swap(i, i + 1);
-        let cand = String::from_utf8_lossy(&v).into_owned();
-        if known.contains(&cand) { return Some(cand); }
+        consider(String::from_utf8_lossy(&v).into_owned());
         v.swap(i, i + 1);
     }
-    // substitution / deletion (a-z) at each position
+    // Deletion (only when it does not shrink to a meaningless stub is handled
+    // by the longest-preference above).
     for i in 0..bytes.len() {
         let mut d = String::with_capacity(bytes.len() - 1);
         d.push_str(&s[..i]); d.push_str(&s[i + 1..]);
-        if known.contains(&d) { return Some(d); }
-        // A digit is not a letter typo: substituting '8' with 'a' would make
-        // "k8s" look like "kas" (G12), wrongly exempting a real unknown tool.
-        // Only substitute positions that are alphabetic.
+        consider(d);
+    }
+    // Substitution (a-z); never substitute a digit position (k8s guard).
+    for i in 0..bytes.len() {
         if bytes[i].is_ascii_digit() { continue; }
         for c in b'a'..=b'z' {
             let mut v = s.clone().into_bytes();
             v[i] = c;
-            let cand = String::from_utf8_lossy(&v);
-            if known.contains(cand.as_ref()) { return Some(cand.into_owned()); }
+            consider(String::from_utf8_lossy(&v).into_owned());
         }
     }
-    // insertion (a-z) at each position
+    // Insertion (a-z).
     for i in 0..=bytes.len() {
         for c in b'a'..=b'z' {
             let mut v = s.clone().into_bytes();
             v.insert(i, c);
-            let cand = String::from_utf8_lossy(&v);
-            if known.contains(cand.as_ref()) { return Some(cand.into_owned()); }
+            consider(String::from_utf8_lossy(&v).into_owned());
         }
     }
-    None
+    best
 }
 
 /// Fase 3b P4c: the unique 1-edit (insert/delete/substitute/transpose) form of
@@ -1951,7 +1960,11 @@ fn add_features(ex: &mut Extracted, tokens: &[String], weight: f64, dedup: bool,
             if let Some(canon) = fuzzy_known_tool(tok, known) {
                 let ck = format!("uni:{}", canon);
                 if !(dedup && !seen.insert(ck.clone())) {
-                    *ex.features.entry(ck.clone()).or_insert(0.0) += weight * 0.75;
+                    // P1a: a fuzzy-corrected KNOWN tool IS the intended signal,
+                    // so weight it as a full token (1.0x), consistent with the
+                    // other vocab-gated recoveries below. The 0.75x shadow left
+                    // real typos (`exel`) below theta0 (G02).
+                    *ex.features.entry(ck.clone()).or_insert(0.0) += weight;
                     ex.active_keys.insert(ck);
                 }
             }
