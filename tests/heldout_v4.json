@@ -1,0 +1,286 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 38,
+    "no_duplicate_v2_b35_v3": true,
+    "no_double_single_multi": true,
+    "note": "ekspektasi ditulis sebelum probe engine; hash dibekukan sblm kode Fase3b"
+  },
+  "cases": [
+    {
+      "id": "V01",
+      "prompt": "susun laporan laba rugi kuartalan dari data transaksi",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V02",
+      "prompt": "rangkum notulen rapat jadi daftar tindak lanjut",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V03",
+      "prompt": "ubah berkas dokumen itu menjadi format pdf rapi",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V04",
+      "prompt": "hitung valuasi perusahaan pakai metode DCF WACC",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V05",
+      "prompt": "tulis artikel blog soal keamanan siber pemula",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V06",
+      "prompt": "gabungkan tiga berkas kontrak jadi satu dokumen",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V07",
+      "prompt": "buatkan kueri SQL untuk dasbor KPI bulanan",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V08",
+      "prompt": "bersihkan data CSV lalu buat animasi rig karakter 3D",
+      "expect_status": [
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "V09",
+      "prompt": "tolong bantu bereskan berkas-berkas ini",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS",
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "V10",
+      "prompt": "bisa bantu selesaikan masalah ini",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS",
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "V11",
+      "prompt": "tolong olah data yang ada",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS",
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "V12",
+      "prompt": "bikin sesuatu dari data ini dong",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS",
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "V13",
+      "prompt": "pasang protokol KNX untuk pencahayaan rumah",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "V14",
+      "prompt": "konfigurasi DMX512 buat kontrol lampu panggung",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "V15",
+      "prompt": "pakai perangkat ZBrush untuk ukir patung digital",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "V16",
+      "prompt": "buat jus mangga pakai food processor",
+      "expect_status": [
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "V17",
+      "prompt": "resep smoothie alpukat pakai food processor",
+      "expect_status": [
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "V18",
+      "prompt": "kucing peliharaan minum susu berapa ml",
+      "expect_status": [
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "V19",
+      "prompt": "cara merawat kucing persia di rumah",
+      "expect_status": [
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "V20",
+      "prompt": "render adegan 3D pakai food processor",
+      "expect_status": [
+        "MATCHED_SINGLE",
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "V21",
+      "prompt": "buaaatkan tabelll penjualannn",
+      "expect_status_not": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V22",
+      "prompt": "b1kinn tab3l penjual4n",
+      "expect_status_not": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V23",
+      "prompt": "tabel-tabel penjualan tolong dirapikan2",
+      "expect_status_not": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V24",
+      "prompt": "laporannga tolong dibikinn2",
+      "expect_status_not": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V25",
+      "prompt": "k8s cluster butuh konfigurasi",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "V26",
+      "prompt": "hindari excel, ambil data pdf lalu buat tabel",
+      "expect_banned_contains": [
+        "excel"
+      ]
+    },
+    {
+      "id": "V27",
+      "prompt": "hindari powpoint, susun slide dari dokumen ini",
+      "expect_banned_contains": [
+        "powerpoint"
+      ]
+    },
+    {
+      "id": "V28",
+      "prompt": "tanpa libreoffice pun tidak masalah, buat tabel",
+      "expect_banned_excludes": [
+        "libreoffice"
+      ]
+    },
+    {
+      "id": "V29",
+      "prompt": "jangan pakai excel, ekstrak pdf jadi grafik",
+      "expect_banned_contains": [
+        "excel"
+      ]
+    },
+    {
+      "id": "V30",
+      "prompt": "without excel make a bar chart",
+      "expect_banned_contains": [
+        "excel"
+      ]
+    },
+    {
+      "id": "V31",
+      "prompt": "halo semuanya",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V32",
+      "prompt": "makasih ya atas bantuannya",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V33",
+      "prompt": "wkwk lucu banget",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V34",
+      "prompt": "selamat pagi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V35",
+      "prompt": "oke siap, sampai jumpa",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V36",
+      "prompt": "apa kabar kabarnya",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V37",
+      "prompt": "terima kasih banyak ya",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V38",
+      "prompt": "santai dulu deh",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    }
+  ]
+}
