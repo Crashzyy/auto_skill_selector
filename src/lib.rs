@@ -1136,7 +1136,12 @@ fn split_clauses_ex(text: &str) -> (Vec<String>, Vec<String>) {
                 parts.push(cur.trim().to_string());
                 cur.clear();
             }
-            let body = if is_bullet { l[2..].trim() } else { l };
+            // Skip the 2-char bullet marker ("- ", "* ", "• ", "1)", "1.").
+            // Must skip CHARS not bytes: "• " is 3 bytes, so l[2..] would slice
+            // inside the multibyte char and panic (audit A3).
+            let body = if is_bullet {
+                l.char_indices().nth(2).map(|(i, _)| &l[i..]).unwrap_or("").trim()
+            } else { l };
             if !body.is_empty() {
                 if !cur.is_empty() { cur.push(' '); }
                 cur.push_str(body);
