@@ -64,17 +64,32 @@ PASS→FAIL: **tidak ada**.
   (menunggu persetujuan sesuai perintah).
 - **P5** `_ensure_brain` diukur saja: p50 46.2ms / p99 61.7ms.
 
-## Hasil held-out (dijalankan sekali di gerbang akhir)
+## Hasil held-out (dijalankan sekali di gerbang akhir; output mentah:
+## `docs/HELDOUT_V3_RESULT.txt` — diregenerasi di 5917645, tanpa ubah kode)
 
-**43/52 PASS.** 9 kegagalan, dikelompokkan:
-- HO01–HO08 (8): engine return `MATCHED_SINGLE`, ekspektasi saya menulis
-  `MATCHED_MULTI`. Ini **terlalu spesifik** di held-out saya — semua tetap
-  match benar (bukan NO_SKILL/HUNT). Tidak saya ubah (hash dibekukan).
-- HO09–HO12: weak ask → HUNT, bukan CLARIFY (P1 belum diimplementasi).
-- HO13: `KNX` → NO_SKILL (butuh wordlist/penanganan OOD P2).
-- HO16–HO20: polisemi blender/python (butuh P2).
-- HO24/HO28: leet `penj4l4n` butuh 4→u (dilarang aturan).
-- HO36: `hindari excel` banned=[] (masalah pre-existing AUDIT C).
+**43/52 PASS.** Rekonsiliasi hasil RUN aktual (bukan perkiraan draf):
+
+**9 ID yang benar-benar gagal + status aktual:**
+
+| ID | status aktual | penyebab |
+|---|---|---|
+| HO13 | NO_SKILL_NEEDED | `KNX` tak dikenal (butuh P2 wordlist/sinyal ortografi) |
+| HO16 | MATCHED_SINGLE | polisemi `blender` (skill blender-3d-modeling salah aktif) |
+| HO17 | MATCHED_SINGLE | polisemi `blender` |
+| HO18 | MATCHED_SINGLE | polisemi `python` |
+| HO19 | MATCHED_SINGLE | polisemi `blender` |
+| HO20 | MATCHED_SINGLE | polisemi `python` |
+| HO24 | NO_SKILL_NEEDED | leet `penj4l4n` butuh 4→u (dilarang) |
+| HO28 | NO_SKILL_NEEDED | leet `penj4l4n` butuh 4→u (dilarang) |
+| HO36 | NO_SKILL_NEEDED | `hindari excel` ban=[] (P3b Fase 3b) |
+
+HO01–HO08 dan HO09–HO12 **tidak gagal** — draf laporan ini sebelumnya
+keliru menyebut mereka; evaluator OR yang benar mengembalikan status yang
+diterima ekspektasi. Dikoreksi di sini (lihat "Koreksi diri").
+
+**Pemisahan skor (40 independen vs 12 duplikat v2/b35):**
+- 12 duplikat (HO13,16,18,23,24,25,26,29,30,41,42,52): 8 PASS / 4 FAIL.
+- **40 kasus independen: 35 PASS / 5 FAIL** (HO17, HO19, HO20, HO28, HO36).
 
 Tidak ada perubahan/setelan untuk menaikkan angka ini.
 
@@ -110,6 +125,10 @@ tanpa panic.
    Anda berikan, jadi dilaporkan sebagai gap.
 5. **Latensi naik** p99 213→242µs masih jauh di bawah 1ms; tidak ada
    optimasi yang dilakukan (P5 memang hanya mengukur).
+6. **Daftar 9 kegagalan held-out di draf laporan ini salah sebut ID**
+   (HO01–08/HO09–12). Hasil RUN aktual di `docs/HELDOUT_V3_RESULT.txt`
+   menunjukkan ID benar: HO13/16/17/18/19/20/24/28/36. Dikoreksi di atas
+   pada Fase 3b (tanpa ubah kode engine).
 
 ## Status akhir & STOP
 
