@@ -327,6 +327,34 @@ const STRONG_ACTION_VERBS: &[&str] = &[
     "deploy", "lakukan", "melakukan", "presentasikan", "dokumentasikan",
 ];
 
+/// Fase 3b P3b: a clear prohibition cue means the prompt is a directive with a
+/// ban, so Stage-0 conversational/chitchat bypass must NOT swallow it before
+/// the sieve records the banned set (e.g. "hindari excel buat tabel" was being
+/// turned into empty NO_SKILL, losing the ban). General rule over the strong
+/// prohibition cues only — weak/optional cues (`tanpa`, `without`, `no`) are
+/// NOT here because they can be idioms/optional and are handled by the sieve.
+fn has_strong_ban_cue(tokens: &[String]) -> bool {
+    const STRONG: &[&str] = &[
+        "jangan", "jgn", "dilarang", "hindari", "stop", "gausah", "janganlah",
+        "do", "don't", "dont", "never", "avoid",
+    ];
+    // Non-prohibition continuations: "jangan buat laporan dulu" (delay),
+    // "jangan lupa/khawatir" (reminder/reassurance) stay conversational (E10).
+    const NON_BAN_NEXT: &[&str] = &["dulu", "lupa", "khawatir", "ragu", "malu", "takut", "baper", "sedih", "marah"];
+    for (i, t) in tokens.iter().enumerate() {
+        if !STRONG.contains(&t.as_str()) { continue; }
+        if let Some(next) = tokens.get(i + 1) {
+            if NON_BAN_NEXT.contains(&next.as_str()) { continue; }
+            // "jangan buat ... dulu": the cue is followed by a verb, then
+            // "dulu" within the next 3 tokens -> a delay, not a ban.
+            if (i + 2 < tokens.len() && tokens[i + 2] == "dulu")
+                || (i + 3 < tokens.len() && tokens[i + 3] == "dulu") { continue; }
+        }
+        return true;
+    }
+    false
+}
+
 fn has_strong_action_verb(tokens: &[String]) -> bool {
     effective_action_verb(tokens, STRONG_ACTION_VERBS)
 }
@@ -2462,10 +2490,13 @@ impl SkillBrain {
 
         // ---- Stage 0: conversational / meta-query bypass ----
         let head_tokens = tokenize(&structural_text);
-        if !has_explicit_pin && is_conversational(&structural_text, &head_tokens) {
+        // P3b: a strong prohibition cue is a directive; never let Stage 0
+        // swallow it before the sieve can record the ban (HO36/HO26).
+        let strong_ban_cue = has_strong_ban_cue(&head_tokens);
+        if !has_explicit_pin && !strong_ban_cue && is_conversational(&structural_text, &head_tokens) {
             return RoutingDecision::empty("NO_SKILL_NEEDED", threshold);
         }
-        if !has_explicit_pin && is_chitchat(&structural_text, &head_tokens) {
+        if !has_explicit_pin && !strong_ban_cue && is_chitchat(&structural_text, &head_tokens) {
             return RoutingDecision::empty("NO_SKILL_NEEDED", threshold);
         }
 
