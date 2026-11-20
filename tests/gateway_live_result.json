@@ -11,7 +11,7 @@
       "name": "multi",
       "pass": true,
       "context_chars": 2281,
-      "context_head": "[auto_skill_selector] Skill lokal yang paling cocok untuk permintaan ini:\nKerjakan BERURUTAN sesuai langkah berikut (step_1 → step_2 → step_3):\n\n**step_1: pdf-extraction-manipulation** (keyakinan 0.89"
+      "context_head": "[auto_skill_selector] Skill lokal yang paling cocok untuk permintaan ini:\nKerjakan BERURUTAN sesuai langkah berikut (step_1 → step_2 → step_3):\n\n**step_1: pdf-extraction-manipulation** (keyakinan 0.88"
     },
     {
       "name": "negation_global_multi",
