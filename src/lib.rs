@@ -327,6 +327,14 @@ const STRONG_ACTION_VERBS: &[&str] = &[
     "deploy", "lakukan", "melakukan", "presentasikan", "dokumentasikan",
 ];
 
+/// Fase 3b P1b — POLICY PARAMETER (not a calibration target): the gray zone is
+/// the band [theta0*(1-GRAY_ZONE_MARGIN), theta0). A below_theta HUNT whose
+/// score lands in this band becomes CLARIFY_AMBIGUOUS instead — the evidence is
+/// too close to a real match to declare "new skill needed", and too weak to
+/// commit to a skill. Derived from benchmark_35 + held-out (see
+/// docs/AUDIT_FASE3_P1_DESIGN.md); theta0 itself is NEVER changed.
+const GRAY_ZONE_MARGIN: f64 = 0.08;
+
 /// Fase 3b P3b: a clear prohibition cue means the prompt is a directive with a
 /// ban, so Stage-0 conversational/chitchat bypass must NOT swallow it before
 /// the sieve records the banned set (e.g. "hindari excel buat tabel" was being
@@ -2887,6 +2895,18 @@ impl SkillBrain {
                 } else {
                     "no_match".into()
                 };
+            }
+            // Fase 3b P1b: a below_theta hunt whose score is in the gray zone
+            // just under theta0 is CLARIFY, not HUNT. Clear hunt_clauses so
+            // `expect_hunt=false` cases agree (a clarification does not hunt).
+            if d.hunt_reason == "below_theta" {
+                let theta0 = model.null_anchor_score;
+                let gray_lo = theta0 * (1.0 - GRAY_ZONE_MARGIN);
+                if d.top_score >= gray_lo && d.top_score < theta0 {
+                    d.status = "CLARIFY_AMBIGUOUS".into();
+                    d.hunt_clauses.clear();
+                    d.clarify_note = "Permintaan ini mirip skill yang sudah ada, tetapi buktinya belum cukup kuat. Tolong perjelas hasil yang diinginkan sebelum memilih atau membuat skill baru.".into();
+                }
             }
         } else {
             d.status = "NO_SKILL_NEEDED".into();
