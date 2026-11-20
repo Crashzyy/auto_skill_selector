@@ -1,18 +1,9 @@
 {
   "pass": true,
-  "commit_dev": "6e95e221f5d380a0828f68da4157bd0c0b86f601",
-  "origin_dev": "6e95e221f5d380a0828f68da4157bd0c0b86f601",
-  "main": "d1de873d309fbff62c07e5f79dddf7e4d218111a",
-  "origin_main": "d1de873d309fbff62c07e5f79dddf7e4d218111a",
-  "main_unchanged_at_d1de873": true,
-  "working_tree_clean": true,
-  "push_verified": "d1de873..6e95e22  dev -> dev",
-  "production_isolation": {
-    "auto_skill_selector_not_in_prod_plugins": true,
-    "no_prod_plugin_data_auto_skill_selector": true,
-    "hermes_agent_checkout_git_clean": true,
-    "prod_skills_no_writes_after_0130UTC": true,
-    "note": "61 SKILL.md produksi ber-mtime 00:06-00:51 UTC = aktivitas latar Hermes sendiri (curator/update), sebelum sesi Fase 2 (>=02:00 UTC). Tidak ada tulisan sesi ini ke ~/.hermes produksi.",
-    "all_work_in": "/tmp/hermes-sandbox (HERMES_HOME) + /data/workspace/learning-machine-plugin + venv /tmp/hermes-sandbox/fase2-venv"
-  }
+  "dev": "788f7ec",
+  "origin/dev": "788f7ec",
+  "main": "d1de873",
+  "origin/main": "d1de873",
+  "worktree_clean": true,
+  "note": "main/origin/main terkunci d1de873; dev==origin/dev; worktree bersih"
 }
