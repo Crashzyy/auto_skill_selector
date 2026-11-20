@@ -1742,6 +1742,51 @@ fn fuzzy_known_tool(tok: &str, known: &HashSet<String>) -> Option<String> {
     None
 }
 
+/// Fase 3b P4c: the unique 1-edit (insert/delete/substitute/transpose) form of
+/// an ASCII word that exists in `known`. Returns Some ONLY when there is
+/// exactly ONE match — an ambiguous set is deliberately rejected (no guessing
+/// a meaning for a noisy token).
+fn unique_one_edit(word: &str, known: &HashSet<String>) -> Option<String> {
+    if word.is_empty() || word.len() > 24 || !word.is_ascii() { return None; }
+    let mut found: Option<String> = None;
+    let mut count = 0usize;
+    let mut consider = |cand: String| {
+        if known.contains(&cand) {
+            count += 1;
+            if count == 1 { found = Some(cand); }
+        }
+    };
+    // insert
+    for i in 0..=word.len() {
+        for c in b'a'..=b'z' {
+            let mut v = word.as_bytes().to_vec();
+            v.insert(i, c);
+            consider(String::from_utf8_lossy(&v).into_owned());
+        }
+    }
+    // delete
+    for i in 0..word.len() {
+        let mut v = word.as_bytes().to_vec();
+        v.remove(i);
+        consider(String::from_utf8_lossy(&v).into_owned());
+    }
+    // substitute
+    for i in 0..word.len() {
+        for c in b'a'..=b'z' {
+            let mut v = word.as_bytes().to_vec();
+            v[i] = c;
+            consider(String::from_utf8_lossy(&v).into_owned());
+        }
+    }
+    // transpose
+    for i in 0..word.len().saturating_sub(1) {
+        let mut v = word.as_bytes().to_vec();
+        v.swap(i, i + 1);
+        consider(String::from_utf8_lossy(&v).into_owned());
+    }
+    if count == 1 { found } else { None }
+}
+
 /// Fase 3 P4 — gate-bearing normalization of noisy tokens (H08/H06/H21).
 ///
 /// Every candidate is returned ONLY if it exists in `known`; a rule that
@@ -1795,7 +1840,19 @@ fn normalize_noise_token(tok: &str, known: &HashSet<String>) -> Option<String> {
             if mapped != c { changed = true; }
             leeted.push(mapped as char);
         }
-        if changed && known.contains(&leeted) { return Some(leeted); }
+        if changed && known.contains(&leeted) { return Some(leeted.clone()); }
+
+        // P4c: after leet, try a SINGLE 1-edit correction into the vocabulary,
+        // but ONLY when there is exactly one candidate (no guessing among
+        // alternatives) and the token is >=6 chars. No digit->u mapping: the
+        // leet map above is fixed, so `penj4l4n` -> `penjalan` (-not `penjualan`)
+        // and a multi-candidate ambiguity yields nothing. `k8s` has no sanctioned
+        // leet digit and stays unknown.
+        if changed && s.chars().count() >= 6 && !known.contains(&leeted) {
+            if let Some(canon) = unique_one_edit(&leeted, known) {
+                return Some(canon);
+            }
+        }
     }
 
     // H21a: trailing '2' (and '2nya') on a >=4-letter alphabetic stem.
