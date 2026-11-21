@@ -21,7 +21,7 @@ Saya deteksi lewat hash + field model, lalu **regenerasi model dari
 `trainer.py` dev** (`train_and_save(calibrate=True)`), menghasilkan
 `threshold 0.6`, `null_anchor_score 7.5054`. Setelah itu semua skor dev
 kembali ke nilai Fase 3j: v2 155/167, v3 43/52, v4 29/38, v5 15/40,
-v6 28/41, v7 20/30, v8 15/30, v9 15/40, v10 16/30, b35 35/35.
+v6 28/41, v7 20/30, v8 15/30, v9 15/30, v10 16/30, b35 35/35.
 **θ₀ hasil training ulang = 7.5054, bukan 7.4688** — perintah melarang
 mengubah θ₀ secara manual; saya tidak menyetelnya, hanya meregenerasi
 artefak yang rusak. Ini dicatat sebagai keterbatasan, bukan hasil akhir

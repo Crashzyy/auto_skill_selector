@@ -57,7 +57,7 @@
   baseline **stale** (7 dari era P-FMT sebelum revert, 1 guard lama).
   Terhadap run aktual pasca-revert dengan model pin: **delta 0** di semua
   set (v2 155/167, v3 43/52, v4 29/38, v5 15/40, v6 28/41, v7 20/30,
-  v8 15/30, v9 15/40, v10 16/30, guard 12/12, FMT_GUARD 10/10,
+  v8 15/30, v9 15/30, v10 16/30, guard 12/12, FMT_GUARD 10/10,
   FMT_ADV 7/14, b35 35/35, 7/7 gate).
 - Kanonik: snapshot `tests/fixtures/model/skill_model.json`, sha
   `a6a14d6a…`, θ₀ 7.529. Dicatat **"re-baseline akibat kehilangan artefak
@@ -87,7 +87,7 @@ topik "meeting about word"→HUNT). Tidak diperbaiki.
 
 - Positif: 28 kasus b35 ber-`expect_skills` (semua lolos).
   Negatif: 129 kasus NO_SKILL/HUNT + NEG_CONV.
-- **AUC (rank) = 0.9892**.
+- **AUC (rank) = 0.9892 (langit-langit: hanya 28 kasus b35 yang semua lulus; bukan bukti separabilitas nyata — dikoreksi di 3n menjadi 0.8922)**.
 - Tabel ambang (hanya tabel, bukan rekomendasi mengubah θ):
 
 | θ | TPR | FPR |
@@ -106,11 +106,11 @@ TPR +10pp tanpa FPR naik**.
 | Syarat | Aktual | Cabang |
 |---|---|---|
 | FP dev > main ≥3/40 dari NEG_CONV + bisect satu commit | 0 vs 0 | tidak berlaku |
-| AUC < 0.85 | 0.9892 | tidak berlaku |
+| AUC < 0.85 | 0.9892 (ceiling, lihat 3n: 0.8922) | tidak berlaku |
 | AUC ≥0.85 + ada θ dengan TPR +10pp tanpa FPR naik | AUC ≥0.85, **tidak ada θ tersebut** | tidak berlaku |
 
 **Kesimpulan**: tidak ada cabang perubahan yang memenuhi syarat. θ bukan
-hambatan (AUC 0.9892, TPR 96.4%, FPR 0.8%). Masalah dev terletak pada
+hambatan (AUC 0.9892 **ceiling**, TPR 96.4%, FPR 0.8%) — kesimpulan ini **ditarik di 3n**: AUC sebenarnya 0.8922, TPR 71.0%, FPR 7.1%. Masalah dev terletak pada
 **fitur/leksikon** untuk chitchat panjang dan polisemi, bukan ambang.
 Sesuai aturan, tidak ada implementasi; menunggu izin terpisah untuk
 eksperimen leksikon seragam (dengan NEG_CONV + FMT_ADV_GUARD sebagai
@@ -119,7 +119,7 @@ gerbang keras dan v11 baru sebagai ukuran).
 ## Koreksi diri
 
 1. Angka dev-vs-main 3k/3l saya nyatakan tidak valid dan **tidak dikutip**
-   sebagai bukti; perbandingan baru memakai model pin identik.
+   sebagai bukti; **3l dan 3m dev-vs-main dinyatakan TIDAK VALID** (main dijalankan dengan model dev, bukan native); perbandingan 3n tidak mengutipnya.
 2. Saya awalnya salah hardcode `mtime_ns` di guard; dikoreksi menjadi
    sha+size untuk abort dan mtime dicatat manual di MODEL_ARTIFACT.
 3. Saya awalnya menulis "main memuat model trainer dev" sebagai penyebab;
