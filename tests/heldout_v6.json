@@ -1,0 +1,348 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 41,
+    "no_duplicate_v2_b35_v3_v4_v5": true,
+    "no_double_single_multi": true,
+    "note": "Held-out bersih Fase 3e. Ekspektasi ditulis dari prinsip bahasa/desain SEBELUM probe engine dan SEBELUM kode P2a'. 41 kasus: informational ID+EN, alat-benar, polisemi, typo, negasi, multi, kontrol. Hash dibekukan di docs/HELDOUT_V6_FREEZE.md.",
+    "groups": {
+      "informasional": 11,
+      "alat-benar": 7,
+      "polisemi": 3,
+      "typo": 4,
+      "negasi": 4,
+      "multi": 4,
+      "kontrol": 8
+    }
+  },
+  "cases": [
+    {
+      "id": "X01",
+      "prompt": "jelaskan bagaimana cara kerja enkripsi RSA",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X02",
+      "prompt": "apa perbedaan protokol TCP dan UDP",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X03",
+      "prompt": "cara menghitung luas lingkaran itu gimana ya",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X04",
+      "prompt": "ceritakan asal-usul bahasa Sanskerta secara singkat",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X05",
+      "prompt": "apa itu teori graf dalam matematika",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X06",
+      "prompt": "bagaimana cara penyerapan air pada akar tumbuhan",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X07",
+      "prompt": "how does public-key cryptography work",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X08",
+      "prompt": "explain the concept of supply and demand",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X09",
+      "prompt": "what causes the tides on Earth",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X10",
+      "prompt": "describe the structure of a plant cell",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X11",
+      "prompt": "why do leaves change color in autumn",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X12",
+      "prompt": "rangkai catatan kuliah ini jadi slide presentasi",
+      "group": "alat-benar",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X13",
+      "prompt": "ubah file docx ini menjadi pdf",
+      "group": "alat-benar",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X14",
+      "prompt": "bikin grafik batang dari angka penjualan ini",
+      "group": "alat-benar",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X15",
+      "prompt": "terjemahkan email ini ke bahasa Jerman",
+      "group": "alat-benar",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X16",
+      "prompt": "tolong ringkas transkrip rapat ini jadi lima poin",
+      "group": "alat-benar",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X17",
+      "prompt": "hitung total belanja dari tabel ini pakai spreadsheet",
+      "group": "alat-benar",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X18",
+      "prompt": "buat diagram alur proses pendaftaran ini",
+      "group": "alat-benar",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X19",
+      "prompt": "slide mikroskop di lab rusak, harus beli yang baru",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X20",
+      "prompt": "chart musik mingguan sudah keluar",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X21",
+      "prompt": "blender di dapur saya sudah rusak",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "X22",
+      "prompt": "tolon rapikan data ini jadi tabel",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X23",
+      "prompt": "olh angka ini jadi grafik ya",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X24",
+      "prompt": "rngkas artikel panjang ini jadi 4 poin",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X25",
+      "prompt": "biknnkan laporan keuangan dari data ini",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X26",
+      "prompt": "hindari pdf, kirim hasilnya sebagai docx",
+      "group": "negasi",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X27",
+      "prompt": "jangan pakai slides, ringkasannya saja cukup",
+      "group": "negasi",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X28",
+      "prompt": "jangan gunakan infografik, cukup tabel biasa",
+      "group": "negasi",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X29",
+      "prompt": "tanpa chart, sajikan angkanya dalam tabel",
+      "group": "negasi",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X30",
+      "prompt": "ubah csv ini jadi tabel lalu buat diagram batangnya",
+      "group": "multi",
+      "expect_status": [
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "X31",
+      "prompt": "bersihkan teks artikel ini dan terjemahkan ke Prancis",
+      "group": "multi",
+      "expect_status": [
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "X32",
+      "prompt": "rangkum pdf ini dan buatkan infografisnya",
+      "group": "multi",
+      "expect_status": [
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "X33",
+      "prompt": "ubah docx jadi pdf lalu kirim ringkasannya",
+      "group": "multi",
+      "expect_status": [
+        "MATCHED_MULTI"
+      ]
+    },
+    {
+      "id": "X34",
+      "prompt": "bikinkan invoice dari transaksi bulan ini",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X35",
+      "prompt": "cek kode ini untuk bug dan perbaiki",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X36",
+      "prompt": "setup pipeline CI untuk repo ini pakai docker",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X37",
+      "prompt": "buat diagram arsitektur sistem ini pakai mermaid",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X38",
+      "prompt": "riset literatur tentang topik ini dan kutip sumbernya",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X39",
+      "prompt": "hitung valuasi DCF untuk perusahaan ini",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X40",
+      "prompt": "ekstrak teks dari pdf scan ini",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "X41",
+      "prompt": "buat subtitle untuk video ini",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    }
+  ]
+}
