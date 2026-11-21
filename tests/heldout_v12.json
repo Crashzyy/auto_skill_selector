@@ -1,0 +1,660 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 80,
+    "no_duplicate_all_sets": true,
+    "no_double_single_multi": true,
+    "note": "Held-out v12 Fase 3p. Ekspektasi dari tata bahasa sebelum probe dan sebelum memuat alias. Grup H menguji risiko pengecualian unknown_tool dari taksonomi v2.",
+    "groups": {
+      "parafrase": 24,
+      "kontrol": 12,
+      "negatif": 16,
+      "polisemi": 8,
+      "typo": 8,
+      "ellipsis": 6,
+      "H": 6
+    }
+  },
+  "cases": [
+    {
+      "id": "S001",
+      "prompt": "rangkai daftar poin dari catatan pertemuan ini",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S002",
+      "prompt": "ringkas isi naskah panjang menjadi beberapa gagasan utama",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S003",
+      "prompt": "sunting ulang paragraf ini agar alurnya lebih jelas",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S004",
+      "prompt": "tulis versi pendek dari laporan riset tersebut",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S005",
+      "prompt": "kumpulkan data penjualan ke dalam satu tabel rapi",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S006",
+      "prompt": "hitung total nilai pada kolom transaksi berikut",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S007",
+      "prompt": "rapikan barisan angka ini supaya mudah dibaca",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S008",
+      "prompt": "tampilkan ringkasan angka dalam bentuk grafik sederhana",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S009",
+      "prompt": "desain sampul untuk laporan tahunan perusahaan",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S010",
+      "prompt": "ilustrasikan proses kerja dengan gambar yang jelas",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S011",
+      "prompt": "rekam penjelasan singkat tentang fitur baru",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S012",
+      "prompt": "transkrip percakapan ini menjadi teks tertulis",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S013",
+      "prompt": "animasikan langkah-langkah proses tersebut",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S014",
+      "prompt": "telusuri penyebab galat pada berkas konfigurasi",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S015",
+      "prompt": "uji coba perubahan kode sebelum dipakai",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S016",
+      "prompt": "bandingkan dua versi dokumen ini secara ringkas",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S017",
+      "prompt": "kutip sumber yang relevan untuk argumen tersebut",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S018",
+      "prompt": "anggarkan biaya untuk proyek enam bulan ke depan",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S019",
+      "prompt": "rekonsiliasi dua daftar transaksi yang berbeda",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S020",
+      "prompt": "lokalisasi pesan ini ke bahasa Inggris",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S021",
+      "prompt": "arsipkan berkas lama ke dalam satu folder",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S022",
+      "prompt": "prioritaskan tugas minggu ini menurut urgensinya",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S023",
+      "prompt": "warnai diagram ini dengan palet yang konsisten",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S024",
+      "prompt": "sketsa tampilan halaman depan aplikasi",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S025",
+      "prompt": "terjemahkan surat ini ke bahasa Inggris",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S026",
+      "prompt": "buatkan faktur untuk pembayaran bulan ini",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S027",
+      "prompt": "ubah format berkas docx menjadi pdf",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S028",
+      "prompt": "ekstrak teks dari hasil pindai dokumen",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S029",
+      "prompt": "perbaiki kesalahan pada kode sumber ini",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S030",
+      "prompt": "gambarkan diagram alur proses verifikasi",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S031",
+      "prompt": "rangkum laporan laba rugi semester pertama",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S032",
+      "prompt": "buatkan subtitle untuk video presentasi",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S033",
+      "prompt": "teliti perbandingan harga tiga vendor",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S034",
+      "prompt": "hitung nilai investasi dengan metode dcf",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S035",
+      "prompt": "susun daftar tugas dari notulen rapat",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S036",
+      "prompt": "konversi tabel ini menjadi berkas csv",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S037",
+      "prompt": "apa kabar hari ini",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S038",
+      "prompt": "oke siap, terima kasih",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S039",
+      "prompt": "sampai jumpa lagi",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S040",
+      "prompt": "wkwk lucu sekali",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S041",
+      "prompt": "aku sedang menunggu bus",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S042",
+      "prompt": "kopi dulu sebelum rapat",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S043",
+      "prompt": "jelaskan perbedaan cuaca dan iklim",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S044",
+      "prompt": "cara kerja fotosintesis pada tanaman",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S045",
+      "prompt": "why do planets have rings",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S046",
+      "prompt": "deskripsikan struktur sel tumbuhan",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S047",
+      "prompt": "ceritakan sejarah kota Alexandria",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S048",
+      "prompt": "apa bedanya teori relativitas dan mekanika kuantum",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S049",
+      "prompt": "tolong jelaskan pengertian entropi termodinamika",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S050",
+      "prompt": "slide mikroskop laboratorium hilang",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S051",
+      "prompt": "chart tangga lagu mingguan dirilis",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S052",
+      "prompt": "ular python di hutan bukan alat",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S053",
+      "prompt": "excel di kantor sedang maintenance",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S054",
+      "prompt": "word processor lama tidak bisa dibuka",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S055",
+      "prompt": "pdf hasil scan masih buram",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S056",
+      "prompt": "tabel di koran hari ini salah cetak",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S057",
+      "prompt": "rangkumm laporan panjang ini",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S058",
+      "prompt": "bikinn ringkasan bulanan",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S059",
+      "prompt": "ringkaas dokumen ini jadi poin",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S060",
+      "prompt": "perbaakii kode yang error",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S061",
+      "prompt": "hituung total omzet bulan ini",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S062",
+      "prompt": "ekstraak teks dari pdf ini",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S063",
+      "prompt": "aku mau versi pendeknya",
+      "group": "ellipsis",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "S064",
+      "prompt": "selesaikan seperti kemarin",
+      "group": "ellipsis",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "S065",
+      "prompt": "bereskan seperti biasa",
+      "group": "ellipsis",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "S066",
+      "prompt": "pakai alat merangkai baru untuk tabel ini",
+      "group": "H",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "S067",
+      "prompt": "butuh perangkat menyunting otomatis untuk naskah ini",
+      "group": "H",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "S068",
+      "prompt": "cari tool hitung cepat yang belum ada di daftar",
+      "group": "H",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "S069",
+      "prompt": "pakai perangkat melokalisasi teks baru",
+      "group": "H",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "S070",
+      "prompt": "butuh fasilitas mengarsipkan otomatis untuk berkas ini",
+      "group": "H",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "S071",
+      "prompt": "pakai alat mewarnai diagram yang belum terpasang",
+      "group": "H",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "S072",
+      "prompt": "terima kasih banyak atas bantuannya",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S073",
+      "prompt": "besok kita lanjut ya",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S074",
+      "prompt": "hmm, saya belum yakin",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S075",
+      "prompt": "blender murah di pasar tradisional",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "S076",
+      "prompt": "ringkaas notulen rapat kemarin",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S077",
+      "prompt": "tabell data penjualan bulan ini",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "S078",
+      "prompt": "tolong bantu yang itu",
+      "group": "ellipsis",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "S079",
+      "prompt": "aku mau seperti tadi",
+      "group": "ellipsis",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "S080",
+      "prompt": "selesaikan yang satu ini",
+      "group": "ellipsis",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS"
+      ]
+    }
+  ]
+}

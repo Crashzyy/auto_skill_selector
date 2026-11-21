@@ -1,0 +1,331 @@
+== STRESS (subprocess, deteksi proses mati) ==
+[stress] OK  repeat_dan_20000                       70.8 ms 
+[stress] OK  repeat_jangan_pakai_2000               60.4 ms 
+[stress] OK  commas_100k                            55.0 ms 
+[stress] OK  one_token_1MB                          57.1 ms 
+[stress] OK  nul_bytes                              58.3 ms 
+[stress] OK  turkish_dotted_I                       69.0 ms 
+[stress] OK  german_sharp_s                         48.1 ms 
+[stress] OK  combining_zalgo                        84.8 ms 
+[stress] OK  emoji_zwj                              60.3 ms 
+[stress] OK  rtl_mixed                              47.4 ms 
+[stress] BAD lone_surrogate                         87.5 ms CRASH rc=1 n.dumps(b.analyze_prompt(p), default=str))
+                                ~~~~~~~~~~~~~~~~^^^
+UnicodeEncodeError: 'utf-8' codec can't encode character '\ud800' in position 12: surrogates not allowed
+
+[stress] OK  boundary_cjk3_399                      65.9 ms 
+[stress] OK  boundary_cjk3_400                      60.2 ms 
+[stress] OK  boundary_cjk3_401                      85.2 ms 
+[stress] OK  head80_cjk3_78                         65.5 ms 
+[stress] OK  head80_cjk3_79                         52.3 ms 
+[stress] OK  head80_cjk3_80                         63.4 ms 
+[stress] OK  head80_cjk3_81                         54.3 ms 
+[stress] OK  head80_cjk3_82                         61.7 ms 
+[stress] OK  tail320_cjk3_318                       67.8 ms 
+[stress] OK  tail320_cjk3_319                       55.2 ms 
+[stress] OK  tail320_cjk3_320                       59.3 ms 
+[stress] OK  tail320_cjk3_321                       57.1 ms 
+[stress] OK  tail320_cjk3_322                       53.2 ms 
+[stress] OK  boundary_emoji4_399                    58.6 ms 
+[stress] OK  boundary_emoji4_400                    51.6 ms 
+[stress] OK  boundary_emoji4_401                    60.3 ms 
+[stress] OK  head80_emoji4_78                       49.7 ms 
+[stress] OK  head80_emoji4_79                       74.0 ms 
+[stress] OK  head80_emoji4_80                       62.5 ms 
+[stress] OK  head80_emoji4_81                       49.8 ms 
+[stress] OK  head80_emoji4_82                       65.2 ms 
+[stress] OK  tail320_emoji4_318                     49.9 ms 
+[stress] OK  tail320_emoji4_319                     65.8 ms 
+[stress] OK  tail320_emoji4_320                     69.6 ms 
+[stress] OK  tail320_emoji4_321                     66.5 ms 
+[stress] OK  tail320_emoji4_322                     83.4 ms 
+[stress] OK  boundary_latin2_399                    76.9 ms 
+[stress] OK  boundary_latin2_400                    63.0 ms 
+[stress] OK  boundary_latin2_401                    83.8 ms 
+[stress] OK  head80_latin2_78                       63.8 ms 
+[stress] OK  head80_latin2_79                       58.4 ms 
+[stress] OK  head80_latin2_80                       75.9 ms 
+[stress] OK  head80_latin2_81                       59.7 ms 
+[stress] OK  head80_latin2_82                       55.0 ms 
+[stress] OK  tail320_latin2_318                     69.5 ms 
+[stress] OK  tail320_latin2_319                     67.8 ms 
+[stress] OK  tail320_latin2_320                     51.0 ms 
+[stress] OK  tail320_latin2_321                     68.5 ms 
+[stress] OK  tail320_latin2_322                     62.0 ms 
+== INVARIAN + DETERMINISME ==
+== METAMORFIK ==
+[meta] zero_width    A01 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     A01 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    A02 MATCHED_SINGLE -> MATCHED_SINGLE
+[meta] fullwidth     A02 MATCHED_SINGLE -> MATCHED_SINGLE
+[meta] zero_width    A03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     A03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    A04 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     A04 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     A05 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    A06 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     A06 MATCHED_SINGLE -> MATCHED_SINGLE
+[meta] thanks_suffix A07 NO_SKILL_NEEDED -> MATCHED_SINGLE
+[meta] zero_width    A08 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     A08 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    A09 MATCHED_SINGLE -> MATCHED_SINGLE
+[meta] fullwidth     A09 MATCHED_SINGLE -> MATCHED_SINGLE
+[meta] zero_width    A10 CLARIFY_AMBIGUOUS -> HUNT_NEW_SKILL
+[meta] fullwidth     A10 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] fullwidth     A11 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    A12 MATCHED_SINGLE -> MATCHED_SINGLE
+[meta] fullwidth     A12 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    B01 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B01 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] thanks_suffix B02 MATCHED_SINGLE -> HUNT_NEW_SKILL
+[meta] zero_width    B02 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     B02 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    B03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     B03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    B04 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B04 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B05 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    B06 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B06 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B07 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     B07 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] upper         B08 MATCHED_PARTIAL_AND_HUNT -> MATCHED_SINGLE
+[meta] zero_width    B08 MATCHED_PARTIAL_AND_HUNT -> MATCHED_SINGLE
+[meta] fullwidth     B08 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] zero_width    B09 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B09 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B10 HUNT_NEW_SKILL -> MATCHED_PARTIAL_AND_HUNT
+[meta] fullwidth     B10 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B11 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B11 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B12 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B12 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B13 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     B13 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    B14 MATCHED_SINGLE -> MATCHED_SINGLE
+[meta] fullwidth     B14 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    B15 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B15 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B16 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B16 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B17 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     B17 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    B18 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B18 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B19 HUNT_NEW_SKILL -> MATCHED_SINGLE
+[meta] fullwidth     B19 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B21 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     B21 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    B22 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B22 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B23 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B23 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B24 MATCHED_PARTIAL_AND_HUNT -> HUNT_NEW_SKILL
+[meta] fullwidth     B24 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] zero_width    B25 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B25 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B26 MATCHED_PARTIAL_AND_HUNT -> HUNT_NEW_SKILL
+[meta] fullwidth     B26 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] zero_width    B27 CLARIFY_AMBIGUOUS -> MATCHED_SINGLE
+[meta] fullwidth     B27 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] zero_width    B28 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     B28 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    B29 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] fullwidth     B29 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] zero_width    C01 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] fullwidth     C01 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] zero_width    C02 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] fullwidth     C02 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] zero_width    C03 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] fullwidth     C03 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] zero_width    C04 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] fullwidth     C04 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] upper         D01 MATCHED_MULTI -> MATCHED_SINGLE
+[meta] zero_width    D01 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] fullwidth     D01 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] zero_width    D02 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     D02 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    D03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     D03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    D04 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     D04 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    D05 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] fullwidth     D05 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] zero_width    D06 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     D06 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    D07 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] fullwidth     D07 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] zero_width    D08 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     D08 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    D09 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     D09 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    D10 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     D10 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    D11 MATCHED_PARTIAL_AND_HUNT -> MATCHED_SINGLE
+[meta] fullwidth     D11 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] zero_width    D12 MATCHED_MULTI -> MATCHED_SINGLE
+[meta] fullwidth     D12 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] zero_width    D13 MATCHED_MULTI -> MATCHED_SINGLE
+[meta] fullwidth     D13 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] zero_width    D14 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     D14 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    D15 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] fullwidth     D15 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] zero_width    D16 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] fullwidth     D16 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] zero_width    D17 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     D17 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] extra_ws      E06 NO_SKILL_NEEDED -> MATCHED_SINGLE
+[meta] zero_width    E06 NO_SKILL_NEEDED -> MATCHED_SINGLE
+[meta] fullwidth     E06 NO_SKILL_NEEDED -> MATCHED_SINGLE
+[meta] zero_width    E07 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     E07 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    E08 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     E08 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    E09 HUNT_NEW_SKILL -> MATCHED_SINGLE
+[meta] fullwidth     E09 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] extra_ws      E10 NO_SKILL_NEEDED -> HUNT_NEW_SKILL
+[meta] zero_width    E11 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     E11 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    E12 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     E12 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    E13 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     E13 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    E17 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     E17 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    F06 MATCHED_SINGLE -> MATCHED_SINGLE
+[meta] fullwidth     F06 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    F07 HUNT_NEW_SKILL -> MATCHED_SINGLE
+[meta] fullwidth     F07 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] thanks_suffix F08 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    F08 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     F08 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    G01 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     G01 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    G02 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     G02 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    G03 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     G03 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    G04 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     G04 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    G05 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     G05 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    G06 HUNT_NEW_SKILL -> MATCHED_SINGLE
+[meta] fullwidth     G06 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    G07 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     G07 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    G08 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     G08 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    G09 MATCHED_SINGLE -> HUNT_NEW_SKILL
+[meta] fullwidth     G09 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    G10 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     G10 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    G11 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     G11 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    G12 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     G12 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    H01 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H01 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H02 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H02 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H04 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H04 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H07 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H09 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H09 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H10 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H10 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H11 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H11 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H12 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H12 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H13 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H13 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] upper         H14 MATCHED_PARTIAL_AND_HUNT -> MATCHED_SINGLE
+[meta] zero_width    H14 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] fullwidth     H14 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] zero_width    H15 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H15 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H16 MATCHED_SINGLE -> HUNT_NEW_SKILL
+[meta] fullwidth     H16 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H17 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H17 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H19 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H19 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    H20 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     H20 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    I01 MATCHED_MULTI -> HUNT_NEW_SKILL
+[meta] fullwidth     I01 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] zero_width    I02 MATCHED_MULTI -> HUNT_NEW_SKILL
+[meta] fullwidth     I02 MATCHED_MULTI -> NO_SKILL_NEEDED
+[meta] zero_width    I03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     I03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    I04 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     I04 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    I05 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     I05 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    I06 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] fullwidth     I06 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] fullwidth     I07 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] thanks_suffix J02 CLARIFY_AMBIGUOUS -> HUNT_NEW_SKILL
+[meta] zero_width    J02 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] fullwidth     J02 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] thanks_suffix J03 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] zero_width    J03 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] fullwidth     J03 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] thanks_suffix J04 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] zero_width    J04 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] fullwidth     J04 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] polite_prefix J05 CLARIFY_AMBIGUOUS -> HUNT_NEW_SKILL
+[meta] thanks_suffix J05 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] fullwidth     J05 CLARIFY_AMBIGUOUS -> NO_SKILL_NEEDED
+[meta] zero_width    J06 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     J06 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    J08 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     J08 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    K01 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     K01 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] thanks_suffix K02 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    K02 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     K02 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] upper         K04 MATCHED_PARTIAL_AND_HUNT -> HUNT_NEW_SKILL
+[meta] zero_width    K04 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] fullwidth     K04 MATCHED_PARTIAL_AND_HUNT -> NO_SKILL_NEEDED
+[meta] zero_width    K05 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     K05 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    K06 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     K06 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    K07 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     K07 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    K08 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     K08 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    L02 NO_SKILL_NEEDED -> MATCHED_SINGLE
+[meta] zero_width    L03 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] fullwidth     L03 HUNT_NEW_SKILL -> NO_SKILL_NEEDED
+[meta] zero_width    L04 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     L04 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] thanks_suffix M01 NO_SKILL_NEEDED -> MATCHED_SINGLE
+[meta] zero_width    M01 NO_SKILL_NEEDED -> MATCHED_SINGLE
+[meta] fullwidth     M02 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    M03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     M03 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     M04 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    M05 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     M05 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    M06 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     M06 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] zero_width    M07 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] fullwidth     M07 MATCHED_SINGLE -> NO_SKILL_NEEDED
+[meta] retensi upper          155/159 = 97.5%
+[meta] retensi lower          159/159 = 100.0%
+[meta] retensi extra_ws       157/159 = 98.7%
+[meta] retensi polite_prefix  158/159 = 99.4%
+[meta] retensi thanks_suffix  150/159 = 94.3%
+[meta] retensi emoji          159/159 = 100.0%
+[meta] retensi zero_width     37/159 = 23.3%
+[meta] retensi fullwidth      33/159 = 20.8%
+[meta] retensi typo_1char     120/159 = 75.5%
+
+RINGKASAN: stress_bad=1 invarian_gagal=0

@@ -1,0 +1,49 @@
+{
+  "ruamel_yaml_installed": true,
+  "invoke_hook_scenarios": [
+    {
+      "name": "single",
+      "pass": true,
+      "context_chars": 815,
+      "context_head": "[auto_skill_selector] Skill lokal yang paling cocok untuk permintaan ini:\n\n**pdf-extraction-manipulation** (keyakinan 0.99)\n- **pdf-extraction-manipulation**: Extract, merge, split and OCR PDF documen"
+    },
+    {
+      "name": "multi",
+      "pass": true,
+      "context_chars": 2281,
+      "context_head": "[auto_skill_selector] Skill lokal yang paling cocok untuk permintaan ini:\nKerjakan BERURUTAN sesuai langkah berikut (step_1 → step_2 → step_3):\n\n**step_1: pdf-extraction-manipulation** (keyakinan 0.88"
+    },
+    {
+      "name": "negation_global_multi",
+      "pass": true,
+      "context_chars": 1595,
+      "context_head": "[auto_skill_selector] Skill lokal yang paling cocok untuk permintaan ini:\nKerjakan BERURUTAN sesuai langkah berikut (step_1 → step_2 → step_3):\n\n**step_1: pdf-extraction-manipulation** (keyakinan 0.61"
+    },
+    {
+      "name": "partial_hunt",
+      "pass": true,
+      "context_chars": 2042,
+      "context_head": "[auto_skill_selector] Skill lokal yang paling cocok untuk permintaan ini:\n\n**tabular-pivot-cleaning** (keyakinan 0.93)\n- **tabular-pivot-cleaning**: Clean messy tabular data, build pivot tables and ag"
+    },
+    {
+      "name": "conversational_bypass",
+      "pass": true,
+      "context_chars": 0,
+      "context_head": null
+    },
+    {
+      "name": "clarify_ambiguous",
+      "pass": true,
+      "context_chars": 389,
+      "context_head": "[auto_skill_selector] Permintaan pengguna perlu klarifikasi sebelum eksekusi: Kontradiksi: deliverable yang diminta termasuk alat/format yang dilarang. Tanyakan alternatif yang diinginkan pengguna.\nAj"
+    }
+  ],
+  "plugins_validate": true,
+  "plugins_doctor": true,
+  "pass": true,
+  "ruamel_version": "0.19.1",
+  "python_prefix": "/tmp/hermes-sandbox/fase2-venv",
+  "invoke_hook_all_pass": true,
+  "plugins_validate_tail": "Validation passed.",
+  "plugins_doctor_tail": "  registrations: 0 tool(s), 3 hook(s)"
+}

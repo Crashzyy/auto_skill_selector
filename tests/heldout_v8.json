@@ -1,0 +1,257 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 30,
+    "no_duplicate_all_sets_including_adv_guard": true,
+    "no_double_single_multi": true,
+    "note": "Held-out v8 Fase 3i. Ekspektasi dari tata bahasa sebelum probe. A=ban+format sungguhan+skill lain; B=ban+kata fungsi+skill sbg topik; C=kontrol; D=format tanpa ban.",
+    "groups": {
+      "A": 8,
+      "B": 8,
+      "C": 10,
+      "D": 4
+    }
+  },
+  "cases": [
+    {
+      "id": "Z01",
+      "prompt": "hindari pdf, bikinkan hasilnya sebagai docx",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z02",
+      "prompt": "jangan pakai excel, buatkan tabelnya dalam bentuk csv",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z03",
+      "prompt": "tanpa chart, tolong tampilkan datanya sebagai pivot table",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z04",
+      "prompt": "don't use word, write the report as a pdf",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z05",
+      "prompt": "hindari powerpoint, siapkan slide sebagai pptx",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z06",
+      "prompt": "jangan gunakan infografik, tampilkan datanya sebagai diagram alur",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z07",
+      "prompt": "tanpa spreadsheet, sajikan angkanya dalam bentuk tabel",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z08",
+      "prompt": "hindari pdf, ekstrak isinya jadi docx",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z09",
+      "prompt": "jangan pakai excel, aku lagi dalam rapat membahas word",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Z10",
+      "prompt": "hindari pdf, sedang dalam diskusi tentang powerpoint",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Z11",
+      "prompt": "don't use excel, I'm in a meeting about word usage",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Z12",
+      "prompt": "jangan pakai pptx, tolong bikin catatan soal docx",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Z13",
+      "prompt": "hindari word, kita bahas soal excel dulu",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Z14",
+      "prompt": "jangan pakai chart, ceritakan dulu soal tabel",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Z15",
+      "prompt": "tanpa pdf, aku mau ngobrol soal docx",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Z16",
+      "prompt": "hindari spreadsheet, diskusi kita soal csv",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Z17",
+      "prompt": "ringkas laporan ini jadi lima poin",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z18",
+      "prompt": "buatkan faktur dari transaksi bulan ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z19",
+      "prompt": "ubah berkas docx ini menjadi pdf",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z20",
+      "prompt": "hitung total omzet dari tabel penjualan ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z21",
+      "prompt": "terjemahkan email ini ke bahasa Prancis",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z22",
+      "prompt": "buat diagram alur proses pendaftaran",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z23",
+      "prompt": "bersihkan data dari berkas CSV ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z24",
+      "prompt": "buat subtitle untuk video pendek ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z25",
+      "prompt": "ekstrak teks dari berkas pdf yang discan",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z26",
+      "prompt": "perbaiki bug pada kode ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z27",
+      "prompt": "kirimkan hasilnya sebagai docx",
+      "group": "D",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z28",
+      "prompt": "tampilkan angkanya dalam bentuk tabel",
+      "group": "D",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "Z29",
+      "prompt": "write the summary as a pdf",
+      "group": "D",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Z30",
+      "prompt": "ubah catatan kuliah ini menjadi diagram alur",
+      "group": "D",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    }
+  ]
+}
