@@ -39,6 +39,7 @@ def all_cases():
             yield Path(f).name, c.get("id", "?"), c["prompt"], c.get("expect_status")
 
 def main():
+    import isolate_3m; isolate_3m.guard()
     if len(sys.argv) < 3:
         print("usage: diff_harness.py <binaryA> <binaryB>"); sys.exit(2)
     a, br = load_engine(sys.argv[1])

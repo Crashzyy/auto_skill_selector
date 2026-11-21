@@ -1,10 +1,12 @@
 """Evaluator FMT_GUARD Fase 3g. Hash diverifikasi."""
 import hashlib, json, sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 EXPECTED_HASH = "fea04dbd860c2911c1fb8013fbd24a1d6ed55b5c15b8495113bdd0390a1d3ddd"
 
 def main():
+    import isolate_3m; isolate_3m.guard()
     import benchmark_runner as br, trainer as t
     p = Path("docs/FMT_GUARD.json")
     h = hashlib.sha256(p.read_bytes()).hexdigest()

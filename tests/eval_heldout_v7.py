@@ -1,10 +1,12 @@
 """Evaluator sekali pakai untuk tests/heldout_v7.json (Fase 3g)."""
 import hashlib, json, sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 EXPECTED_HASH = "b411991d705321f8a53e5b8e83228f78fd503bf107117da854402a0801905666"
 
 def main():
+    import isolate_3m; isolate_3m.guard()
     import benchmark_runner as br, trainer as t
     p = Path("tests/heldout_v7.json")
     h = hashlib.sha256(p.read_bytes()).hexdigest()

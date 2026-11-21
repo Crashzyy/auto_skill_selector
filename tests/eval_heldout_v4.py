@@ -6,6 +6,7 @@ expect_banned_contains, expect_banned_excludes, forbid_skills.
 """
 import hashlib, json, sys, os
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 EXPECTED_HASH = "a2c082fd5ab90eedd3e68712040262da88fd677652caf8aed77ea2e7b80902d8"
@@ -32,6 +33,7 @@ def eval_case(case, r):
     return errs
 
 def main():
+    import isolate_3m; isolate_3m.guard()
     import benchmark_runner as br, trainer as t
     p = Path("tests/heldout_v4.json")
     h = hashlib.sha256(p.read_bytes()).hexdigest()

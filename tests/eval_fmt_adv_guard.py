@@ -1,9 +1,11 @@
 """Evaluator FMT_ADV_GUARD Fase 3h (hash diverifikasi)."""
 import hashlib, json, sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 EXPECTED_HASH="17bbb97430d2ff92432a30bad25da90c10c3539e1d0b1531fe3b25da54733a05"
 def main():
+    import isolate_3m; isolate_3m.guard()
     import benchmark_runner as br, trainer as t
     p=Path("docs/FMT_ADV_GUARD.json"); h=hashlib.sha256(p.read_bytes()).hexdigest()
     if h!=EXPECTED_HASH: print(f"HASH MISMATCH: {h}"); sys.exit(2)

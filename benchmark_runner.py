@@ -344,16 +344,29 @@ def gate2_parity(model: dict, brain, trainer_mod) -> dict:
 def run(verbose: bool = True) -> int:
     import trainer as t
     import corpus_core
+    sys.path.insert(0, str(Path(__file__).resolve().parent / "tests"))
+    import isolate_3m_guard  # tests/ helper via sys.path
 
-    root = t.get_skills_root()
-    # Korpus inti 54 (6/pilar) selalu ditanam; harvest tambahan bila diminta.
-    planted = corpus_core.plant_core_corpus(root)
-    if verbose:
-        print(f"Korpus inti: {planted} file baru ditulis ke {root}")
-    model = t.train_and_save(root)
-    brain_mod = t._import_brain()
-    brain = brain_mod.SkillBrain()
-    brain.reload(json.dumps(model, ensure_ascii=False))
+    # Fase 3m: training is OFF by default. It rewrites the shared model and
+    # invalidates every frozen baseline. Opt in explicitly with --allow-train.
+    allow_train = "--allow-train" in sys.argv
+    isolate_3m_guard.guard()
+    if allow_train:
+        root = t.get_skills_root()
+        planted = corpus_core.plant_core_corpus(root)
+        if verbose:
+            print(f"Korpus inti: {planted} file baru ditulis ke {root}")
+        model = t.train_and_save(root)
+        brain_mod = t._import_brain()
+        brain = brain_mod.SkillBrain()
+        brain.reload(json.dumps(model, ensure_ascii=False))
+    else:
+        model_json = t.get_model_path().read_text("utf-8")
+        model = json.loads(model_json)
+        if verbose:
+            print("Model PINNED (tanpa train_and_save)")
+        brain = t._import_brain().SkillBrain()
+        brain.reload(model_json)
 
     cases = load_cases()
     results = []

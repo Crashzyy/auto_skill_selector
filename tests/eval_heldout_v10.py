@@ -1,9 +1,11 @@
 """Evaluator held-out v10 (Fase 3k), hash diverifikasi."""
 import hashlib, json, sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 EXPECTED_HASH="628bece6e31c6fcc56325a4a2d41d210b3a3d88002c51cdebe63b6a3ad8d11d4"
 def main():
+    import isolate_3m; isolate_3m.guard()
     import benchmark_runner as br, trainer as t
     p=Path("tests/heldout_v10.json"); h=hashlib.sha256(p.read_bytes()).hexdigest()
     if h!=EXPECTED_HASH: print(f"HASH MISMATCH: {h}"); sys.exit(2)

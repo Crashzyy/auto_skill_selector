@@ -1,10 +1,12 @@
 """Evaluator guard P2a' Fase 3e. Hash diverifikasi. Tidak mengubah file guard."""
 import hashlib, json, sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 EXPECTED_HASH = "720066aaa43e400a74d93686e4ed1860ffaa42eb9d0245b4644ce2f611c24a28"
 
 def main():
+    import isolate_3m; isolate_3m.guard()
     import benchmark_runner as br, trainer as t
     p = Path("docs/P2A_GUARD.json")
     h = hashlib.sha256(p.read_bytes()).hexdigest()
