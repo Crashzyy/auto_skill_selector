@@ -1,9 +1,9 @@
 [package]
 name = "hermes_skill_brain"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Alif Yudha <Crashzyy@users.noreply.github.com>"]
-description = "Rust core engine for the Hermes auto_skill_selector plugin: 5-layer BM25F + MNB + Dice prompt->skill router."
+description = "Rust core engine for the Hermes auto_skill_selector plugin (Fase 2): strict 6-stage prompt->skill router (bypass, pin, global negation sieve, clause split, 4-mode BM25F+MNB+centroid scoring, 6-state decision gate)."
 license = "MIT"
 
 [lib]

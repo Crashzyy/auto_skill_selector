@@ -1,6 +1,6 @@
 name: auto_skill_selector
-version: 0.1.0
-description: "Autonomous domain-agnostic skill selector. A Rust core engine scores each user prompt with a 5-layer hybrid (BM25F + calibrated Multinomial Naive Bayes + Dice-Sorensen character-trigram fuzzy matching + orthographic/morphological cues + domain-affinity & session momentum), calibrated through a Top-5 Null-Anchor softmax. Injects the best local skill, chains multiple skills, triggers an autonomous Two-Tier Internet Subagent Hunter for unknown topics, or stays silent (NO_SKILL_NEEDED) during brainstorming. Learns and retrains itself whenever skills are created or changed."
+version: 0.2.0
+description: "Autonomous domain-agnostic skill router (Fase 2). A Rust core engine (hermes_skill_brain, PyO3) processes every prompt through a strict 6-stage pipeline: conversational bypass, explicit skill pinning, GLOBAL negation/prohibition sieve (hard-mask banned tools + synonym clusters before splitting), multi-clause splitter (max 3, anti over-split), per-clause dynamic algorithm selector (4 adaptive modes over BM25F 4-zone + MNB + centroid cosine), and a decision gate emitting 6 official states (NO_SKILL_NEEDED, MATCHED_SINGLE, MATCHED_MULTI, MATCHED_PARTIAL_AND_HUNT, HUNT_NEW_SKILL, CLARIFY_AMBIGUOUS). Deep bilingual ID-EN lexicon (KBBI + KPST stemmer + slang + transliteration) embedded in the binary; category-stratified IDF and gain equalization keep 9 domain pillars balanced (54 core skills, multi-catalog harvesting without GitHub token). Injects matched skills into the user message under the 10k-char Hermes limit, chains ordered steps, and triggers async delegate_task skill hunts. Sub-millisecond P99 latency."
 author: Alif Yudha (Crashzyy)
 kind: standalone
 platforms:
