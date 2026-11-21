@@ -1,79 +1,54 @@
-# Kesiapan merge
+# Kesiapan merge — pembaruan Fase 3r
 
-## Status branch dan hash
+## Ringkasan G1–G4
 
-- `dev = b082513` saat audit awal, lalu `1fe6e4d` (NEG_LIVE), `1226a6f`
-  (pemetaan status). `dev-clean` mengikuti dengan commit sinkronisasi.
-- `main = d1de873`, tidak disentuh. `git diff dev dev-clean` akan diverifikasi
-  kosong setelah sinkronisasi akhir.
-- Total commit `dev`: **108** saat awal fase (94 sejak `d1de873`).
+| Gerbang | Hasil | Angka kunci |
+|---|---|---|
+| G1 clone bersih | Lulus | semua evaluator identik; 7/7; p99 median 249.3 µs |
+| G2 main native | Selesai | training 740 s; θ₀ 0.0895; b35 5/35; v2 79/167; NEG_LIVE 37/150 |
+| G3a | Lulus | natural 5→5 dari 90, delta 0 |
+| G3b | Lulus | dev 5/90 ≤ main 18/90 + 2 |
+| G4 | Implementasi lolos | R1–R6; empat uji lulus; 7/7; p99 median 234.7 µs |
 
-## G1 — Clone bersih
+## G2 detail
 
-Clone `origin/dev-clean` ke direktori baru, venv baru, `HERMES_HOME` baru,
-model dipasang dari `tests/fixtures/model/skill_model.json`. Build dari nol.
-Semua evaluator memberi angka identik dengan workspace: v3 43/52, v4 29/38,
-v5 15/40, v6 30/41, v7 23/30, v8 17/30, v9 16/30, v10 18/30, v11 27/36,
-v12 43/80, guard 12/12, FMT_GUARD 10/10, FMT_ADV_GUARD 7/14, v2 156/167.
-7/7 gerbang lolos. p99 tiga run: 242.3, 249.3, 253.8 µs — median **249.3 µs**,
-rentang **242.3–253.8 µs**. **Lulus** (dengan catatan: dependensi Python
-dipakai ulang lewat `PYTHONPATH` dari venv sandbox; tidak ada instalasi
-jaringan).
+Main native dilatih dengan trainer main di direktori terisolasi selama
+740 detik. Skor main vs dev: v3 20/52 vs 43/52, v4 10/38 vs 29/38,
+v5 3/40 vs 15/40, v6 10/41 vs 30/41, v7 7/30 vs 23/30, v8 1/30 vs 17/30,
+v9 0/30 vs 16/30, v10 0/30 vs 18/30, v11 8/36 vs 27/36, v12 17/80 vs 43/80,
+guard 3/12 vs 12/12, FMT_GUARD 5/10 vs 10/10, FMT_ADV 2/14 vs 7/14,
+v2 79/167 vs 156/167, b35 5/35 vs 35/35.
+FP NEG_LIVE per grup main: percakapan 12, informasional 6, verba 1,
+panjang 18 (total 37); dev: 4, 1, 23, 3 (total 31).
+Tidak ada ambang untuk perbandingan ini; keputusan ada di owner.
 
-## G2 — Main native versus dev
+## G3 detail
 
-Pemetaan status ditulis lebih dulu di `docs/MAIN_VS_DEV_MAPPING.md`.
-Build main berhasil, tetapi pelatihan model native main dengan trainer main
-tidak selesai dalam batas waktu tooling (lebih dari tujuh menit, proses
-dihentikan sebelum menulis model). Sesuai instruksi, langkah ini **dilewati
-dan dilaporkan**, bukan diganti dengan model dev. Tidak ada angka main
-native yang dikutip; perbandingan 3k–3m juga tetap tidak valid.
+FP natural (percakapan + informasional) pra-alias 5, HEAD 5, delta 0.
+FP natural HEAD 5/90, main native 18/90 — batas main+2 terpenuhi.
+Grup adversarial (verba, panjang) hanya dilaporkan: 21→23 dan 3→3.
+Dua FP baru: `L102` dan `L119`; tidak ada FP yang hilang. Laporan 3q yang
+menyebut `L101` sebagai FP baru tidak tepat.
 
-## G3 — NEG_LIVE
+## G4 detail
 
-`docs/NEG_LIVE.json`, 150 kasus, sha
-`01d716b74b916db8a0498c6eaefdc675bea5ae53e109ed507fdef0ac06b4a8f7`,
-ekspektasi ditulis sebelum probe, nol duplikat. Komposisi: percakapan 50,
-informasional 40, verba taksonomi sebagai kata biasa 40, kalimat panjang 20.
+Hook sekarang: staging + `os.replace`, validasi jumlah kelas dan θ₀,
+pass-through saat model tidak ada, lock + debounce 30 detik, dan flag
+`AUTO_SKILL_SELECTOR_DISABLE_AUTORETRAIN`. Empat uji terisolasi lulus.
 
-Hasil: pra-alias **29/150 FP**, HEAD **31/150 FP**, selisih **+2**.
-Kriteria: FP HEAD ≤ 2 dan FP HEAD − FP pra ≤ 0. **Keduanya gagal**.
-Dua kasus baru yang menjadi FP: `L101` (rapikan → tabular) dan `L102`
-(agregasi → tabular); `L119` juga berubah NO_SKILL→MATCHED. Ini **blocker**
-dan tidak diperbaiki.
-
-## G4 — Retrain dan jalur model
-
-Pemicu otomatis:
-- `on_skill_lifecycle` → `_spawn_retrain()` → `_retrain_worker()` →
-  `trainer.train_and_save()`; terdaftar default di `register_hook`.
-- `on_subagent_stop` → `_spawn_retrain()`; juga terdaftar default.
-- `/skill-brain retrain` → `_handle_retrain()`; opt-in.
-- CLI `trainer.py` → `train_and_save()`; opt-in.
-
-Semua pemicu menulis ke `plugin-data/auto_skill_selector/skill_model.json`
-milik `HERMES_HOME` aktif, sehingga dapat menimpa model terpin. Direktori
-produksi `/data/home/.hermes/plugin-data/auto_skill_selector/` ada tetapi
-**kosong**; tidak ada prosedur terdokumentasi untuk memasang model pin ke
-produksi. Saat model tidak ada, `_ensure_brain()` mengembalikan brain tanpa
-model dan memicu `HUNT_NEW_SKILL` untuk prompt sah.
-
-Uji terisolasi: satu retrain menghasilkan θ₀ 7.5058 (pinned 7.529), tetapi
-**0 perubahan status/skill** di seluruh suite. Nondeterminisme tidak
-mengubah perilaku pada kasus yang diuji, namun artefaknya berubah.
-**Blocker**: pemicu default-on dapat menimpa model tervalidasi, dan jalur
-pemasangan model produksi tidak terdokumentasi.
+Audit G4a menemukan korpus produksi **111 skill**, sedangkan model terpin
+memiliki **144 kelas**. R2 menolak pemasangan model yang tidak cocok dengan
+korpus. Prosedur deploy saat ini belum bisa memasang model tervalidasi ke
+produksi tanpa sinkronisasi korpus.
 
 ## Keterbatasan yang diterima
 
-- Polisemi 0/8 di v12; parafrase 11/24.
-- Held-out terpakai gabungan 88/146 (60%) bersifat adversarial, bukan
-  estimasi akurasi lalu lintas nyata.
-- W01–W10 spec-mismatch di v5; NEG_CONV2 4/5 FP.
+- Polisemi 0/8, parafrase 11/24.
+- Held-out terpakai 88/146 (60%) dan bersifat adversarial, bukan perkiraan
+  akurasi lalu lintas nyata.
+- W01–W10 spec-mismatch dan NEG_CONV2 4/5 tetap dilaporkan apa adanya.
 
-## Perintah merge (TIDAK dieksekusi)
-
-Branch `dev-clean` berbasis `d1de873`, jadi merge ke main adalah fast-forward:
+## Perintah merge (usulan, TIDAK dieksekusi)
 
     git checkout main
     git merge --ff-only dev-clean
@@ -82,17 +57,15 @@ Tag pra-merge yang diusulkan pada `d1de873`:
 
     git tag -a pre-merge-fase3 -m "Pre-merge checkpoint" d1de873
 
-Rollback (jika main sudah bergerak setelah merge):
+Rollback:
 
     git revert --no-edit <merge-commit>
     git push origin main
 
-Semua perintah di atas **hanya usulan**; tidak ada yang dijalankan.
-
 ## Verdict
 
-**BELUM SIAP.** G1 lulus, tetapi G3 dan G4 menghasilkan blocker nyata:
-alias menambah dua FP pada 150 kasus percakapan, dan hook default-on dapat
-menimpa model tervalidasi tanpa jalur pemasangan produksi yang jelas.
-G2 tidak menghasilkan data karena keterbatasan tooling, bukan karena main
-gagal. Rekomendasi: selesaikan G3/G4 dalam mandat terpisah sebelum merge.
+**BELUM SIAP.** Empat gerbang teknis G1–G4 lolos, tetapi korpus produksi
+(111 skill) tidak cocok dengan model terpin (144 kelas), sehingga R2 akan
+menolak pemasangan model di produksi. Sinkronisasi korpus produksi dan
+jalur pemasangan model perlu diselesaikan dalam mandat terpisah sebelum
+merge. Rekomendasi: jangan merge sampai ketidaksesuaian korpus selesai.
