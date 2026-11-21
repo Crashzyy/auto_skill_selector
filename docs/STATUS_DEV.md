@@ -14,7 +14,7 @@ terpin `tests/fixtures/model/skill_model.json`.
 | v5 | 15/40 | dev | 10 kasus spec-mismatch W01–W10 |
 | v6 | 30/41 | dev | in-sample |
 | v7 | 23/30 | dev | in-sample |
-| v8 | 15/30 | dev | in-sample |
+| v8 | 17/30 | dev | in-sample |
 | v9 | 16/30 | dev | dipromosikan dari held-out |
 | v10 | 18/30 | held-out terpakai | out-of-sample; dipakai sekali di 3o/3p |
 | v11 | 27/36 | held-out terpakai | out-of-sample; dipakai di 3o/3p |
