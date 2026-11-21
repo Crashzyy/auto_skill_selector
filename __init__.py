@@ -19,6 +19,7 @@ RoutingDecision states (Master Prompt §1.4):
 from __future__ import annotations
 
 import json
+import sys
 import threading
 from pathlib import Path
 
@@ -109,6 +110,14 @@ def _load_model_json() -> str:
         except Exception as e:
             _log().warning(f"auto_skill_selector: failed to read model: {e}")
     return ""
+
+
+def _model_available() -> bool:
+    p = _model_path()
+    try:
+        return p.exists() and bool(json.loads(p.read_text(encoding="utf-8")).get("classes"))
+    except Exception:
+        return False
 
 
 def _ensure_brain():
@@ -309,6 +318,13 @@ def on_pre_llm_call(
         if not text or not text.strip():
             return None
         text = _normalize_unicode(text)
+        if not _model_available():
+            try:
+                import plugin_retrain
+                plugin_retrain.schedule(sys.modules[__name__])
+            except Exception as exc:
+                _log().warning(f"auto_skill_selector: bootstrap skipped: {exc}")
+            return None
         brain = _ensure_brain()
         if brain is None:
             return None
@@ -357,20 +373,23 @@ def on_pre_llm_call(
 
 def _retrain_worker():
     try:
-        from . import trainer  # type: ignore
-    except Exception:
-        import trainer as trainer  # type: ignore
-    try:
-        trainer.train_and_save()
-        _log().info("auto_skill_selector: background retrain complete")
+        import plugin_retrain
+        ok, reason = plugin_retrain.retrain_once(sys.modules[__name__], __import__("trainer"))
+        if ok:
+            _log().info(f"auto_skill_selector: retrain complete: {reason}")
+        else:
+            _log().warning(f"auto_skill_selector: retrain skipped: {reason}")
     except Exception as e:
         _log().warning(f"auto_skill_selector retrain failed: {e}")
 
 
 def _spawn_retrain():
-    t = threading.Thread(target=_retrain_worker, daemon=True)
-    t.start()
-    return t
+    try:
+        import plugin_retrain
+        return plugin_retrain.schedule(sys.modules[__name__])
+    except Exception as e:
+        _log().warning(f"auto_skill_selector retrain scheduling failed: {e}")
+        return None
 
 
 def on_skill_lifecycle(
@@ -440,11 +459,11 @@ def _handle_status() -> str:
 
 def _handle_retrain() -> str:
     try:
-        from . import trainer  # type: ignore
-    except Exception:
-        import trainer as trainer  # type: ignore
-    model = trainer.train_and_save()
-    return f"auto_skill_selector: retrain selesai, {len(model['classes'])} skill dimuat."
+        import plugin_retrain
+        ok, reason = plugin_retrain.retrain_once(sys.modules[__name__], __import__("trainer"))
+        return f"auto_skill_selector: retrain {'selesai' if ok else 'ditolak'}: {reason}."
+    except Exception as exc:
+        return f"auto_skill_selector: retrain gagal: {exc}."
 
 
 def _handle_test(prompt: str) -> str:
