@@ -1,5 +1,41 @@
 # Fase 3h — STOP di Langkah 2 (false positive pin terkonfirmasi)
 
+## Rekonsiliasi evaluator (Fase 3i Langkah 0)
+
+Tabel lengkap A01–A14 pra/pasca (status, skill, PASS/FAIL):
+
+| ID | Pra (dc429c9) | Pasca (db7ea9f) | Skor |
+|---|---|---|---|
+| A01 | HUNT `[]` FAIL | MATCHED `word-docx-reporting` FAIL | FAIL→FAIL |
+| A02 | HUNT `[]` FAIL | MATCHED `powerpoint-slide-deck` FAIL | FAIL→FAIL |
+| A03 | HUNT `[]` FAIL | MATCHED `meeting-notes-action-items` FAIL | FAIL→FAIL |
+| A04 | HUNT `[]` FAIL | HUNT `[]` FAIL | FAIL→FAIL |
+| A05 | HUNT `[]` **PASS** | MATCHED `boring-marketing-email-sequences` **FAIL** | **PASS→FAIL** |
+| A06 | HUNT PASS | HUNT PASS | PASS |
+| A07 | HUNT PASS | HUNT PASS | PASS |
+| A08 | HUNT FAIL | MATCHED `word-docx-reporting` PASS | **FAIL→PASS** |
+| A09 | HUNT FAIL | HUNT FAIL | FAIL (aspiratif — lihat addendum) |
+| A10 | CLARIFY FAIL | MATCHED `tabular-pivot-cleaning` PASS | **FAIL→PASS** |
+| A11 | MATCHED `word-docx-reporting` PASS | sama PASS | PASS |
+| A12 | HUNT PASS | HUNT PASS | PASS |
+| A13 | MATCHED `word-docx-reporting` PASS | sama PASS | PASS |
+| A14 | MATCHED `mermaid-architecture-diagram` PASS | sama PASS | PASS |
+
+**Skor dihitung ulang: pra 7/14, pasca 8/14.** Koreksi atas kalimat laporan
+3h sebelumnya: "tabel menyiratkan pasca lebih buruk dari pra" **tidak tepat
+bila diartikan sebagai skor**. Skor memang naik (+1: A08, A10), tetapi
+kualitatif **lebih buruk** karena A05 berubah PASS→FAIL dan A01–A03 berubah
+dari HUNT (benar secara perilaku, meski ekspektasinya FAIL) menjadi MATCHED
+dengan skill yang tidak diminta. Kedua pernyataan kini dibedakan eksplisit.
+
+### Addendum A09 (aspiratif)
+
+A09 (`hindari pdf, tampilkan nilainya dalam bentuk tabel`) ditulis dengan
+ekspektasi `MATCHED_SINGLE` dari prinsip "format sungguhan", tetapi engine
+pra-P-FMT menghasilkan HUNT dan pasca-P-FMT juga HUNT (pin tidak aktif).
+Ini adalah **ekspektasi aspiratif**, bukan regresi; A09 **dikeluarkan dari
+gerbang** namun tetap dilaporkan. Hash guard tidak diubah.
+
 ## State
 
 - HEAD = **`24cab64`** (konfirmasi: **bukan `db7ea9f`** — itu commit P-FMT,
