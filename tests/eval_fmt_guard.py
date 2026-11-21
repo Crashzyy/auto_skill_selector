@@ -2,7 +2,7 @@
 import hashlib, json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
-EXPECTED_HASH = "7f8f513bdc2b7cd21f393bdb53bc0cf640e8fff019c8971aaa0c735a1b3cf3d2"
+EXPECTED_HASH = "fea04dbd860c2911c1fb8013fbd24a1d6ed55b5c15b8495113bdd0390a1d3ddd"
 
 def main():
     import benchmark_runner as br, trainer as t

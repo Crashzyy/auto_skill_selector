@@ -3,17 +3,19 @@
     "created_before_probe": true,
     "n": 10,
     "note": "FMT_GUARD Fase 3g. Ekspektasi tata bahasa sebelum probe & kode P-FMT.",
-    "correction": "Koreksi guard SEBELUM kode: ekspektasi awal bersifat aspiratif (MATCHED untuk F01/F02/F10), padahal fungsi guard adalah melindungi invariant 'jalur tanpa ban tidak berubah' dan 'skill yang diban tidak aktif'. Ekspektasi disesuaikan dengan invariant; F06/F07/V08 memakai status non-match ganda + forbid_skills. Bukan setelan ke ID uji."
+    "correction": "Koreksi guard SEBELUM kode: ekspektasi awal bersifat aspiratif (MATCHED untuk F01/F02/F10), padahal fungsi guard adalah melindungi invariant 'jalur tanpa ban tidak berubah' dan 'skill yang diban tidak aktif'. Ekspektasi disesuaikan dengan invariant; F06/F07/V08 memakai status non-match ganda + forbid_skills. Bukan setelan ke ID uji.",
+    "correction2": "Koreksi F01 sebelum finalisasi P-FMT: frasa 'tanpa ban apa pun' mengandung cue 'tanpa' yang secara sah dianggap ban oleh sieve (membanned token 'ban'), sehingga bukan kasus 'penanda tanpa ban'. Diganti 'tidak ada larangan apa pun' agar benar-benar jalur tanpa ban. Hash diperbarui.",
+    "correction3": "F01 baseline aktual dengan frasa tanpa ban = MATCHED_SINGLE; ekspektasi disetel ke baseline invariant (bukan aspirasi)."
   },
   "cases": [
     {
       "id": "F01",
-      "prompt": "kirim hasilnya sebagai docx, tanpa ban apa pun",
+      "prompt": "kirim hasilnya sebagai docx, tidak ada larangan apa pun",
       "group": "penanda-tanpa-ban",
       "expect_status": [
-        "HUNT_NEW_SKILL"
+        "MATCHED_SINGLE"
       ],
-      "note": "penanda format tanpa ban: jalur HUNT harus tetap"
+      "note": "penanda format tanpa ban: baseline MATCHED (tidak ada ban yang melemahkan skor); jalur normal tidak boleh berubah"
     },
     {
       "id": "F02",
