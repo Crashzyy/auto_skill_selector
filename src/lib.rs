@@ -2528,6 +2528,39 @@ impl SkillBrain {
     }
 }
 
+/// Fase 3g P-FMT (scratch/experimental). Grammar rule: when a ban cue exists,
+/// a residual clause of the form "... sebagai/docx", "... in a pivot table",
+/// "... jadi docx" carries a FORMAT MARKER followed by a skill name/alias that
+/// is NOT banned. Treat that mention as an explicit skill anchor, with the
+/// SAME weight as an explicit mention (handled by the existing pin shortcut).
+/// Cues come from ordinary grammar (ID + EN), never from test IDs. No score,
+/// theta0, MNB, margin, no-ban path or Stage-0 bypass is touched.
+const FORMAT_MARKERS: &[&str] = &[
+    "sebagai", "dalam bentuk", "dalam", "jadi", "menjadi", "as", "in", "into",
+];
+fn pfmt_format_anchor(residual: &str, banned: &HashSet<String>,
+                      classes: &[SkillClass]) -> Option<String> {
+    let lower = residual.to_lowercase();
+    let has_marker = FORMAT_MARKERS.iter().any(|m| {
+        lower.split_whitespace().any(|w| w == *m) || lower.contains(&format!("{} ", m))
+    });
+    if !has_marker { return None; }
+    let toks: Vec<String> = tokenize(&lower).into_iter()
+        .map(|t| t.trim_matches(|c: char| !c.is_alphanumeric() && c != '-').to_string())
+        .collect();
+    for class in classes {
+        let name_l = class.name.to_lowercase();
+        let name_toks: Vec<&str> = name_l.split(|c: char| !c.is_alphanumeric()).filter(|s| !s.is_empty()).collect();
+        let mentioned = name_toks.iter().any(|nt| toks.iter().any(|t| t == nt && nt.len() >= 3));
+        if !mentioned { continue; }
+        let is_banned = banned.iter().any(|b| name_l == *b || name_l.contains(b.as_str())
+            || class.ban_tags.iter().any(|t| t == b)
+            || class.core_keywords.iter().take(4).any(|k| k == b));
+        if !is_banned { return Some(class.name.clone()); }
+    }
+    None
+}
+
 impl SkillBrain {
     fn analyze_core(&self, prompt: &str) -> RoutingDecision {
         let model = match self.model.read() {
@@ -2627,13 +2660,21 @@ impl SkillBrain {
         banned_sorted.sort();
 
         // Pinned skills are checked against the ban set (spec Stage 1 note).
-        let legal_pins: Vec<String> = pins.iter()
+        // Fase 3g P-FMT: only on the ban path, only when no explicit pin.
+        // A format marker + non-banned skill name in the residual clause is
+        // treated as an explicit mention at the SAME weight (pin shortcut).
+        let mut legal_pins: Vec<String> = pins.iter()
             .filter(|p| {
                 let pl = p.to_lowercase();
                 !banned.iter().any(|b| pl == *b || pl.contains(b.as_str()))
             })
             .cloned()
             .collect();
+        if !banned.is_empty() && legal_pins.is_empty() {
+            if let Some(anchor) = pfmt_format_anchor(&sieve.sanitized, &banned, &model.classes) {
+                legal_pins.push(anchor);
+            }
+        }
         let pin_conflict = !pins.is_empty() && legal_pins.is_empty();
 
         // ---- Unknown explicit pin (audit S-1/H-5): the requested skill does
