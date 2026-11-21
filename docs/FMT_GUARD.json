@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 10,
+    "note": "FMT_GUARD Fase 3g. Ekspektasi tata bahasa sebelum probe & kode P-FMT."
+  },
+  "cases": [
+    {
+      "id": "F01",
+      "prompt": "kirim hasilnya sebagai docx, tanpa ban apa pun",
+      "group": "penanda-tanpa-ban",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "F02",
+      "prompt": "sajikan angkanya dalam bentuk tabel biasa",
+      "group": "penanda-tanpa-ban",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "F03",
+      "prompt": "tuliskan ringkasannya sebagai docx",
+      "group": "penanda-tanpa-ban",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "F04",
+      "prompt": "don't use pdf, yang penting rapi",
+      "group": "ban-tanpa-penanda",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "F05",
+      "prompt": "jangan pakai excel, terserah saja",
+      "group": "ban-tanpa-penanda",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "F06",
+      "prompt": "hindari pdf, kirim hasilnya sebagai pdf",
+      "group": "penanda+nama-diban",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "F07",
+      "prompt": "jangan pakai pptx, buatkan slide sebagai pptx",
+      "group": "penanda+nama-diban",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "F08",
+      "prompt": "jangan buat laporan dulu, aku cuma mau santai",
+      "group": "idiom-delay",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "F09",
+      "prompt": "jangan lupa buat excel ya",
+      "group": "idiom-delay",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "F10",
+      "prompt": "tanpa basa-basi, buatkan pptx",
+      "group": "idiom-delay",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    }
+  ]
+}
