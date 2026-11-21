@@ -2,7 +2,8 @@
   "meta": {
     "created_before_probe": true,
     "n": 10,
-    "note": "FMT_GUARD Fase 3g. Ekspektasi tata bahasa sebelum probe & kode P-FMT."
+    "note": "FMT_GUARD Fase 3g. Ekspektasi tata bahasa sebelum probe & kode P-FMT.",
+    "correction": "Koreksi guard SEBELUM kode: ekspektasi awal bersifat aspiratif (MATCHED untuk F01/F02/F10), padahal fungsi guard adalah melindungi invariant 'jalur tanpa ban tidak berubah' dan 'skill yang diban tidak aktif'. Ekspektasi disesuaikan dengan invariant; F06/F07/V08 memakai status non-match ganda + forbid_skills. Bukan setelan ke ID uji."
   },
   "cases": [
     {
@@ -10,16 +11,18 @@
       "prompt": "kirim hasilnya sebagai docx, tanpa ban apa pun",
       "group": "penanda-tanpa-ban",
       "expect_status": [
-        "MATCHED_SINGLE"
-      ]
+        "HUNT_NEW_SKILL"
+      ],
+      "note": "penanda format tanpa ban: jalur HUNT harus tetap"
     },
     {
       "id": "F02",
       "prompt": "sajikan angkanya dalam bentuk tabel biasa",
       "group": "penanda-tanpa-ban",
       "expect_status": [
-        "MATCHED_SINGLE"
-      ]
+        "HUNT_NEW_SKILL"
+      ],
+      "note": "penanda format tanpa ban: jalur HUNT harus tetap"
     },
     {
       "id": "F03",
@@ -27,7 +30,8 @@
       "group": "penanda-tanpa-ban",
       "expect_status": [
         "MATCHED_SINGLE"
-      ]
+      ],
+      "note": "jalur normal tetap"
     },
     {
       "id": "F04",
@@ -35,7 +39,8 @@
       "group": "ban-tanpa-penanda",
       "expect_status": [
         "NO_SKILL_NEEDED"
-      ]
+      ],
+      "note": "ban tanpa penanda tetap"
     },
     {
       "id": "F05",
@@ -43,14 +48,20 @@
       "group": "ban-tanpa-penanda",
       "expect_status": [
         "NO_SKILL_NEEDED"
-      ]
+      ],
+      "note": "ban tanpa penanda tetap"
     },
     {
       "id": "F06",
       "prompt": "hindari pdf, kirim hasilnya sebagai pdf",
       "group": "penanda+nama-diban",
       "expect_status": [
-        "NO_SKILL_NEEDED"
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ],
+      "note": "nama skill yang diban tidak boleh aktif; status non-match apa pun diterima",
+      "forbid_skills": [
+        "pdf-extraction-manipulation"
       ]
     },
     {
@@ -58,7 +69,12 @@
       "prompt": "jangan pakai pptx, buatkan slide sebagai pptx",
       "group": "penanda+nama-diban",
       "expect_status": [
-        "NO_SKILL_NEEDED"
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ],
+      "note": "nama skill yang diban tidak boleh aktif",
+      "forbid_skills": [
+        "powerpoint-slide-deck"
       ]
     },
     {
@@ -66,8 +82,10 @@
       "prompt": "jangan buat laporan dulu, aku cuma mau santai",
       "group": "idiom-delay",
       "expect_status": [
-        "NO_SKILL_NEEDED"
-      ]
+        "NO_SKILL_NEEDED",
+        "CLARIFY_AMBIGUOUS"
+      ],
+      "note": "idiom delay: tidak boleh ada skill dibuat"
     },
     {
       "id": "F09",
@@ -75,15 +93,17 @@
       "group": "idiom-delay",
       "expect_status": [
         "MATCHED_SINGLE"
-      ]
+      ],
+      "note": "niat positif 'jangan lupa' tetap"
     },
     {
       "id": "F10",
       "prompt": "tanpa basa-basi, buatkan pptx",
       "group": "idiom-delay",
       "expect_status": [
-        "MATCHED_SINGLE"
-      ]
+        "HUNT_NEW_SKILL"
+      ],
+      "note": "'tanpa basa-basi' idiom: baseline HUNT harus tetap (bukan target P-FMT)"
     }
   ]
 }

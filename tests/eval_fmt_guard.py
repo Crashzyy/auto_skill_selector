@@ -2,7 +2,7 @@
 import hashlib, json, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
-EXPECTED_HASH = "7289fd673712e2291ff371274f4ca3efdb498eabdeeb21f13688e233b775ed0c"
+EXPECTED_HASH = "7f8f513bdc2b7cd21f393bdb53bc0cf640e8fff019c8971aaa0c735a1b3cf3d2"
 
 def main():
     import benchmark_runner as br, trainer as t
@@ -16,9 +16,17 @@ def main():
     passed = 0
     for c in data["cases"]:
         r = b.analyze_prompt(br._hook_normalize(c["prompt"]))
-        ok = r["status"] in c["expect_status"]
+        errs = []
+        if r["status"] not in c["expect_status"]:
+            errs.append(f"status {r['status']} not in {c['expect_status']}")
+        skills = set(s.lower() for s in r.get("skills", []))
+        for s in c.get("forbid_skills", []):
+            if s.lower() in skills:
+                errs.append(f"skill {s} activated (forbidden)")
+        ok = not errs
         passed += ok
-        print(f"{c['id']:5} {'PASS' if ok else 'FAIL'} | {c['group']:20} | {r['status']:22} | {c['prompt'][:45]}")
+        print(f"{c['id']:5} {'PASS' if ok else 'FAIL'} | {c['group']:20} | {r['status']:22} | {c['prompt'][:45]}"
+              + ("" if ok else "  <- " + "; ".join(errs)))
     print(f"\nFMT_GUARD {passed}/{len(data['cases'])}")
 
 if __name__ == "__main__":

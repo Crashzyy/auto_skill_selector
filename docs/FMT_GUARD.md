@@ -1,7 +1,7 @@
 # FMT_GUARD — Fase 3g (SEBELUM kode P-FMT)
 
 - File: `docs/FMT_GUARD.json`
-- 10 kasus, SHA256 `7289fd673712e2291ff371274f4ca3efdb498eabdeeb21f13688e233b775ed0c`
+- 10 kasus, SHA256 `7f8f513bdc2b7cd21f393bdb53bc0cf640e8fff019c8971aaa0c735a1b3cf3d2`
 - Ekspektasi ditulis sebelum probe engine dan sebelum kode P-FMT.
 
 | Grup | ID | Aturan |
