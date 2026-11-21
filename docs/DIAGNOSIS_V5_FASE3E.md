@@ -49,10 +49,11 @@ dikenal → HUNT. TIDAK diimplementasi (perintah: OOD kapital tidak dikerjakan).
 **Akar**: token domain berpolisemi tanpa pembeda konteks. **Usulan umum**
 (di luar cakupan): domain-context / companion-word signal. TIDAK diimplementasi.
 
-## Grup 4 — Skill benar tapi skor di bawah θ₀ (W15, W16, W31, W32, W33, W39)
+## Grup 4 — Skill benar tapi skor di bawah θ₀ (W14, W15, W16, W31, W32, W33, W39)
 
 | ID | Aktual → Ekspektasi | Mekanisme |
 |---|---|---|
+| W14 | `CLARIFY_AMBIGUOUS` → MATCHED | `ubah foto produk itu jadi background putih bersih`: dbg 5.53 < θ₀ (pengolahan foto), top 0.00 → Stage 0 bypass menelan sebelum skor |
 | W15 | `HUNT_NEW_SKILL` (`below_theta`) → MATCHED | top 6.02, CSV tak cukup bobot → HUNT |
 | W16 | `CLARIFY_AMBIGUOUS` → MATCHED | top 0.00, dbg 0.00 → Stage 0 bypass (terjemah) gagal match |
 | W31 | `HUNT_NEW_SKILL` (`below_theta`) → MATCHED | top 4.91; klausa "olah data ini pakai csv" terpisah |
@@ -76,6 +77,23 @@ menyangkut jalur HUNT informasional.
 **Akar**: decision gate multi-skill tidak menangkap pasangan artefak kedua
 ketika skor pertama dominan. **Usulan umum** (di luar cakupan): penyesuaian
 multi-skill gate berbasis jumlah artefak. TIDAK diimplementasi.
+
+## Addendum Fase 3f — W14 dan W30
+
+- **W14** (`CLARIFY_AMBIGUOUS` → MATCHED_SINGLE): ditambahkan ke Grup 4; dbg
+  5.53 < θ₀ (pengolahan foto), Stage 0 menelan sebelum skor. Mekanisme sama
+  Grup 4, bukan grup baru.
+- **W30** (`MATCHED_SINGLE` → MATCHED_SINGLE dengan `expect_banned_contains:
+  powerpoint`): status benar, tapi `global_banned_set = ['powpoint']` — canon
+  `powerpoint` tidak dihasilkan. Jadi **tetap FAIL** sesuai evaluator asli.
+  Mekanisme: typo `powpoint` tidak dinormalisasi ke canon `powerpoint` untuk
+  keperluan ban (bukan P3b/P1a yang memperbaiki ini).
+
+Jumlah kegagalan dari RUN aktual di 383de5b = **25**:
+W01–W10 (10), W14/W15/W16 (3), W20/W21/W22 (3), W23/W25 (2),
+W30/W31/W32/W33/W39 (5), W37/W40 (2). Headline v5 tetap **15/40**;
+10 di antaranya (`W01–W10`) adalah spec-mismatch, lihat
+`docs/V5_SPEC_MISMATCH.md`.
 
 ## Prioritas usulan (untuk diputuskan user, bukan dikerjakan sekarang)
 
