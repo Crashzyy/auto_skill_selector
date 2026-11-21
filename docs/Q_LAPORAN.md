@@ -93,6 +93,6 @@ ada tag, push ke main, atau perubahan engine.
 
 ## Status akhir
 
-`dev = 4ccbea7`, `dev-clean = 73ca823`, `main = d1de873`, keduanya clean,
+`dev = 12dcdf9`, `dev-clean = f82b2fa`, `main = d1de873`, keduanya clean,
 `git diff dev dev-clean` kosong. **Berhenti.** Merge menunggu keputusan
 setelah G3/G4 ditangani dalam mandat terpisah.
