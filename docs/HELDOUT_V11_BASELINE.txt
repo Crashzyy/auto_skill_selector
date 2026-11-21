@@ -1,0 +1,57 @@
+SHA256 OK d8263722d6b0cb7873a68bdf3890834a60aeb8ddd55a573bebc9d45c7afee57e
+V01   PASS | parafrase-writing | MATCHED_SINGLE         | rangkai poin-poin penting dari artikel ini
+V02   PASS | parafrase-design | MATCHED_SINGLE         | susun slide ringkas untuk presentasi klien
+V03   FAIL | parafrase-finance | HUNT_NEW_SKILL         | hitung nilai akhir dari tabel transaksi ini
+V04   PASS | parafrase-data | MATCHED_SINGLE         | bersihkan data kotor pada berkas csv
+V05   PASS | parafrase-audio | MATCHED_SINGLE         | ubah rekaman wawancara menjadi naskah tertul
+V06   PASS | parafrase-devops | MATCHED_SINGLE         | gambarkan proses kerja sistem ini dalam bent
+V07   FAIL | parafrase-editing | CLARIFY_AMBIGUOUS      | tulis ulang paragraf ini agar lebih singkat
+V08   FAIL | parafrase-research | CLARIFY_AMBIGUOUS      | siapkan ringkasan riset dari beberapa jurnal
+V09   FAIL | parafrase-office | CLARIFY_AMBIGUOUS      | konversi berkas lama ke format yang lebih ba
+V10   PASS | parafrase-productivity | MATCHED_SINGLE         | buatkan daftar tugas dari notulen rapat
+V11   PASS | parafrase-analytics | MATCHED_SINGLE         | tampilkan data penjualan dalam bentuk grafik
+V12   PASS | parafrase-visual | MATCHED_SINGLE         | desain poster untuk acara sekolah
+V13   FAIL | kontrol      | HUNT_NEW_SKILL         | terjemahkan email ini ke bahasa Inggris
+V14   PASS | kontrol      | MATCHED_SINGLE         | terbitkan invoice untuk pembayaran minggu de
+V15   PASS | kontrol      | MATCHED_SINGLE         | konversi berkas docx lama menjadi pdf
+V16   PASS | kontrol      | MATCHED_SINGLE         | ambil teks dari pdf hasil pemindaian
+V17   FAIL | kontrol      | HUNT_NEW_SKILL         | telusuri dan benahi cacat pada kode aplikasi
+V18   PASS | kontrol      | MATCHED_SINGLE         | gambarkan diagram alur pendaftaran anggota b
+V19   PASS | kontrol      | MATCHED_SINGLE         | ringkas laporan laba rugi kuartal ketiga
+V20   PASS | kontrol      | MATCHED_SINGLE         | siapkan teks subtitle untuk video singkat
+V21   PASS | negatif      | NO_SKILL_NEEDED        | halo, apa kabar hari ini
+V22   PASS | negatif      | NO_SKILL_NEEDED        | oke siap, makasih banyak ya
+V23   PASS | negatif      | NO_SKILL_NEEDED        | sampai jumpa besok pagi
+V24   PASS | negatif      | NO_SKILL_NEEDED        | apa itu algoritma dijkstra dan bagaimana car
+V25   PASS | negatif      | NO_SKILL_NEEDED        | jelaskan perbedaan meteorologi dengan klimat
+V26   PASS | negatif      | NO_SKILL_NEEDED        | why do tree leaves change colour in the fall
+V27   PASS | negatif      | NO_SKILL_NEEDED        | ceritakan sejarah kota Venesia yang terkenal
+V28   PASS | negatif      | NO_SKILL_NEEDED        | apa bedanya teori relativitas dengan mekanik
+V29   FAIL | polisemi     | MATCHED_SINGLE         | blender di dapur rusak, beli yang baru
+V30   FAIL | polisemi     | MATCHED_SINGLE         | slide mikroskop di laboratorium hilang
+V31   FAIL | polisemi     | HUNT_NEW_SKILL         | chart musik mingguan sudah dirilis
+V32   FAIL | polisemi     | MATCHED_SINGLE         | ular python di kebun binatang sedang kenyang
+V33   PASS | typo         | MATCHED_SINGLE         | rangkumm artikel panjang ini
+V34   PASS | typo         | MATCHED_SINGLE         | tabell penjualan mingguan tolong dirapikan
+V35   FAIL | typo         | NO_SKILL_NEEDED        | terjemahhn pesan ini ke Inggris
+V36   PASS | typo         | MATCHED_SINGLE         | bikinn ringkasan laporan bulanan
+
+BY GROUP
+  kontrol      6/8
+  negatif      8/8
+  parafrase-analytics 1/1
+  parafrase-audio 1/1
+  parafrase-data 1/1
+  parafrase-design 1/1
+  parafrase-devops 1/1
+  parafrase-editing 0/1
+  parafrase-finance 0/1
+  parafrase-office 0/1
+  parafrase-productivity 1/1
+  parafrase-research 0/1
+  parafrase-visual 1/1
+  parafrase-writing 1/1
+  polisemi     0/4
+  typo         3/4
+
+HELD-OUT V11 25/36

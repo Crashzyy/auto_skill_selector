@@ -1,0 +1,39 @@
+SHA256 OK 628bece6e31c6fcc56325a4a2d41d210b3a3d88002c51cdebe63b6a3ad8d11d4
+Q01   FAIL | parafrase  | CLARIFY_AMBIGUOUS      | susun angka-angka ini supaya lebih enak dili
+Q02   FAIL | parafrase  | CLARIFY_AMBIGUOUS      | rapikan barisan angka penjualan bulan ini
+Q03   FAIL | parafrase  | HUNT_NEW_SKILL         | ringkas tulisan panjang ini jadi beberapa po
+Q04   PASS | parafrase  | MATCHED_SINGLE         | ubah naskah ini menjadi daftar poin penting
+Q05   PASS | parafrase  | MATCHED_SINGLE         | siapkan halaman penjelasan produk untuk klie
+Q06   FAIL | parafrase  | NO_SKILL_NEEDED        | jumlahkan nilai-nilai pada daftar ini
+Q07   FAIL | parafrase  | NO_SKILL_NEEDED        | tampilkan deretan angka ini dengan kerapian
+Q08   FAIL | parafrase  | NO_SKILL_NEEDED        | alihkan isi pesan ini ke bahasa lain
+Q09   PASS | parafrase  | MATCHED_SINGLE         | benahi kesalahan pada naskah artikel ini
+Q10   FAIL | parafrase  | HUNT_NEW_SKILL         | susun daftar isi untuk dokumen ini
+Q11   PASS | kontrol    | MATCHED_SINGLE         | terbitkan faktur untuk pembayaran minggu ini
+Q12   PASS | kontrol    | MATCHED_SINGLE         | ubah format berkas docx ke pdf
+Q13   FAIL | kontrol    | HUNT_NEW_SKILL         | jumlahkan total omzet pada tabel transaksi
+Q14   PASS | kontrol    | MATCHED_SINGLE         | gambarkan diagram alur registrasi pengguna b
+Q15   PASS | kontrol    | MATCHED_SINGLE         | ambil teks dari berkas pdf hasil scan
+Q16   PASS | kontrol    | MATCHED_SINGLE         | buatkan teks subtitle untuk video pendek
+Q17   PASS | kontrol    | MATCHED_SINGLE         | ringkas laporan keuangan kuartal kedua
+Q18   FAIL | kontrol    | HUNT_NEW_SKILL         | cari dan perbaiki cacat pada kode program
+Q19   PASS | kontrol    | MATCHED_SINGLE         | sajikan data kuesioner dalam bentuk infograf
+Q20   FAIL | kontrol    | HUNT_NEW_SKILL         | alihkan isi surat elektronik ke bahasa Inggr
+Q21   PASS | ellipsis   | CLARIFY_AMBIGUOUS      | tolong selesaikan ini untukku
+Q22   PASS | ellipsis   | CLARIFY_AMBIGUOUS      | bikinin aku yang rapi ya
+Q23   PASS | ellipsis   | CLARIFY_AMBIGUOUS      | ubah yang ini supaya lebih bagus
+Q24   FAIL | ellipsis   | NO_SKILL_NEEDED        | aku mau versi yang pendek saja
+Q25   FAIL | ellipsis   | NO_SKILL_NEEDED        | tolong bereskan seperti biasanya
+Q26   PASS | typo       | MATCHED_SINGLE         | rangkumm artikel panjang ini jadi poin
+Q27   PASS | typo       | MATCHED_SINGLE         | tabell penjualan tolong dirapikan ya
+Q28   FAIL | typo       | NO_SKILL_NEEDED        | terjemahhn kalimat pendek ini ke Inggris
+Q29   PASS | typo       | MATCHED_SINGLE         | bikinn laporan keuangan kuartal dua
+Q30   FAIL | typo       | HUNT_NEW_SKILL         | ringkaas naskah panjang ini jadi poin
+
+BY GROUP
+  ellipsis   3/5
+  kontrol    7/10
+  parafrase  3/10
+  typo       3/5
+
+HELD-OUT V10 16/30

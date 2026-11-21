@@ -1,0 +1,53 @@
+SHA256 OK 7c7dac1a5a4bfd61bced0787fc71b37da51ee148bb1b33208253566940853fc4
+X01   PASS | informasional  | NO_SKILL_NEEDED        | jelaskan bagaimana cara kerja enkripsi RSA
+X02   PASS | informasional  | NO_SKILL_NEEDED        | apa perbedaan protokol TCP dan UDP
+X03   FAIL | informasional  | CLARIFY_AMBIGUOUS      | cara menghitung luas lingkaran itu gimana   <- status CLARIFY_AMBIGUOUS not in ['NO_SKILL_NEEDED']
+X04   PASS | informasional  | NO_SKILL_NEEDED        | ceritakan asal-usul bahasa Sanskerta secar
+X05   PASS | informasional  | NO_SKILL_NEEDED        | apa itu teori graf dalam matematika
+X06   PASS | informasional  | NO_SKILL_NEEDED        | bagaimana cara penyerapan air pada akar tu
+X07   PASS | informasional  | NO_SKILL_NEEDED        | how does public-key cryptography work
+X08   PASS | informasional  | NO_SKILL_NEEDED        | explain the concept of supply and demand
+X09   PASS | informasional  | NO_SKILL_NEEDED        | what causes the tides on Earth
+X10   PASS | informasional  | NO_SKILL_NEEDED        | describe the structure of a plant cell
+X11   PASS | informasional  | NO_SKILL_NEEDED        | why do leaves change color in autumn
+X12   PASS | alat-benar     | MATCHED_SINGLE         | rangkai catatan kuliah ini jadi slide pres
+X13   PASS | alat-benar     | MATCHED_SINGLE         | ubah file docx ini menjadi pdf
+X14   PASS | alat-benar     | MATCHED_SINGLE         | bikin grafik batang dari angka penjualan i
+X15   FAIL | alat-benar     | HUNT_NEW_SKILL         | terjemahkan email ini ke bahasa Jerman  <- status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']
+X16   PASS | alat-benar     | MATCHED_SINGLE         | tolong ringkas transkrip rapat ini jadi li
+X17   PASS | alat-benar     | MATCHED_SINGLE         | hitung total belanja dari tabel ini pakai 
+X18   PASS | alat-benar     | MATCHED_SINGLE         | buat diagram alur proses pendaftaran ini
+X19   FAIL | polisemi       | MATCHED_SINGLE         | slide mikroskop di lab rusak, harus beli y  <- status MATCHED_SINGLE not in ['NO_SKILL_NEEDED']
+X20   FAIL | polisemi       | HUNT_NEW_SKILL         | chart musik mingguan sudah keluar  <- status HUNT_NEW_SKILL not in ['NO_SKILL_NEEDED']
+X21   FAIL | polisemi       | MATCHED_SINGLE         | blender di dapur saya sudah rusak  <- status MATCHED_SINGLE not in ['NO_SKILL_NEEDED']
+X22   PASS | typo           | MATCHED_SINGLE         | tolon rapikan data ini jadi tabel
+X23   FAIL | typo           | HUNT_NEW_SKILL         | olh angka ini jadi grafik ya  <- status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']
+X24   PASS | typo           | MATCHED_SINGLE         | rngkas artikel panjang ini jadi 4 poin
+X25   PASS | typo           | MATCHED_SINGLE         | biknnkan laporan keuangan dari data ini
+X26   FAIL | negasi         | HUNT_NEW_SKILL         | hindari pdf, kirim hasilnya sebagai docx  <- status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']
+X27   FAIL | negasi         | NO_SKILL_NEEDED        | jangan pakai slides, ringkasannya saja cuk  <- status NO_SKILL_NEEDED not in ['MATCHED_SINGLE']
+X28   FAIL | negasi         | HUNT_NEW_SKILL         | jangan gunakan infografik, cukup tabel bia  <- status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']
+X29   FAIL | negasi         | HUNT_NEW_SKILL         | tanpa chart, sajikan angkanya dalam tabel  <- status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']
+X30   PASS | multi          | MATCHED_MULTI          | ubah csv ini jadi tabel lalu buat diagram 
+X31   FAIL | multi          | MATCHED_SINGLE         | bersihkan teks artikel ini dan terjemahkan  <- status MATCHED_SINGLE not in ['MATCHED_MULTI']
+X32   FAIL | multi          | MATCHED_SINGLE         | rangkum pdf ini dan buatkan infografisnya  <- status MATCHED_SINGLE not in ['MATCHED_MULTI']
+X33   PASS | multi          | MATCHED_MULTI          | ubah docx jadi pdf lalu kirim ringkasannya
+X34   PASS | kontrol        | MATCHED_SINGLE         | bikinkan invoice dari transaksi bulan ini
+X35   FAIL | kontrol        | HUNT_NEW_SKILL         | cek kode ini untuk bug dan perbaiki  <- status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']
+X36   PASS | kontrol        | MATCHED_SINGLE         | setup pipeline CI untuk repo ini pakai doc
+X37   PASS | kontrol        | MATCHED_SINGLE         | buat diagram arsitektur sistem ini pakai m
+X38   PASS | kontrol        | MATCHED_SINGLE         | riset literatur tentang topik ini dan kuti
+X39   PASS | kontrol        | MATCHED_SINGLE         | hitung valuasi DCF untuk perusahaan ini
+X40   PASS | kontrol        | MATCHED_SINGLE         | ekstrak teks dari pdf scan ini
+X41   PASS | kontrol        | MATCHED_SINGLE         | buat subtitle untuk video ini
+
+BY GROUP
+  informasional  10/11
+  alat-benar     6/7
+  polisemi       0/3
+  typo           3/4
+  negasi         0/4
+  multi          2/4
+  kontrol        7/8
+
+HELD-OUT V6 28/41

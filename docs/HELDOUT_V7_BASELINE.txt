@@ -1,0 +1,39 @@
+SHA256 OK b411991d705321f8a53e5b8e83228f78fd503bf107117da854402a0801905666
+Y01   FAIL | A | HUNT_NEW_SKILL         | jangan pakai pdf, kirim datanya sebagai docx
+Y02   FAIL | A | HUNT_NEW_SKILL         | jangan pakai excel, sajikan angkanya dalam be
+Y03   FAIL | A | CLARIFY_AMBIGUOUS      | tanpa chart, berikan datanya sebagai spreadsh
+Y04   FAIL | A | CLARIFY_AMBIGUOUS      | hindari powerpoint, buatkan slide sebagai ppt
+Y05   FAIL | A | CLARIFY_AMBIGUOUS      | don't use word, write the summary as a docx
+Y06   FAIL | A | CLARIFY_AMBIGUOUS      | without excel, present the figures in a pivot
+Y07   PASS | A | MATCHED_SINGLE         | jangan gunakan infografik, tampilkan sebagai 
+Y08   PASS | A | MATCHED_SINGLE         | hindari pdf, ekstrak teksnya jadi docx
+Y09   PASS | B | NO_SKILL_NEEDED        | jangan pakai pdf, yang penting rapi
+Y10   PASS | B | NO_SKILL_NEEDED        | hindari excel, tetap saja hasilnya bagus
+Y11   PASS | B | NO_SKILL_NEEDED        | don't use pptx, whatever works
+Y12   PASS | B | NO_SKILL_NEEDED        | tanpa word, pokoknya selesai
+Y13   PASS | B | NO_SKILL_NEEDED        | jangan pakai chart, terserah saja
+Y14   PASS | B | NO_SKILL_NEEDED        | hindari spreadsheet, yang terpenting cepat
+Y15   PASS | C | MATCHED_SINGLE         | rangkum artikel ini jadi lima poin penting
+Y16   PASS | C | MATCHED_SINGLE         | buatkan invoice dari transaksi bulan ini
+Y17   PASS | C | MATCHED_SINGLE         | ubah docx ini menjadi pdf
+Y18   FAIL | C | HUNT_NEW_SKILL         | hitung total penjualan dari tabel ini
+Y19   FAIL | C | HUNT_NEW_SKILL         | tolong terjemahkan email ini ke bahasa Pranci
+Y20   PASS | C | MATCHED_SINGLE         | buat diagram alur proses ini
+Y21   PASS | C | MATCHED_SINGLE         | bersihkan data CSV ini
+Y22   PASS | C | MATCHED_SINGLE         | buatkan subtitle untuk video pendek ini
+Y23   PASS | C | MATCHED_SINGLE         | ekstrak teks dari berkas pdf hasil scan
+Y24   PASS | C | MATCHED_SINGLE         | rangkum laporan keuangan triwulanan
+Y25   PASS | C | MATCHED_SINGLE         | buat infografis dari data survei ini
+Y26   FAIL | C | HUNT_NEW_SKILL         | perbaiki bug di kode ini
+Y27   PASS | D | NO_SKILL_NEEDED        | jangan buat laporan dulu, aku cuma mau ngobro
+Y28   PASS | D | MATCHED_SINGLE         | jangan lupa buat excel ya
+Y29   PASS | D | MATCHED_SINGLE         | jangan sampai telat, buatkan slide ringkasan
+Y30   FAIL | D | MATCHED_PARTIAL_AND_HUNT | bukan cuma word, juga excel yang dibutuhkan
+
+BY GROUP
+  A 2/8
+  B 6/6
+  C 9/12
+  D 3/4
+
+HELD-OUT V7 20/30

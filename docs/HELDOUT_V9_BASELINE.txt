@@ -1,0 +1,39 @@
+SHA256 OK 9ae2a6d7b9b3eebbfc748f7e1e8339680e4c2485a5694435d70e6c57a3b927fa
+P01   FAIL | parafrase    | CLARIFY_AMBIGUOUS      | nolong susun angka-angka ini supaya enak dib
+P02   FAIL | parafrase    | CLARIFY_AMBIGUOUS      | tolong rapikan deretan angka penjualan ini
+P03   FAIL | parafrase    | HUNT_NEW_SKILL         | bikinkan ringkasan singkat dari tulisan panj
+P04   PASS | parafrase    | MATCHED_SINGLE         | ubah tulisan ini jadi beberapa poin penting 
+P05   PASS | parafrase    | MATCHED_SINGLE         | siapkan halaman penjelasan produk untuk klie
+P06   FAIL | parafrase    | CLARIFY_AMBIGUOUS      | hitung akumulasi nilai dari daftar ini
+P07   FAIL | parafrase    | NO_SKILL_NEEDED        | tampilkan angka-angka ini dengan rapi
+P08   FAIL | parafrase    | CLARIFY_AMBIGUOUS      | terjemahkan isi pesan ini ke bahasa lain
+P09   FAIL | parafrase    | HUNT_NEW_SKILL         | perbaiki kesalahan pada naskah ini
+P10   FAIL | parafrase    | HUNT_NEW_SKILL         | buatkan daftar isi dari dokumen ini
+P11   PASS | ellipsis     | CLARIFY_AMBIGUOUS      | tolong kerjakan ini ya
+P12   PASS | ellipsis     | CLARIFY_AMBIGUOUS      | bikinin aku yang rapi
+P13   PASS | ellipsis     | CLARIFY_AMBIGUOUS      | ubah yang ini jadi lebih bagus
+P14   FAIL | ellipsis     | NO_SKILL_NEEDED        | aku mau yang singkat saja
+P15   FAIL | ellipsis     | HUNT_NEW_SKILL         | tolong selesaikan seperti kemarin
+P16   PASS | typo         | MATCHED_SINGLE         | rangkumm artikel ini jadi poin penting
+P17   PASS | typo         | MATCHED_SINGLE         | tabell penjualan tolong dirapikan
+P18   FAIL | typo         | NO_SKILL_NEEDED        | terjemahhn kalimat ini ke Inggris
+P19   PASS | typo         | MATCHED_SINGLE         | bikinn laporan keuangan kuartalan
+P20   FAIL | typo         | HUNT_NEW_SKILL         | ringkaas dokumen panjang ini
+P21   PASS | kontrol      | MATCHED_SINGLE         | terbitkan faktur untuk transaksi minggu ini
+P22   PASS | kontrol      | MATCHED_SINGLE         | konversi berkas docx menjadi pdf
+P23   FAIL | kontrol      | HUNT_NEW_SKILL         | jumlahkan omzet dari tabel penjualan bulanan
+P24   PASS | kontrol      | MATCHED_SINGLE         | gambarkan diagram alur pendaftaran pengguna
+P25   PASS | kontrol      | MATCHED_SINGLE         | ekstrak teks dari berkas pdf hasil pemindaia
+P26   PASS | kontrol      | MATCHED_SINGLE         | buatkan teks subtitle untuk video ini
+P27   PASS | kontrol      | MATCHED_SINGLE         | rangkum laporan keuangan kuartal ketiga
+P28   FAIL | kontrol      | HUNT_NEW_SKILL         | temukan dan perbaiki kesalahan pada kode
+P29   PASS | kontrol      | MATCHED_SINGLE         | sajikan data survei dalam bentuk infografis
+P30   FAIL | kontrol      | HUNT_NEW_SKILL         | alihkan isi email ini ke bahasa Inggris
+
+BY GROUP
+  ellipsis     3/5
+  kontrol      7/10
+  parafrase    2/10
+  typo         3/5
+
+HELD-OUT V9 15/30

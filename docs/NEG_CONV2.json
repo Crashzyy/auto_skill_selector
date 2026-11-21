@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 5,
+    "note": "Fase 3n NEG_CONV2. REPRODUCIBLE FP dari A1 (5/19) + varian topikal turunan prinsip polisemi/topik, bukan salinan NEG_CONV. Ekspektasi NO_SKILL sebelum probe."
+  },
+  "cases": [
+    {
+      "id": "R08",
+      "prompt": "saya mau ngobrol santai saja soal python",
+      "group": "topik-python",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "R09",
+      "prompt": "slide presentasi sudah saya kirim kemarin, makasih",
+      "group": "topik-slide",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "R10",
+      "prompt": "excel di kantor lagi maintenance",
+      "group": "topik-excel",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "R11",
+      "prompt": "word editor-nya error terus",
+      "group": "topik-word",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "R12",
+      "prompt": "chart di koran hari ini menarik",
+      "group": "topik-chart",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    }
+  ]
+}

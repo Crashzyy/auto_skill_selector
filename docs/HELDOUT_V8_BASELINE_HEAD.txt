@@ -1,0 +1,39 @@
+SHA256 OK 6353018569eb681ad411c25ebcae75bde10de8e312d8f273f7c21af958fb8bf7
+Z01   PASS | A | MATCHED_SINGLE         | skills ['word-docx-reporting'] | hindari pdf, bikinkan hasilnya sebagai doc
+Z02   FAIL | A | CLARIFY_AMBIGUOUS      | skills [] | jangan pakai excel, buatkan tabelnya dalam
+Z03   PASS | A | MATCHED_SINGLE         | skills ['tabular-pivot-cleaning'] | tanpa chart, tolong tampilkan datanya seba
+Z04   PASS | A | MATCHED_SINGLE         | skills ['geo-report'] | don't use word, write the report as a pdf
+Z05   FAIL | A | CLARIFY_AMBIGUOUS      | skills [] | hindari powerpoint, siapkan slide sebagai 
+Z06   PASS | A | MATCHED_SINGLE         | skills ['mermaid-architecture-diagram'] | jangan gunakan infografik, tampilkan datan
+Z07   FAIL | A | HUNT_NEW_SKILL         | skills [] | tanpa spreadsheet, sajikan angkanya dalam 
+Z08   PASS | A | MATCHED_SINGLE         | skills ['word-docx-reporting'] | hindari pdf, ekstrak isinya jadi docx
+Z09   FAIL | B | MATCHED_SINGLE         | skills ['word-docx-reporting'] | jangan pakai excel, aku lagi dalam rapat m
+Z10   FAIL | B | MATCHED_SINGLE         | skills ['powerpoint-slide-deck'] | hindari pdf, sedang dalam diskusi tentang 
+Z11   FAIL | B | MATCHED_SINGLE         | skills ['meeting-notes-action-items'] | don't use excel, I'm in a meeting about wo
+Z12   FAIL | B | MATCHED_SINGLE         | skills ['word-docx-reporting'] | jangan pakai pptx, tolong bikin catatan so
+Z13   FAIL | B | MATCHED_SINGLE         | skills ['excel-xlsx-automation'] | hindari word, kita bahas soal excel dulu
+Z14   FAIL | B | HUNT_NEW_SKILL         | skills [] | jangan pakai chart, ceritakan dulu soal ta
+Z15   PASS | B | NO_SKILL_NEEDED        | skills [] | tanpa pdf, aku mau ngobrol soal docx
+Z16   FAIL | B | HUNT_NEW_SKILL         | skills [] | hindari spreadsheet, diskusi kita soal csv
+Z17   PASS | C | MATCHED_SINGLE         | skills ['infographic-design'] | ringkas laporan ini jadi lima poin
+Z18   PASS | C | MATCHED_SINGLE         | skills ['invoice-ledger-reconciliation'] | buatkan faktur dari transaksi bulan ini
+Z19   PASS | C | MATCHED_SINGLE         | skills ['pdf-extraction-manipulation'] | ubah berkas docx ini menjadi pdf
+Z20   FAIL | C | HUNT_NEW_SKILL         | skills [] | hitung total omzet dari tabel penjualan in
+Z21   FAIL | C | HUNT_NEW_SKILL         | skills [] | terjemahkan email ini ke bahasa Prancis
+Z22   PASS | C | MATCHED_SINGLE         | skills ['mermaid-architecture-diagram'] | buat diagram alur proses pendaftaran
+Z23   PASS | C | MATCHED_SINGLE         | skills ['tabular-pivot-cleaning'] | bersihkan data dari berkas CSV ini
+Z24   PASS | C | MATCHED_SINGLE         | skills ['subtitle-captioning'] | buat subtitle untuk video pendek ini
+Z25   PASS | C | MATCHED_SINGLE         | skills ['pdf-extraction-manipulation'] | ekstrak teks dari berkas pdf yang discan
+Z26   FAIL | C | HUNT_NEW_SKILL         | skills [] | perbaiki bug pada kode ini
+Z27   PASS | D | MATCHED_SINGLE         | skills ['word-docx-reporting'] | kirimkan hasilnya sebagai docx
+Z28   PASS | D | HUNT_NEW_SKILL         | skills [] | tampilkan angkanya dalam bentuk tabel
+Z29   PASS | D | MATCHED_SINGLE         | skills ['pdf-extraction-manipulation'] | write the summary as a pdf
+Z30   PASS | D | MATCHED_SINGLE         | skills ['mermaid-architecture-diagram'] | ubah catatan kuliah ini menjadi diagram al
+
+BY GROUP
+  A 5/8
+  B 1/8
+  C 7/10
+  D 4/4
+
+HELD-OUT V8 17/30
