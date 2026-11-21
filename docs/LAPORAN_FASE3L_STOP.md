@@ -6,7 +6,7 @@
   v10, satu lebih awal). `main = d1de873`, clean saat mulai.
 - θ₀ konseptual 7.4688, margin P1b, probe, deskripsi, engine: **tidak
   diubah**. Tidak ada merge/force push. Semua angka dari binary build ulang.
-- Final `dev = 3b3d4b2`, clean.
+- Final `dev = b7e712b`, clean.
 
 ## Insiden artefak model (jujur, penting)
 
@@ -87,6 +87,6 @@ tidak terpenuhi.
 
 ## Status akhir
 
-`dev = origin/dev = 3b3d4b2`, `main = d1de873`, clean.
+`dev = origin/dev = b7e712b`, `main = d1de873`, clean.
 Worktree main dibuang. **BERHENTI.** Perbaikan leksikon/alias dan
 pembekuan artefak model menunggu izin terpisah.
