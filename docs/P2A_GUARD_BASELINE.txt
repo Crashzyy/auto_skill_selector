@@ -1,0 +1,15 @@
+SHA256 OK 975197fe9cc3e7ceea6d15b6c89762542b9c440b8e2a85e93704f8bea3eca7cb
+G01   FAIL | alat-pertanyaan    | MATCHED_SINGLE         | bisa bikinin slide pakai tool baru?
+G02   FAIL | alat-pertanyaan    | MATCHED_SINGLE         | how do I convert this with ffmpeg
+G03   PASS | alat-pertanyaan    | HUNT_NEW_SKILL         | bisa bantu buat tabel pakai alat apa ya?
+G04   FAIL | alat-pertanyaan    | MATCHED_SINGLE         | apakah ada cara untuk merangkum with whisper?
+G05   FAIL | alat-pertanyaan    | MATCHED_SINGLE         | bikinin grafik pakai perangkat baru dong
+G06   PASS | informasional      | NO_SKILL_NEEDED        | apa itu algoritma dijkstra?
+G07   PASS | informasional      | NO_SKILL_NEEDED        | what is entropy in thermodynamics
+G08   PASS | informasional      | NO_SKILL_NEEDED        | bagaimana cara kerja fotosintesis?
+G09   PASS | informasional      | NO_SKILL_NEEDED        | jelaskan perbedaan bacteria dan virus
+G10   PASS | matched            | MATCHED_SINGLE         | ubah docx ini jadi pdf pakai word
+G11   FAIL | matched            | CLARIFY_AMBIGUOUS      | how do I summarize this doc with python
+G12   FAIL | matched            | CLARIFY_AMBIGUOUS      | terjemahkan paragraf ini pakai deepL
+
+GUARD 6/12

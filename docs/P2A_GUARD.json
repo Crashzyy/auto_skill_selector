@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 12,
+    "note": "Guard set Fase 3e P2a'. Ekspektasi dari kaidah bahasa, ditulis SEBELUM probe engine dan kode P2a'. (i) tool-benar berbentuk tanya -> HUNT/MATCHED; (ii) informational murni -> NO_SKILL; (iii) nama alat + kata tanya -> MATCHED tidak berubah.",
+    "groups": {
+      "alat-pertanyaan": 5,
+      "informasional": 4,
+      "matched": 3
+    }
+  },
+  "cases": [
+    {
+      "id": "G01",
+      "prompt": "bisa bikinin slide pakai tool baru?",
+      "group": "alat-pertanyaan",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "G02",
+      "prompt": "how do I convert this with ffmpeg",
+      "group": "alat-pertanyaan",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "G03",
+      "prompt": "bisa bantu buat tabel pakai alat apa ya?",
+      "group": "alat-pertanyaan",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "G04",
+      "prompt": "apakah ada cara untuk merangkum with whisper?",
+      "group": "alat-pertanyaan",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "G05",
+      "prompt": "bikinin grafik pakai perangkat baru dong",
+      "group": "alat-pertanyaan",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "G06",
+      "prompt": "apa itu algoritma dijkstra?",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "G07",
+      "prompt": "what is entropy in thermodynamics",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "G08",
+      "prompt": "bagaimana cara kerja fotosintesis?",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "G09",
+      "prompt": "jelaskan perbedaan bacteria dan virus",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "G10",
+      "prompt": "ubah docx ini jadi pdf pakai word",
+      "group": "matched",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "G11",
+      "prompt": "how do I summarize this doc with python",
+      "group": "matched",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "G12",
+      "prompt": "terjemahkan paragraf ini pakai deepL",
+      "group": "matched",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    }
+  ]
+}
