@@ -5,7 +5,7 @@
 - HEAD = **`30ca38a`** saat mulai (konfirmasi: bukan `da1738d` — itu satu
   commit lebih awal, pengisi hash laporan 3l). `main = d1de873` tidak
   disentuh (kode maupun runner). Tidak ada merge/force push.
-- Final `dev = <lihat commit terakhir>`, clean. Tidak ada perubahan `src/`,
+- Final `dev = 5d0e820`, clean. Tidak ada perubahan `src/`,
   `trainer`, `lexicon`, `probe`, `deskripsi`, margin, atau ekspektasi.
 - θ₀ dilaporkan sebagai **angka artefak + sha**: `7.529`,
   `a6a14d6adf11a8c04f3bc6ef2b95659937913efed332c32d7b8d868b8ceadd3a`,
@@ -131,5 +131,5 @@ gerbang keras dan v11 baru sebagai ukuran).
 
 ## Status akhir
 
-`dev = origin/dev = <lihat commit terakhir>`, `main = d1de873`, clean.
+`dev = origin/dev = 5d0e820`, `main = d1de873`, clean.
 Model bersama tidak berubah selama fase ini. **BERHENTI.**
