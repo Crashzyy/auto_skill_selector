@@ -3,8 +3,9 @@
 ## Ringkas hasil A–C
 
 - **A1**: dari 19 FP 3l, hanya **5 reprodusibel** dengan model pin; 14 hilang
-  (artefak model tertimpa). NEG_CONV2 (`4bea37fb…`) berisi 5 varian topikal
-  baru; 7 FP reprodusibel sudah ada di set lama.
+  (artefak model tertimpa). NEG_CONV2 berisi 5 varian topikal baru; tujuh
+  kasus yang sudah ada di set lama **tidak** reprodusibel sebagai FP dengan
+  model pin dan tidak dimasukkan. Lihat `docs/N_RECONCILIATION.md`.
 - **A2**: AUC dikoreksi **0.8922** (bukan 0.9892 dari b35-ceiling), TPR
   71.0% / FPR 7.1% pada θ artefak 7.529. θ=5 naikkan TPR ke 81.0% tapi
   FPR 17.6% — tidak ada "gratis" kalibrasi.
