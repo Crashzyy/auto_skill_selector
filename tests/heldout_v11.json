@@ -1,0 +1,306 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 36,
+    "no_duplicate_all_sets": true,
+    "no_double_single_multi": true,
+    "note": "Held-out v11 Fase 3n. Ekspektasi dari tata bahasa sebelum probe dan sebelum eksperimen leksikon D. v10 tetap tertutup.",
+    "groups": {
+      "parafrase": 12,
+      "kontrol": 8,
+      "negatif": 8,
+      "polisemi": 4,
+      "typo": 4
+    }
+  },
+  "cases": [
+    {
+      "id": "V01",
+      "prompt": "rangkai poin-poin penting dari artikel ini",
+      "group": "parafrase-writing",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V02",
+      "prompt": "susun slide ringkas untuk presentasi klien",
+      "group": "parafrase-design",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V03",
+      "prompt": "hitung nilai akhir dari tabel transaksi ini",
+      "group": "parafrase-finance",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V04",
+      "prompt": "bersihkan data kotor pada berkas csv",
+      "group": "parafrase-data",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V05",
+      "prompt": "ubah rekaman wawancara menjadi naskah tertulis",
+      "group": "parafrase-audio",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V06",
+      "prompt": "gambarkan proses kerja sistem ini dalam bentuk diagram",
+      "group": "parafrase-devops",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V07",
+      "prompt": "tulis ulang paragraf ini agar lebih singkat",
+      "group": "parafrase-editing",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V08",
+      "prompt": "siapkan ringkasan riset dari beberapa jurnal",
+      "group": "parafrase-research",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V09",
+      "prompt": "konversi berkas lama ke format yang lebih baru",
+      "group": "parafrase-office",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V10",
+      "prompt": "buatkan daftar tugas dari notulen rapat",
+      "group": "parafrase-productivity",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V11",
+      "prompt": "tampilkan data penjualan dalam bentuk grafik",
+      "group": "parafrase-analytics",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V12",
+      "prompt": "desain poster untuk acara sekolah",
+      "group": "parafrase-visual",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V13",
+      "prompt": "terjemahkan email ini ke bahasa Inggris",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V14",
+      "prompt": "terbitkan invoice untuk pembayaran minggu depan",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V15",
+      "prompt": "konversi berkas docx lama menjadi pdf",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V16",
+      "prompt": "ambil teks dari pdf hasil pemindaian",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V17",
+      "prompt": "telusuri dan benahi cacat pada kode aplikasi",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V18",
+      "prompt": "gambarkan diagram alur pendaftaran anggota baru",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V19",
+      "prompt": "ringkas laporan laba rugi kuartal ketiga",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V20",
+      "prompt": "siapkan teks subtitle untuk video singkat",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V21",
+      "prompt": "halo, apa kabar hari ini",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V22",
+      "prompt": "oke siap, makasih banyak ya",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V23",
+      "prompt": "sampai jumpa besok pagi",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V24",
+      "prompt": "apa itu algoritma dijkstra dan bagaimana cara kerjanya",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V25",
+      "prompt": "jelaskan perbedaan meteorologi dengan klimatologi secara singkat",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V26",
+      "prompt": "why do tree leaves change colour in the fall",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V27",
+      "prompt": "ceritakan sejarah kota Venesia yang terkenal dengan kanalnya",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V28",
+      "prompt": "apa bedanya teori relativitas dengan mekanika kuantum",
+      "group": "negatif",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V29",
+      "prompt": "blender di dapur rusak, beli yang baru",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V30",
+      "prompt": "slide mikroskop di laboratorium hilang",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V31",
+      "prompt": "chart musik mingguan sudah dirilis",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V32",
+      "prompt": "ular python di kebun binatang sedang kenyang",
+      "group": "polisemi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "V33",
+      "prompt": "rangkumm artikel panjang ini",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V34",
+      "prompt": "tabell penjualan mingguan tolong dirapikan",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V35",
+      "prompt": "terjemahhn pesan ini ke Inggris",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "V36",
+      "prompt": "bikinn ringkasan laporan bulanan",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    }
+  ]
+}
