@@ -8,11 +8,11 @@ HO06  PASS | MATCHED_SINGLE         | cek data di database
 HO07  PASS | MATCHED_SINGLE         | buat visualisasi data penjualan
 HO08  PASS | MATCHED_SINGLE         | tolong konversi docx ke pdf
 HO09  PASS | HUNT_NEW_SKILL         | tolong bantu olah data penjualan ini
-HO10  PASS | HUNT_NEW_SKILL         | analisis data penjualan kuartal ini
-HO11  PASS | HUNT_NEW_SKILL         | jelaskan isi laporan ini
+HO10  PASS | CLARIFY_AMBIGUOUS      | analisis data penjualan kuartal ini
+HO11  PASS | CLARIFY_AMBIGUOUS      | jelaskan isi laporan ini
 HO12  PASS | HUNT_NEW_SKILL         | ringkas isi dokumen ini untuk saya
 HO13  FAIL | NO_SKILL_NEEDED        | konfigurasi KNX untuk lampu rumah pintar  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
-HO14  PASS | HUNT_NEW_SKILL         | pakai tool aneh bikin laporan
+HO14  FAIL | CLARIFY_AMBIGUOUS      | pakai tool aneh bikin laporan  <- status CLARIFY_AMBIGUOUS not in ['HUNT_NEW_SKILL']
 HO15  PASS | HUNT_NEW_SKILL         | bikin sistem kontrol PLC Modbus RTU
 HO16  FAIL | MATCHED_SINGLE         | buat jus alpukat pakai blender  <- status MATCHED_SINGLE not in ['NO_SKILL_NEEDED', 'CLARIFY_AMBIGUOUS']; skill blender-3d-modeling activated (forbidden)
 HO17  FAIL | MATCHED_SINGLE         | resep jus alpukat pakai blender dong  <- status MATCHED_SINGLE not in ['NO_SKILL_NEEDED', 'CLARIFY_AMBIGUOUS']; skill blender-3d-modeling activated (forbidden)
@@ -34,7 +34,7 @@ HO32  PASS | MATCHED_SINGLE         | without excel no problem make a chart
 HO33  PASS | MATCHED_PARTIAL_AND_HUNT | jangan pakai excel, ambil data pdf lalu buat 
 HO34  PASS | NO_SKILL_NEEDED        | jangan pakai excel tapi kalau terpaksa ya bol
 HO35  PASS | HUNT_NEW_SKILL         | do not use excel make a chart
-HO36  FAIL | NO_SKILL_NEEDED        | hindari excel buat tabel  <- banned missing excel
+HO36  PASS | HUNT_NEW_SKILL         | hindari excel buat tabel
 HO37  PASS | HUNT_NEW_SKILL         | ganti excel dengan libreoffice buat tabel
 HO38  PASS | NO_SKILL_NEEDED        | haiii
 HO39  PASS | NO_SKILL_NEEDED        | makasiiih

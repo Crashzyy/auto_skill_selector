@@ -17,12 +17,18 @@ Mulai dari `dev@5917645`. Semua angka dari binary hasil **build ulang**.
 
 ## Langkah 0 — rekonsiliasi held-out v3 (tanpa ubah kode)
 
-- Output mentah: `docs/HELDOUT_V3_RESULT.txt` (diregenerasi di 5917645).
-- **9 ID gagal sebenarnya**: HO13, HO16, HO17, HO18, HO19, HO20, HO24, HO28,
-  HO36 — **bukan** HO01–08/HO09–12 seperti draf lama (dikoreksi via commit
-  `03decf5`). Status aktual tercantum di file hasil.
-- 12 duplikat v2/b35: 8 PASS / 4 FAIL. **40 independen: 35 PASS / 5 FAIL**
-  (HO17, HO19, HO20, HO28, HO36).
+- Output mentah: `docs/HELDOUT_V3_RESULT.txt` (diregenerasi ulang di **9e30de9**
+  dengan binary build ulang; angka aktual **43/52**).
+- **9 ID gagal sebenarnya di 9e30de9**: HO13, HO14, HO16, HO17, HO18, HO19,
+  HO20, HO24, HO28 — **bukan** HO01–08/HO09–12 seperti draf lama, dan **bukan**
+  HO36 (HO36 kini PASS lewat P3b). Status aktual tercantum di file hasil.
+- Perubahan vs 5917645: **HO36 FAIL→PASS** (P3b), **HO14 PASS→FAIL** (efek
+  samping P1b: `pakai tool aneh bikin laporan` → CLARIFY karena skor masuk zona
+  abu). Net 43/52 tetap.
+- 12 duplikat v2/b35: 8 PASS / 4 FAIL (HO13, HO16, HO18, HO24).
+  **40 independen: 35 PASS / 5 FAIL** (HO14, HO17, HO19, HO20, HO28).
+  Perkiraan 44/52 / independen 36/40 di permintaan **tidak sesuai RUN aktual**;
+  dilaporkan apa adanya, tidak disetel.
 
 ## Langkah 1 — held-out v4
 
