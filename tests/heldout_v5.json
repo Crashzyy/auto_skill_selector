@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 40,
+    "no_duplicate_v2_b35_v3_v4": true,
+    "no_double_single_multi": true,
+    "note": "Held-out bersih Fase 3c. Ekspektasi ditulis SEBELUM probe engine dan SEBELUM kode P2a. Hash dibekukan di docs/HELDOUT_V5_FREEZE.md. v4 adalah dev set, bukan held-out."
+  },
+  "cases": [
+    {"id":"W01","prompt":"tolong jelaskan apa itu algoritma dijkstra","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W02","prompt":"jelaskan pengertian entropy dalam termodinamika","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W03","prompt":"apa bedanya meteorologi dan klimatologi","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W04","prompt":"ceritakan sejarah kotaVenice secara singkat","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W05","prompt":"gimana cara kerja fotosintesis pada tumbuhan","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W06","prompt":"apa itu protokol SMTP dan fungsinya","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W07","prompt":"jelaskan konsep bilangan prima bagi pemula","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W08","prompt":"perbedaanetween bacteria dan virus itu apa","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W09","prompt":"tolong uraikan teori relativitas Einstein","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W10","prompt":"apa arti kata serendipity dalam bahasa Inggris","expect_status":["HUNT_NEW_SKILL"]},
+
+    {"id":"W11","prompt":"kwitansi pembayaran listrik bulan ini mau dirapikan","expect_status":["MATCHED_SINGLE"]},
+    {"id":"W12","prompt":"nolong susun daftar belanja mingguan jadi tabel rapi","expect_status":["MATCHED_SINGLE"]},
+    {"id":"W13","prompt":"bikinkan ringkasan dari notulen rapat kemarin","expect_status":["MATCHED_SINGLE"]},
+    {"id":"W14","prompt":"ubah foto produk itu jadi background putih bersih","expect_status":["MATCHED_SINGLE"]},
+    {"id":"W15","prompt":"hitung total penjualan dari berkas CSV ini","expect_status":["MATCHED_SINGLE"]},
+    {"id":"W16","prompt":"terjemahkan paragraf ini ke bahasa Inggris","expect_status":["MATCHED_SINGLE"]},
+    {"id":"W17","prompt":"tolong buatkan laporan laba rugi triwulanan","expect_status":["MATCHED_SINGLE"]},
+    {"id":"W18","prompt":"rangkum artikel panjang jadi lima poin penting","expect_status":["MATCHED_SINGLE"]},
+
+    {"id":"W19","prompt":"pakai perangkat KNX buat atur pencahayaan","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W20","prompt":"konfigurasi protokol DMX512 untuk panggung","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W21","prompt":"apa itu controller BACnet di gedung pintar","expect_status":["HUNT_NEW_SKILL"]},
+    {"id":"W22","prompt":"pakai alat ZBrush untuk pahat patung batu","expect_status":["HUNT_NEW_SKILL"]},
+
+    {"id":"W23","prompt":"resep Sup ayam pakai blender dong","expect_status":["NO_SKILL_NEEDED"]},
+    {"id":"W24","prompt":"cara merawat kucing anggora di rumah","expect_status":["NO_SKILL_NEEDED"]},
+    {"id":"W25","prompt":"blender mana yang bagus buat beli","expect_status":["NO_SKILL_NEEDED"]},
+
+    {"id":"W26","prompt":"b1k1n t4bel penju4l4n yang r4pi","expect_status":["MATCHED_SINGLE"]},
+    {"id":"W27","prompt":"buaattt laporaaan keuangan triwulanan","expect_status":["MATCHED_SINGLE"]},
+    {"id":"W28","prompt":"r4ngkum notulen rapat jadi poin2 penting","expect_status":["MATCHED_SINGLE"]},
+    {"id":"W29","prompt":"tabellll penjualan tolong dirapikan ya","expect_status":["MATCHED_SINGLE"]},
+
+    {"id":"W30","prompt":"hindari powpoint, buatkan slide presentasi dari catatan ini","expect_status":["MATCHED_SINGLE"],"expect_banned_contains":["powerpoint"]},
+    {"id":"W31","prompt":"jangan pakai exel, olah data ini pakai csv","expect_status":["MATCHED_SINGLE"],"expect_banned_contains":["excel"]},
+    {"id":"W32","prompt":"tanpa wrod pun aku bisa tulis laporan","expect_status":["MATCHED_SINGLE"],"expect_banned_excludes":["word"]},
+    {"id":"W33","prompt":"hindari spreadsheet, bikin tabel dari data ini","expect_status":["MATCHED_SINGLE"],"expect_banned_contains":["spreadsheet"]},
+
+    {"id":"W34","prompt":"haiii makasiiih ya","expect_status":["NO_SKILL_NEEDED"]},
+    {"id":"W35","prompt":"hahaha lucu banget tadi","expect_status":["NO_SKILL_NEEDED"]},
+    {"id":"W36","prompt":"lagi santai dulu, ngobrol aja","expect_status":["NO_SKILL_NEEDED"]},
+
+    {"id":"W37","prompt":"tolong analisis data penjualan dan buat grafik trennya","expect_status":["MATCHED_MULTI"]},
+    {"id":"W38","prompt":"bersihkan data CSV lalu buat visualisasi chart","expect_status":["MATCHED_MULTI"]},
+    {"id":"W39","prompt":"ringkas dokumen ini lalu terjemahkan ke Inggris","expect_status":["MATCHED_MULTI"]},
+    {"id":"W40","prompt":"ubah pdf jadi docx dan rangkum isinya","expect_status":["MATCHED_MULTI"]}
+  ]
+}
