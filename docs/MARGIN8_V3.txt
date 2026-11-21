@@ -1,0 +1,55 @@
+SHA256 OK 124dc7d7400200c5a4d265106b08b74542dd57a5a5dfcc9cd8935e49830e0c89
+HO01  PASS | MATCHED_SINGLE         | bikin laporan keuangan bulanan
+HO02  PASS | MATCHED_SINGLE         | tulis ringkasan laporan tahunan
+HO03  PASS | MATCHED_SINGLE         | bikin tabel dari data excel
+HO04  PASS | MATCHED_SINGLE         | baca data csv dan tampilkan tabelnya
+HO05  PASS | MATCHED_SINGLE         | buat chart penjualan bulan ini
+HO06  PASS | MATCHED_SINGLE         | cek data di database
+HO07  PASS | MATCHED_SINGLE         | buat visualisasi data penjualan
+HO08  PASS | MATCHED_SINGLE         | tolong konversi docx ke pdf
+HO09  PASS | HUNT_NEW_SKILL         | tolong bantu olah data penjualan ini
+HO10  PASS | CLARIFY_AMBIGUOUS      | analisis data penjualan kuartal ini
+HO11  PASS | CLARIFY_AMBIGUOUS      | jelaskan isi laporan ini
+HO12  PASS | HUNT_NEW_SKILL         | ringkas isi dokumen ini untuk saya
+HO13  FAIL | NO_SKILL_NEEDED        | konfigurasi KNX untuk lampu rumah pintar  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+HO14  FAIL | CLARIFY_AMBIGUOUS      | pakai tool aneh bikin laporan  <- status CLARIFY_AMBIGUOUS not in ['HUNT_NEW_SKILL']
+HO15  PASS | HUNT_NEW_SKILL         | bikin sistem kontrol PLC Modbus RTU
+HO16  FAIL | MATCHED_SINGLE         | buat jus alpukat pakai blender  <- status MATCHED_SINGLE not in ['NO_SKILL_NEEDED', 'CLARIFY_AMBIGUOUS']; skill blender-3d-modeling activated (forbidden)
+HO17  FAIL | MATCHED_SINGLE         | resep jus alpukat pakai blender dong  <- status MATCHED_SINGLE not in ['NO_SKILL_NEEDED', 'CLARIFY_AMBIGUOUS']; skill blender-3d-modeling activated (forbidden)
+HO18  FAIL | MATCHED_SINGLE         | ular python peliharaan makan apa  <- status MATCHED_SINGLE not in ['NO_SKILL_NEEDED', 'CLARIFY_AMBIGUOUS']
+HO19  FAIL | MATCHED_SINGLE         | blender beli di mana ya murah  <- status MATCHED_SINGLE not in ['NO_SKILL_NEEDED', 'CLARIFY_AMBIGUOUS']
+HO20  FAIL | MATCHED_SINGLE         | cara merawat ular python di rumah  <- status MATCHED_SINGLE not in ['NO_SKILL_NEEDED', 'CLARIFY_AMBIGUOUS']
+HO21  PASS | MATCHED_SINGLE         | render model 3d pakai blender
+HO22  PASS | MATCHED_SINGLE         | script python buat baca csv
+HO23  PASS | MATCHED_SINGLE         | buatkangrafikpenjualan
+HO24  FAIL | NO_SKILL_NEEDED        | b1kin gr4fik penj4l4n  <- status NO_SKILL_NEEDED == forbidden NO_SKILL_NEEDED
+HO25  PASS | MATCHED_SINGLE         | buaaaatkan grafiiiik penjualannn
+HO26  PASS | MATCHED_SINGLE         | data-data penjualan tolong dibuat grafik2nya
+HO27  PASS | HUNT_NEW_SKILL         | bikinin tabel penjualan
+HO28  FAIL | NO_SKILL_NEEDED        | gr4fik penj4l4n dong  <- status NO_SKILL_NEEDED == forbidden NO_SKILL_NEEDED
+HO29  PASS | HUNT_NEW_SKILL         | rapikan data di k8s dashboard
+HO30  PASS | MATCHED_PARTIAL_AND_HUNT | tanpa excel pun tidak masalah, buat saja tabe
+HO31  PASS | MATCHED_SINGLE         | tanpa excel tidak apa-apa buat tabel
+HO32  PASS | MATCHED_SINGLE         | without excel no problem make a chart
+HO33  PASS | MATCHED_PARTIAL_AND_HUNT | jangan pakai excel, ambil data pdf lalu buat 
+HO34  PASS | NO_SKILL_NEEDED        | jangan pakai excel tapi kalau terpaksa ya bol
+HO35  PASS | HUNT_NEW_SKILL         | do not use excel make a chart
+HO36  PASS | HUNT_NEW_SKILL         | hindari excel buat tabel
+HO37  PASS | HUNT_NEW_SKILL         | ganti excel dengan libreoffice buat tabel
+HO38  PASS | NO_SKILL_NEEDED        | haiii
+HO39  PASS | NO_SKILL_NEEDED        | makasiiih
+HO40  PASS | NO_SKILL_NEEDED        | hahaha
+HO41  PASS | NO_SKILL_NEEDED        | halo apa kabar
+HO42  PASS | NO_SKILL_NEEDED        | ok thanks, that's all
+HO43  PASS | NO_SKILL_NEEDED        | siang
+HO44  PASS | NO_SKILL_NEEDED        | assalamu'alaikum
+HO45  PASS | NO_SKILL_NEEDED        | terima kasih banyak
+HO46  PASS | NO_SKILL_NEEDED        | hehehe
+HO47  PASS | NO_SKILL_NEEDED        | good morning
+HO48  PASS | NO_SKILL_NEEDED        | bye
+HO49  PASS | NO_SKILL_NEEDED        | salam kenal
+HO50  PASS | NO_SKILL_NEEDED        | apa kabar semua
+HO51  PASS | NO_SKILL_NEEDED        | mantap
+HO52  PASS | NO_SKILL_NEEDED        | oke siap
+
+HELD-OUT 43/52

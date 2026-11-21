@@ -1,0 +1,41 @@
+SHA256 OK a2c082fd5ab90eedd3e68712040262da88fd677652caf8aed77ea2e7b80902d8
+V01   PASS | MATCHED_SINGLE         | susun laporan laba rugi kuartalan dari data t
+V02   PASS | MATCHED_SINGLE         | rangkum notulen rapat jadi daftar tindak lanj
+V03   PASS | MATCHED_SINGLE         | ubah berkas dokumen itu menjadi format pdf ra
+V04   PASS | MATCHED_SINGLE         | hitung valuasi perusahaan pakai metode DCF WA
+V05   PASS | MATCHED_SINGLE         | tulis artikel blog soal keamanan siber pemula
+V06   PASS | MATCHED_SINGLE         | gabungkan tiga berkas kontrak jadi satu dokum
+V07   PASS | MATCHED_SINGLE         | buatkan kueri SQL untuk dasbor KPI bulanan
+V08   FAIL | MATCHED_PARTIAL_AND_HUNT | bersihkan data CSV lalu buat animasi rig kara  <- status MATCHED_PARTIAL_AND_HUNT not in ['MATCHED_MULTI']
+V09   PASS | CLARIFY_AMBIGUOUS      | tolong bantu bereskan berkas-berkas ini
+V10   PASS | CLARIFY_AMBIGUOUS      | bisa bantu selesaikan masalah ini
+V11   PASS | HUNT_NEW_SKILL         | tolong olah data yang ada
+V12   PASS | HUNT_NEW_SKILL         | bikin sesuatu dari data ini dong
+V13   PASS | HUNT_NEW_SKILL         | pasang protokol KNX untuk pencahayaan rumah
+V14   PASS | HUNT_NEW_SKILL         | konfigurasi DMX512 buat kontrol lampu panggun
+V15   FAIL | NO_SKILL_NEEDED        | pakai perangkat ZBrush untuk ukir patung digi  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+V16   FAIL | HUNT_NEW_SKILL         | buat jus mangga pakai food processor  <- status HUNT_NEW_SKILL not in ['NO_SKILL_NEEDED', 'CLARIFY_AMBIGUOUS']
+V17   PASS | NO_SKILL_NEEDED        | resep smoothie alpukat pakai food processor
+V18   PASS | NO_SKILL_NEEDED        | kucing peliharaan minum susu berapa ml
+V19   PASS | NO_SKILL_NEEDED        | cara merawat kucing persia di rumah
+V20   PASS | MATCHED_SINGLE         | render adegan 3D pakai food processor
+V21   FAIL | NO_SKILL_NEEDED        | buaaatkan tabelll penjualannn  <- status NO_SKILL_NEEDED == forbidden NO_SKILL_NEEDED
+V22   FAIL | NO_SKILL_NEEDED        | b1kinn tab3l penjual4n  <- status NO_SKILL_NEEDED == forbidden NO_SKILL_NEEDED
+V23   FAIL | NO_SKILL_NEEDED        | tabel-tabel penjualan tolong dirapikan2  <- status NO_SKILL_NEEDED == forbidden NO_SKILL_NEEDED
+V24   FAIL | NO_SKILL_NEEDED        | laporannga tolong dibikinn2  <- status NO_SKILL_NEEDED == forbidden NO_SKILL_NEEDED
+V25   FAIL | NO_SKILL_NEEDED        | k8s cluster butuh konfigurasi  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+V26   PASS | MATCHED_PARTIAL_AND_HUNT | hindari excel, ambil data pdf lalu buat tabel
+V27   FAIL | MATCHED_SINGLE         | hindari powpoint, susun slide dari dokumen in  <- banned missing powerpoint
+V28   PASS | HUNT_NEW_SKILL         | tanpa libreoffice pun tidak masalah, buat tab
+V29   PASS | MATCHED_SINGLE         | jangan pakai excel, ekstrak pdf jadi grafik
+V30   PASS | HUNT_NEW_SKILL         | without excel make a bar chart
+V31   PASS | NO_SKILL_NEEDED        | halo semuanya
+V32   PASS | NO_SKILL_NEEDED        | makasih ya atas bantuannya
+V33   PASS | NO_SKILL_NEEDED        | wkwk lucu banget
+V34   PASS | NO_SKILL_NEEDED        | selamat pagi
+V35   PASS | NO_SKILL_NEEDED        | oke siap, sampai jumpa
+V36   PASS | NO_SKILL_NEEDED        | apa kabar kabarnya
+V37   PASS | NO_SKILL_NEEDED        | terima kasih banyak ya
+V38   PASS | NO_SKILL_NEEDED        | santai dulu deh
+
+HELD-OUT 29/38

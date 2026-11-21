@@ -1,0 +1,43 @@
+SHA256 OK a85a21a37167665c7b283a29fa9b4ae06e4a6a9eede299fa0e76998edd856140
+W01   FAIL | NO_SKILL_NEEDED        | tolong jelaskan apa itu algoritma dijkstra  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W02   FAIL | NO_SKILL_NEEDED        | jelaskan pengertian entropy dalam termodinami  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W03   FAIL | NO_SKILL_NEEDED        | apa bedanya meteorologi dan klimatologi  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W04   FAIL | NO_SKILL_NEEDED        | ceritakan sejarah kotaVenice secara singkat  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W05   FAIL | NO_SKILL_NEEDED        | gimana cara kerja fotosintesis pada tumbuhan  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W06   FAIL | NO_SKILL_NEEDED        | apa itu protokol SMTP dan fungsinya  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W07   FAIL | NO_SKILL_NEEDED        | jelaskan konsep bilangan prima bagi pemula  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W08   FAIL | NO_SKILL_NEEDED        | perbedaanetween bacteria dan virus itu apa  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W09   FAIL | NO_SKILL_NEEDED        | tolong uraikan teori relativitas Einstein  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W10   FAIL | NO_SKILL_NEEDED        | apa arti kata serendipity dalam bahasa Inggri  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W11   PASS | MATCHED_SINGLE         | kwitansi pembayaran listrik bulan ini mau dir
+W12   PASS | MATCHED_SINGLE         | nolong susun daftar belanja mingguan jadi tab
+W13   PASS | MATCHED_SINGLE         | bikinkan ringkasan dari notulen rapat kemarin
+W14   FAIL | CLARIFY_AMBIGUOUS      | ubah foto produk itu jadi background putih be  <- status CLARIFY_AMBIGUOUS not in ['MATCHED_SINGLE']
+W15   FAIL | HUNT_NEW_SKILL         | hitung total penjualan dari berkas CSV ini  <- status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']
+W16   FAIL | CLARIFY_AMBIGUOUS      | terjemahkan paragraf ini ke bahasa Inggris  <- status CLARIFY_AMBIGUOUS not in ['MATCHED_SINGLE']
+W17   PASS | MATCHED_SINGLE         | tolong buatkan laporan laba rugi triwulanan
+W18   PASS | MATCHED_SINGLE         | rangkum artikel panjang jadi lima poin pentin
+W19   PASS | HUNT_NEW_SKILL         | pakai perangkat KNX buat atur pencahayaan
+W20   FAIL | NO_SKILL_NEEDED        | konfigurasi protokol DMX512 untuk panggung  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W21   FAIL | NO_SKILL_NEEDED        | apa itu controller BACnet di gedung pintar  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W22   FAIL | NO_SKILL_NEEDED        | pakai alat ZBrush untuk pahat patung batu  <- status NO_SKILL_NEEDED not in ['HUNT_NEW_SKILL']
+W23   FAIL | MATCHED_SINGLE         | resep Sup ayam pakai blender dong  <- status MATCHED_SINGLE not in ['NO_SKILL_NEEDED']
+W24   PASS | NO_SKILL_NEEDED        | cara merawat kucing anggora di rumah
+W25   FAIL | MATCHED_SINGLE         | blender mana yang bagus buat beli  <- status MATCHED_SINGLE not in ['NO_SKILL_NEEDED']
+W26   PASS | MATCHED_SINGLE         | b1k1n t4bel penju4l4n yang r4pi
+W27   PASS | MATCHED_SINGLE         | buaattt laporaaan keuangan triwulanan
+W28   PASS | MATCHED_SINGLE         | r4ngkum notulen rapat jadi poin2 penting
+W29   PASS | MATCHED_SINGLE         | tabellll penjualan tolong dirapikan ya
+W30   FAIL | MATCHED_SINGLE         | hindari powpoint, buatkan slide presentasi da  <- banned missing powerpoint
+W31   FAIL | HUNT_NEW_SKILL         | jangan pakai exel, olah data ini pakai csv  <- status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']; banned missing excel
+W32   FAIL | HUNT_NEW_SKILL         | tanpa wrod pun aku bisa tulis laporan  <- status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']
+W33   FAIL | HUNT_NEW_SKILL         | hindari spreadsheet, bikin tabel dari data in  <- status HUNT_NEW_SKILL not in ['MATCHED_SINGLE']
+W34   PASS | NO_SKILL_NEEDED        | haiii makasiiih ya
+W35   PASS | NO_SKILL_NEEDED        | hahaha lucu banget tadi
+W36   PASS | NO_SKILL_NEEDED        | lagi santai dulu, ngobrol aja
+W37   FAIL | MATCHED_SINGLE         | tolong analisis data penjualan dan buat grafi  <- status MATCHED_SINGLE not in ['MATCHED_MULTI']
+W38   PASS | MATCHED_MULTI          | bersihkan data CSV lalu buat visualisasi char
+W39   FAIL | HUNT_NEW_SKILL         | ringkas dokumen ini lalu terjemahkan ke Inggr  <- status HUNT_NEW_SKILL not in ['MATCHED_MULTI']
+W40   FAIL | MATCHED_SINGLE         | ubah pdf jadi docx dan rangkum isinya  <- status MATCHED_SINGLE not in ['MATCHED_MULTI']
+
+HELD-OUT 15/40
