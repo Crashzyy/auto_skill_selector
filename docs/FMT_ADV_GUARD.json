@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 14,
+    "note": "FMT_ADV_GUARD Fase 3h. Ekspektasi dari prinsip tata bahasa, sebelum probe.(i) kata fungsi bukan permintaan; (ii) format sungguhan tetap; (iii) tanpa ban jalur normal; substring-in menguji 'in ' salah cocok dgn 'bikin '."
+  },
+  "cases": [
+    {
+      "id": "A01",
+      "prompt": "jangan pakai excel, aku lagi dalam rapat soal word",
+      "group": "fungsi-bukan-request",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "A02",
+      "prompt": "hindari pdf, aku sedang dalam diskusi soal powerpoint",
+      "group": "fungsi-bukan-request",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "A03",
+      "prompt": "don't use excel, I'm in a meeting about word",
+      "group": "fungsi-bukan-request",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "A04",
+      "prompt": "jangan pakai pdf, ceritakan dulu soal docx",
+      "group": "fungsi-bukan-request",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "A05",
+      "prompt": "jangan pakai excel, tolong bikin email yang membosankan",
+      "group": "substring-in",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "A06",
+      "prompt": "hindari word, tolong bikin laporan baru",
+      "group": "substring-in",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "A07",
+      "prompt": "jangan pakai pdf, aku bikin catatan saja",
+      "group": "substring-in",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "A08",
+      "prompt": "hindari pdf, kirimkan datanya sebagai docx",
+      "group": "format-sungguhan",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "A09",
+      "prompt": "jangan pakai excel, tampilkan nilainya dalam bentuk tabel",
+      "group": "format-sungguhan",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "A10",
+      "prompt": "without excel, show the figures in a pivot table",
+      "group": "format-sungguhan",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "A11",
+      "prompt": "kirim hasilnya sebagai docx, tidak ada larangan",
+      "group": "tanpa-ban",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "A12",
+      "prompt": "tampilkan datanya dalam bentuk tabel biasa",
+      "group": "tanpa-ban",
+      "expect_status": [
+        "HUNT_NEW_SKILL"
+      ]
+    },
+    {
+      "id": "A13",
+      "prompt": "write the summary as a docx",
+      "group": "tanpa-ban",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "A14",
+      "prompt": "ubah catatan ini menjadi diagram alur",
+      "group": "tanpa-ban",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    }
+  ]
+}
