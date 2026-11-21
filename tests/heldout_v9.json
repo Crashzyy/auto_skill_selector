@@ -1,0 +1,257 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 30,
+    "no_duplicate_all_sets": true,
+    "no_double_single_multi": true,
+    "note": "Held-out v9 Fase 3j pasca-revert P-FMT. Ekspektasi dari tata bahasa sebelum probe. Tanpa ban+format. parafrase10/ellipsis5/typo5/kontrol10.",
+    "groups": {
+      "parafrase": 10,
+      "ellipsis": 5,
+      "typo": 5,
+      "kontrol": 10
+    }
+  },
+  "cases": [
+    {
+      "id": "P01",
+      "prompt": "nolong susun angka-angka ini supaya enak dibaca",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P02",
+      "prompt": "tolong rapikan deretan angka penjualan ini",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P03",
+      "prompt": "bikinkan ringkasan singkat dari tulisan panjang ini",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P04",
+      "prompt": "ubah tulisan ini jadi beberapa poin penting saja",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P05",
+      "prompt": "siapkan halaman penjelasan produk untuk klien",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P06",
+      "prompt": "hitung akumulasi nilai dari daftar ini",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P07",
+      "prompt": "tampilkan angka-angka ini dengan rapi",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P08",
+      "prompt": "terjemahkan isi pesan ini ke bahasa lain",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P09",
+      "prompt": "perbaiki kesalahan pada naskah ini",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P10",
+      "prompt": "buatkan daftar isi dari dokumen ini",
+      "group": "parafrase",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P11",
+      "prompt": "tolong kerjakan ini ya",
+      "group": "ellipsis",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "P12",
+      "prompt": "bikinin aku yang rapi",
+      "group": "ellipsis",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "P13",
+      "prompt": "ubah yang ini jadi lebih bagus",
+      "group": "ellipsis",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "P14",
+      "prompt": "aku mau yang singkat saja",
+      "group": "ellipsis",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "P15",
+      "prompt": "tolong selesaikan seperti kemarin",
+      "group": "ellipsis",
+      "expect_status": [
+        "CLARIFY_AMBIGUOUS"
+      ]
+    },
+    {
+      "id": "P16",
+      "prompt": "rangkumm artikel ini jadi poin penting",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P17",
+      "prompt": "tabell penjualan tolong dirapikan",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P18",
+      "prompt": "terjemahhn kalimat ini ke Inggris",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P19",
+      "prompt": "bikinn laporan keuangan kuartalan",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P20",
+      "prompt": "ringkaas dokumen panjang ini",
+      "group": "typo",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P21",
+      "prompt": "terbitkan faktur untuk transaksi minggu ini",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P22",
+      "prompt": "konversi berkas docx menjadi pdf",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P23",
+      "prompt": "jumlahkan omzet dari tabel penjualan bulanan",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P24",
+      "prompt": "gambarkan diagram alur pendaftaran pengguna",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P25",
+      "prompt": "ekstrak teks dari berkas pdf hasil pemindaian",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P26",
+      "prompt": "buatkan teks subtitle untuk video ini",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P27",
+      "prompt": "rangkum laporan keuangan kuartal ketiga",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P28",
+      "prompt": "temukan dan perbaiki kesalahan pada kode",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P29",
+      "prompt": "sajikan data survei dalam bentuk infografis",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "P30",
+      "prompt": "alihkan isi email ini ke bahasa Inggris",
+      "group": "kontrol",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    }
+  ]
+}
