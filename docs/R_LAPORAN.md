@@ -14,8 +14,8 @@ tidak berubah.
 |---|---|---|
 | `88efc41` | dev | `fix(hook): guard automatic retraining` |
 | `9189bc8` | dev | `test: cover safe retrain paths` |
-| docs akhir | dev | laporan dan kesiapan merge |
-| sinkronisasi | dev-clean | commit baru untuk dokumen yang sama |
+| `862d648` | dev | `docs: record final validation and verdict` |
+| `1aee4d2`, `10a24b6` | dev-clean | sinkronisasi dokumen dan hook |
 
 ## G1
 
