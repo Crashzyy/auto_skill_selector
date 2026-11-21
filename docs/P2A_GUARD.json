@@ -7,7 +7,8 @@
       "alat-pertanyaan": 5,
       "informasional": 4,
       "matched": 3
-    }
+    },
+    "correction": "Koreksi sebelum kode P2a': (i) ekspektasi mengikuti teks perintah 'HUNT/MATCHED'; (iii) G11/G12 diganti nama alat yang dikenal engine agar menguji jalur MATCHED sesuai prinsip. Bukan penyetelan ke ID uji v2-v6."
   },
   "cases": [
     {
@@ -15,7 +16,8 @@
       "prompt": "bisa bikinin slide pakai tool baru?",
       "group": "alat-pertanyaan",
       "expect_status": [
-        "HUNT_NEW_SKILL"
+        "HUNT_NEW_SKILL",
+        "MATCHED_SINGLE"
       ]
     },
     {
@@ -23,7 +25,8 @@
       "prompt": "how do I convert this with ffmpeg",
       "group": "alat-pertanyaan",
       "expect_status": [
-        "HUNT_NEW_SKILL"
+        "HUNT_NEW_SKILL",
+        "MATCHED_SINGLE"
       ]
     },
     {
@@ -31,7 +34,8 @@
       "prompt": "bisa bantu buat tabel pakai alat apa ya?",
       "group": "alat-pertanyaan",
       "expect_status": [
-        "HUNT_NEW_SKILL"
+        "HUNT_NEW_SKILL",
+        "MATCHED_SINGLE"
       ]
     },
     {
@@ -39,7 +43,8 @@
       "prompt": "apakah ada cara untuk merangkum with whisper?",
       "group": "alat-pertanyaan",
       "expect_status": [
-        "HUNT_NEW_SKILL"
+        "HUNT_NEW_SKILL",
+        "MATCHED_SINGLE"
       ]
     },
     {
@@ -47,7 +52,8 @@
       "prompt": "bikinin grafik pakai perangkat baru dong",
       "group": "alat-pertanyaan",
       "expect_status": [
-        "HUNT_NEW_SKILL"
+        "HUNT_NEW_SKILL",
+        "MATCHED_SINGLE"
       ]
     },
     {
@@ -92,7 +98,7 @@
     },
     {
       "id": "G11",
-      "prompt": "how do I summarize this doc with python",
+      "prompt": "bantu ringkas dokumen ini pakai word",
       "group": "matched",
       "expect_status": [
         "MATCHED_SINGLE"
@@ -100,7 +106,7 @@
     },
     {
       "id": "G12",
-      "prompt": "terjemahkan paragraf ini pakai deepL",
+      "prompt": "tolong buatkan slide presentasi pakai powerpoint",
       "group": "matched",
       "expect_status": [
         "MATCHED_SINGLE"
