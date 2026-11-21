@@ -1,0 +1,92 @@
+SHA256 OK a049524c0fea81eb7d5ed0adda41644b3c61259302d4e35da10e6e5ce8b5cfaf
+S001  FAIL | parafrase  | NO_SKILL_NEEDED        | rangkai daftar poin dari catatan pertemuan
+S002  FAIL | parafrase  | HUNT_NEW_SKILL         | ringkas isi naskah panjang menjadi beberap
+S003  FAIL | parafrase  | CLARIFY_AMBIGUOUS      | sunting ulang paragraf ini agar alurnya le
+S004  FAIL | parafrase  | CLARIFY_AMBIGUOUS      | tulis versi pendek dari laporan riset ters
+S005  PASS | parafrase  | MATCHED_SINGLE         | kumpulkan data penjualan ke dalam satu tab
+S006  FAIL | parafrase  | HUNT_NEW_SKILL         | hitung total nilai pada kolom transaksi be
+S007  FAIL | parafrase  | CLARIFY_AMBIGUOUS      | rapikan barisan angka ini supaya mudah dib
+S008  FAIL | parafrase  | HUNT_NEW_SKILL         | tampilkan ringkasan angka dalam bentuk gra
+S009  FAIL | parafrase  | CLARIFY_AMBIGUOUS      | desain sampul untuk laporan tahunan perusa
+S010  PASS | parafrase  | MATCHED_SINGLE         | ilustrasikan proses kerja dengan gambar ya
+S011  FAIL | parafrase  | HUNT_NEW_SKILL         | rekam penjelasan singkat tentang fitur bar
+S012  PASS | parafrase  | MATCHED_SINGLE         | transkrip percakapan ini menjadi teks tert
+S013  PASS | parafrase  | MATCHED_SINGLE         | animasikan langkah-langkah proses tersebut
+S014  FAIL | parafrase  | HUNT_NEW_SKILL         | telusuri penyebab galat pada berkas konfig
+S015  FAIL | parafrase  | HUNT_NEW_SKILL         | uji coba perubahan kode sebelum dipakai
+S016  FAIL | parafrase  | HUNT_NEW_SKILL         | bandingkan dua versi dokumen ini secara ri
+S017  FAIL | parafrase  | NO_SKILL_NEEDED        | kutip sumber yang relevan untuk argumen te
+S018  FAIL | parafrase  | NO_SKILL_NEEDED        | anggarkan biaya untuk proyek enam bulan ke
+S019  PASS | parafrase  | MATCHED_SINGLE         | rekonsiliasi dua daftar transaksi yang ber
+S020  PASS | parafrase  | MATCHED_SINGLE         | lokalisasi pesan ini ke bahasa Inggris
+S021  FAIL | parafrase  | NO_SKILL_NEEDED        | arsipkan berkas lama ke dalam satu folder
+S022  FAIL | parafrase  | NO_SKILL_NEEDED        | prioritaskan tugas minggu ini menurut urge
+S023  PASS | parafrase  | MATCHED_SINGLE         | warnai diagram ini dengan palet yang konsi
+S024  FAIL | parafrase  | HUNT_NEW_SKILL         | sketsa tampilan halaman depan aplikasi
+S025  FAIL | kontrol    | HUNT_NEW_SKILL         | terjemahkan surat ini ke bahasa Inggris
+S026  PASS | kontrol    | MATCHED_SINGLE         | buatkan faktur untuk pembayaran bulan ini
+S027  PASS | kontrol    | MATCHED_SINGLE         | ubah format berkas docx menjadi pdf
+S028  PASS | kontrol    | MATCHED_SINGLE         | ekstrak teks dari hasil pindai dokumen
+S029  FAIL | kontrol    | HUNT_NEW_SKILL         | perbaiki kesalahan pada kode sumber ini
+S030  PASS | kontrol    | MATCHED_SINGLE         | gambarkan diagram alur proses verifikasi
+S031  PASS | kontrol    | MATCHED_SINGLE         | rangkum laporan laba rugi semester pertama
+S032  PASS | kontrol    | MATCHED_SINGLE         | buatkan subtitle untuk video presentasi
+S033  FAIL | kontrol    | HUNT_NEW_SKILL         | teliti perbandingan harga tiga vendor
+S034  PASS | kontrol    | MATCHED_SINGLE         | hitung nilai investasi dengan metode dcf
+S035  PASS | kontrol    | MATCHED_SINGLE         | susun daftar tugas dari notulen rapat
+S036  PASS | kontrol    | MATCHED_SINGLE         | konversi tabel ini menjadi berkas csv
+S037  PASS | negatif    | NO_SKILL_NEEDED        | apa kabar hari ini
+S038  PASS | negatif    | NO_SKILL_NEEDED        | oke siap, terima kasih
+S039  PASS | negatif    | NO_SKILL_NEEDED        | sampai jumpa lagi
+S040  PASS | negatif    | NO_SKILL_NEEDED        | wkwk lucu sekali
+S041  PASS | negatif    | NO_SKILL_NEEDED        | aku sedang menunggu bus
+S042  PASS | negatif    | NO_SKILL_NEEDED        | kopi dulu sebelum rapat
+S043  PASS | negatif    | NO_SKILL_NEEDED        | jelaskan perbedaan cuaca dan iklim
+S044  PASS | negatif    | NO_SKILL_NEEDED        | cara kerja fotosintesis pada tanaman
+S045  PASS | negatif    | NO_SKILL_NEEDED        | why do planets have rings
+S046  PASS | negatif    | NO_SKILL_NEEDED        | deskripsikan struktur sel tumbuhan
+S047  PASS | negatif    | NO_SKILL_NEEDED        | ceritakan sejarah kota Alexandria
+S048  PASS | negatif    | NO_SKILL_NEEDED        | apa bedanya teori relativitas dan mekanika
+S049  PASS | negatif    | NO_SKILL_NEEDED        | tolong jelaskan pengertian entropi termodi
+S050  FAIL | polisemi   | MATCHED_SINGLE         | slide mikroskop laboratorium hilang
+S051  FAIL | polisemi   | HUNT_NEW_SKILL         | chart tangga lagu mingguan dirilis
+S052  FAIL | polisemi   | MATCHED_SINGLE         | ular python di hutan bukan alat
+S053  FAIL | polisemi   | MATCHED_SINGLE         | excel di kantor sedang maintenance
+S054  FAIL | polisemi   | HUNT_NEW_SKILL         | word processor lama tidak bisa dibuka
+S055  FAIL | polisemi   | MATCHED_SINGLE         | pdf hasil scan masih buram
+S056  FAIL | polisemi   | HUNT_NEW_SKILL         | tabel di koran hari ini salah cetak
+S057  FAIL | typo       | CLARIFY_AMBIGUOUS      | rangkumm laporan panjang ini
+S058  FAIL | typo       | HUNT_NEW_SKILL         | bikinn ringkasan bulanan
+S059  FAIL | typo       | HUNT_NEW_SKILL         | ringkaas dokumen ini jadi poin
+S060  PASS | typo       | MATCHED_SINGLE         | perbaakii kode yang error
+S061  FAIL | typo       | NO_SKILL_NEEDED        | hituung total omzet bulan ini
+S062  PASS | typo       | MATCHED_SINGLE         | ekstraak teks dari pdf ini
+S063  FAIL | ellipsis   | NO_SKILL_NEEDED        | aku mau versi pendeknya
+S064  FAIL | ellipsis   | HUNT_NEW_SKILL         | selesaikan seperti kemarin
+S065  FAIL | ellipsis   | NO_SKILL_NEEDED        | bereskan seperti biasa
+S066  PASS | H          | HUNT_NEW_SKILL         | pakai alat merangkai baru untuk tabel ini
+S067  FAIL | H          | MATCHED_SINGLE         | butuh perangkat menyunting otomatis untuk 
+S068  FAIL | H          | MATCHED_SINGLE         | cari tool hitung cepat yang belum ada di d
+S069  FAIL | H          | MATCHED_SINGLE         | pakai perangkat melokalisasi teks baru
+S070  FAIL | H          | NO_SKILL_NEEDED        | butuh fasilitas mengarsipkan otomatis untu
+S071  FAIL | H          | MATCHED_SINGLE         | pakai alat mewarnai diagram yang belum ter
+S072  PASS | negatif    | NO_SKILL_NEEDED        | terima kasih banyak atas bantuannya
+S073  PASS | negatif    | NO_SKILL_NEEDED        | besok kita lanjut ya
+S074  PASS | negatif    | NO_SKILL_NEEDED        | hmm, saya belum yakin
+S075  FAIL | polisemi   | MATCHED_SINGLE         | blender murah di pasar tradisional
+S076  PASS | typo       | MATCHED_SINGLE         | ringkaas notulen rapat kemarin
+S077  FAIL | typo       | HUNT_NEW_SKILL         | tabell data penjualan bulan ini
+S078  PASS | ellipsis   | CLARIFY_AMBIGUOUS      | tolong bantu yang itu
+S079  FAIL | ellipsis   | NO_SKILL_NEEDED        | aku mau seperti tadi
+S080  PASS | ellipsis   | CLARIFY_AMBIGUOUS      | selesaikan yang satu ini
+
+BY GROUP
+  H          1/6
+  ellipsis   2/6
+  kontrol    9/12
+  negatif    16/16
+  parafrase  7/24
+  polisemi   0/8
+  typo       3/8
+
+HELD-OUT V12 38/80
