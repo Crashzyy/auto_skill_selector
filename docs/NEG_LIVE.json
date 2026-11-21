@@ -1,0 +1,1210 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 150,
+    "no_duplicate_all_sets": true,
+    "note": "NEG_LIVE Fase 3q. Ekspektasi NO_SKILL dari tata bahasa, sebelum probe. Verba taksonomi sebagai kata biasa, bukan imperatif."
+  },
+  "cases": [
+    {
+      "id": "L001",
+      "prompt": "halo, apa kabar hari ini semuanya",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L002",
+      "prompt": "selamat pagi, sudah sarapan belum",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L003",
+      "prompt": "aku lagi capai banget setelah rapat panjang",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L004",
+      "prompt": "wkwk keren sekali hasilnya tadi",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L005",
+      "prompt": "oke siap, aku kerjakan nanti ya",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L006",
+      "prompt": "makasih ya sudah bantu",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L007",
+      "prompt": "sampai jumpa besok pagi, hati-hati di jalan",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L008",
+      "prompt": "kita koordinasi lagi setelah makan siang",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L009",
+      "prompt": "aku tunggu kabarnya nanti sore",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L010",
+      "prompt": "hmm, aku masih mikir soal itu",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L011",
+      "prompt": "seru juga ide itu, tapi belum yakin",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L012",
+      "prompt": "cuaca hari ini panas sekali ya",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L013",
+      "prompt": "kopi dulu sebelum mulai kerjaan",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L014",
+      "prompt": "tadi aku ketemu dia di kantin",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L015",
+      "prompt": "besok rapatnya jam berapa ya",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L016",
+      "prompt": "aku mau pulang dulu, sudah larut",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L017",
+      "prompt": "selamat ulang tahun, semoga panjang umur",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L018",
+      "prompt": "aduh, kaki aku pegal",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L019",
+      "prompt": "wah kabar bagus sekali itu",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L020",
+      "prompt": "mantap, lanjut saja",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L021",
+      "prompt": "gue lagi di jalan, bentar ya",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L022",
+      "prompt": "aku belum sempat baca pesannya",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L023",
+      "prompt": "tolong ya, nanti aku balas",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L024",
+      "prompt": "aku suka banget sama lagu itu",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L025",
+      "prompt": "main yuk setelah selesai ini",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L026",
+      "prompt": "kangen kalian semua",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L027",
+      "prompt": "balik lagi besok, bye",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L028",
+      "prompt": "selamat datang di tim baru",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L029",
+      "prompt": "apa kabar keluarga di rumah",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L030",
+      "prompt": "aku lagi nunggu blink-blink lampu",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L031",
+      "prompt": "kita mulai dari mana ya",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L032",
+      "prompt": "dia bilang mau ikut juga",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L033",
+      "prompt": "aku setuju dengan usulmu",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L034",
+      "prompt": "selamat, akhirnya selesai juga",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L035",
+      "prompt": "ya ampun, lucu banget videonya",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L036",
+      "prompt": "aku suka warna biru itu",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L037",
+      "prompt": "minggu ini sibuk sekali ya",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L038",
+      "prompt": "kita lanjut besok saja",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L039",
+      "prompt": "aku simpen dulu datanya",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L040",
+      "prompt": "maaf ya, aku terlambat",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L041",
+      "prompt": "apa pun yang kamu mau, aku ikut",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L042",
+      "prompt": "lagi ngobrol santai aja kok",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L043",
+      "prompt": "tadi aku lihat dia di pasar",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L044",
+      "prompt": "kamu sudah makan belum",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L045",
+      "prompt": "hmm, belum ada kabar lagi",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L046",
+      "prompt": "asma, mau ikut nggak",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L047",
+      "prompt": "tunggu aku sebentar ya",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L048",
+      "prompt": "selamat malam, istirahat yang baik",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L049",
+      "prompt": "aku suka cerita yang tadi kamu sampaikan",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L050",
+      "prompt": "kita ngobrol saja santai",
+      "group": "percakapan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L051",
+      "prompt": "apa itu algoritma dijkstra",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L052",
+      "prompt": "jelaskan pengertian entropi dalam termodinamika",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L053",
+      "prompt": "cara kerja fotosintesis pada tumbuhan",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L054",
+      "prompt": "apa arti kata serendipity",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L055",
+      "prompt": "ceritakan sejarah kota Venesia",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L056",
+      "prompt": "mengapa bulan mengalami pasang surut",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L057",
+      "prompt": "bagaimana cara kerja enkripsi RSA",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L058",
+      "prompt": "apa perbedaan virus dan bakteri",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L059",
+      "prompt": "jelaskan teori relativitas secara singkat",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L060",
+      "prompt": "apa itu graf dan kegunannya",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L061",
+      "prompt": "sejarah perkembangan bahasa Sanskerta",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L062",
+      "prompt": "bagaimana tumbuhan menyerap air",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L063",
+      "prompt": "apa penyebab pelangi setelah hujan",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L064",
+      "prompt": "jelaskan struktur atom secara sederhana",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L065",
+      "prompt": "apa bedanya cuaca dan iklim",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L066",
+      "prompt": "cara kerja mesin uap",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L067",
+      "prompt": "apa itu bilangan Fibonacci",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L068",
+      "prompt": "what causes tides on Earth",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L069",
+      "prompt": "how does public key cryptography work",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L070",
+      "prompt": "what is the difference between weather and climate",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L071",
+      "prompt": "explain photosynthesis in simple terms",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L072",
+      "prompt": "describe the history of Alexandria",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L073",
+      "prompt": "how do vaccines work",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L074",
+      "prompt": "what causes earthquakes",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L075",
+      "prompt": "explain the water cycle",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L076",
+      "prompt": "apa itu teori graf",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L077",
+      "prompt": "bagaimana cara kerja kompas",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L078",
+      "prompt": "apa bedanya homogen dan heterogen",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L079",
+      "prompt": "jelaskan pengertian biomassa",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L080",
+      "prompt": "mengapa langit berwarna biru",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L081",
+      "prompt": "apa itu sistem periode unsur",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L082",
+      "prompt": "ceritakan asal usul kopi",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L083",
+      "prompt": "apa itu teori bilangan",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L084",
+      "prompt": "bagaimana cara kerja teleskop",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L085",
+      "prompt": "apa bedanya meteorit dan meteor",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L086",
+      "prompt": "jelaskan siklus air di alam",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L087",
+      "prompt": "apa itu energi potensial",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L088",
+      "prompt": "mengapa es mengapung di air",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L089",
+      "prompt": "apa itu zat warna alami",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L090",
+      "prompt": "ceritakan sejarah kertas",
+      "group": "informasional",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L091",
+      "prompt": "kemarin aku membaca cerita tentang tulis yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L092",
+      "prompt": "kemarin aku membaca cerita tentang karang yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L093",
+      "prompt": "kemarin aku membaca cerita tentang sunting yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L094",
+      "prompt": "kemarin aku membaca cerita tentang ringkas yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L095",
+      "prompt": "kemarin aku membaca cerita tentang parafrasa yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L096",
+      "prompt": "kemarin aku membaca cerita tentang write yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L097",
+      "prompt": "kemarin aku membaca cerita tentang draft yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L098",
+      "prompt": "kemarin aku membaca cerita tentang summarize yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L099",
+      "prompt": "kemarin aku membaca cerita tentang paraphrase yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L100",
+      "prompt": "kemarin aku membaca cerita tentang tabulasikan yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L101",
+      "prompt": "kemarin aku membaca cerita tentang rapikan yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L102",
+      "prompt": "kemarin aku membaca cerita tentang agregasi yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L103",
+      "prompt": "kemarin aku membaca cerita tentang tabulate yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L104",
+      "prompt": "kemarin aku membaca cerita tentang tidy yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L105",
+      "prompt": "kemarin aku membaca cerita tentang process yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L106",
+      "prompt": "kemarin aku membaca cerita tentang aggregate yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L107",
+      "prompt": "kemarin aku membaca cerita tentang compute yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L108",
+      "prompt": "kemarin aku membaca cerita tentang present yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L109",
+      "prompt": "kemarin aku membaca cerita tentang desain yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L110",
+      "prompt": "kemarin aku membaca cerita tentang ilustrasi yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L111",
+      "prompt": "kemarin aku membaca cerita tentang design yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L112",
+      "prompt": "kemarin aku membaca cerita tentang illustrate yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L113",
+      "prompt": "kemarin aku membaca cerita tentang rekam yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L114",
+      "prompt": "kemarin aku membaca cerita tentang campur yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L115",
+      "prompt": "kemarin aku membaca cerita tentang transkrip yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L116",
+      "prompt": "kemarin aku membaca cerita tentang bersihkan yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L117",
+      "prompt": "kemarin aku membaca cerita tentang record yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L118",
+      "prompt": "kemarin aku membaca cerita tentang trim yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L119",
+      "prompt": "kemarin aku membaca cerita tentang transcribe yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L120",
+      "prompt": "kemarin aku membaca cerita tentang clean yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L121",
+      "prompt": "kemarin aku membaca cerita tentang animasi yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L122",
+      "prompt": "kemarin aku membaca cerita tentang animate yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L123",
+      "prompt": "kemarin aku membaca cerita tentang perbaiki yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L124",
+      "prompt": "kemarin aku membaca cerita tentang benahi yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L125",
+      "prompt": "kemarin aku membaca cerita tentang telusuri yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L126",
+      "prompt": "kemarin aku membaca cerita tentang terapkan yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L127",
+      "prompt": "kemarin aku membaca cerita tentang repair yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L128",
+      "prompt": "kemarin aku membaca cerita tentang inspect yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L129",
+      "prompt": "kemarin aku membaca cerita tentang test yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L130",
+      "prompt": "kemarin aku membaca cerita tentang implement yang cukup menarik",
+      "group": "verba",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L131",
+      "prompt": "aku tadi pagi berjalan ke teman lama lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L132",
+      "prompt": "aku tadi pagi berjalan ke warung kopi lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L133",
+      "prompt": "aku tadi pagi berjalan ke perjalanan ke pantai lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L134",
+      "prompt": "aku tadi pagi berjalan ke hujan sore lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L135",
+      "prompt": "aku tadi pagi berjalan ke kabar keluarga lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L136",
+      "prompt": "aku tadi pagi berjalan ke rapat panjang lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L137",
+      "prompt": "aku tadi pagi berjalan ke buku lama lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L138",
+      "prompt": "aku tadi pagi berjalan ke lagu favorit lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L139",
+      "prompt": "aku tadi pagi berjalan ke pasar tradisional lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L140",
+      "prompt": "aku tadi pagi berjalan ke kebun bunga lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L141",
+      "prompt": "aku tadi pagi berjalan ke perjalanan dinas lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L142",
+      "prompt": "aku tadi pagi berjalan ke hari yang cerah lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L143",
+      "prompt": "aku tadi pagi berjalan ke kota kecil lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L144",
+      "prompt": "aku tadi pagi berjalan ke taman kota lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L145",
+      "prompt": "aku tadi pagi berjalan ke kereta api lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L146",
+      "prompt": "aku tadi pagi berjalan ke perpustakaan lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L147",
+      "prompt": "aku tadi pagi berjalan ke sungai dekat rumah lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L148",
+      "prompt": "aku tadi pagi berjalan ke kantin sekolah lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L149",
+      "prompt": "aku tadi pagi berjalan ke tangga rumah lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "L150",
+      "prompt": "aku tadi pagi berjalan ke kursi kayu lalu menemui seorang teman lama yang sudah lama tidak kutemui dan kami pun berbincang panjang tentang berbagai hal yang terjadi belakangan ini sambil menikmati secangkir kopi di tempat itu",
+      "group": "panjang",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    }
+  ]
+}
