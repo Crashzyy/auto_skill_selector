@@ -1,0 +1,257 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 30,
+    "no_duplicate_all_sets": true,
+    "no_double_single_multi": true,
+    "note": "Held-out bersih Fase 3g. Ekspektasi dari tata bahasa, ditulis sebelum probe & sebelum kode P-FMT. A=cue ban+penanda format+nama skill lain; B=ban tanpa penanda; C=kontrol; D=idiom bukan-ban.",
+    "groups": {
+      "A": 8,
+      "B": 6,
+      "C": 12,
+      "D": 4
+    }
+  },
+  "cases": [
+    {
+      "id": "Y01",
+      "prompt": "jangan pakai pdf, kirim datanya sebagai docx",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y02",
+      "prompt": "jangan pakai excel, sajikan angkanya dalam bentuk tabel",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y03",
+      "prompt": "tanpa chart, berikan datanya sebagai spreadsheet",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y04",
+      "prompt": "hindari powerpoint, buatkan slide sebagai pptx",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y05",
+      "prompt": "don't use word, write the summary as a docx",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y06",
+      "prompt": "without excel, present the figures in a pivot table",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y07",
+      "prompt": "jangan gunakan infografik, tampilkan sebagai diagram alur",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y08",
+      "prompt": "hindari pdf, ekstrak teksnya jadi docx",
+      "group": "A",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y09",
+      "prompt": "jangan pakai pdf, yang penting rapi",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Y10",
+      "prompt": "hindari excel, tetap saja hasilnya bagus",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Y11",
+      "prompt": "don't use pptx, whatever works",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Y12",
+      "prompt": "tanpa word, pokoknya selesai",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Y13",
+      "prompt": "jangan pakai chart, terserah saja",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Y14",
+      "prompt": "hindari spreadsheet, yang terpenting cepat",
+      "group": "B",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Y15",
+      "prompt": "rangkum artikel ini jadi lima poin penting",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y16",
+      "prompt": "buatkan invoice dari transaksi bulan ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y17",
+      "prompt": "ubah docx ini menjadi pdf",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y18",
+      "prompt": "hitung total penjualan dari tabel ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y19",
+      "prompt": "tolong terjemahkan email ini ke bahasa Prancis",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y20",
+      "prompt": "buat diagram alur proses ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y21",
+      "prompt": "bersihkan data CSV ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y22",
+      "prompt": "buatkan subtitle untuk video pendek ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y23",
+      "prompt": "ekstrak teks dari berkas pdf hasil scan",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y24",
+      "prompt": "rangkum laporan keuangan triwulanan",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y25",
+      "prompt": "buat infografis dari data survei ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y26",
+      "prompt": "perbaiki bug di kode ini",
+      "group": "C",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y27",
+      "prompt": "jangan buat laporan dulu, aku cuma mau ngobrol",
+      "group": "D",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "Y28",
+      "prompt": "jangan lupa buat excel ya",
+      "group": "D",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y29",
+      "prompt": "jangan sampai telat, buatkan slide ringkasan",
+      "group": "D",
+      "expect_status": [
+        "MATCHED_SINGLE"
+      ]
+    },
+    {
+      "id": "Y30",
+      "prompt": "bukan cuma word, juga excel yang dibutuhkan",
+      "group": "D",
+      "expect_status": [
+        "MATCHED_MULTI"
+      ]
+    }
+  ]
+}
