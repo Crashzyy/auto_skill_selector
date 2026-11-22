@@ -1,0 +1,330 @@
+{
+  "meta": {
+    "created_before_probe": true,
+    "n": 40,
+    "expectation": "NO_SKILL_NEEDED for all",
+    "note": "Fase 3m NEG_CONV. Dari prinsip tata bahasa, sebelum probe. Bukan salinan daftar PASS->FAIL 3l."
+  },
+  "cases": [
+    {
+      "id": "N01",
+      "prompt": "halo",
+      "group": "sapaan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N02",
+      "prompt": "hai",
+      "group": "sapaan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N04",
+      "prompt": "selamat malam everybody",
+      "group": "sapaan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N06",
+      "prompt": "apa kabar",
+      "group": "sapaan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N07",
+      "prompt": "how are you",
+      "group": "sapaan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N09",
+      "prompt": "yo bro",
+      "group": "sapaan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N10",
+      "prompt": "hei",
+      "group": "sapaan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N11",
+      "prompt": "oke",
+      "group": "persetujuan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N13",
+      "prompt": "sip",
+      "group": "persetujuan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N15",
+      "prompt": "siap pak",
+      "group": "persetujuan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N16",
+      "prompt": "yes",
+      "group": "persetujuan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N17",
+      "prompt": "sure thing",
+      "group": "persetujuan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N18",
+      "prompt": "alright",
+      "group": "persetujuan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N19",
+      "prompt": "noted",
+      "group": "persetujuan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N20",
+      "prompt": "begitu ya",
+      "group": "persetujuan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N22",
+      "prompt": "dadah",
+      "group": "penutup",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N23",
+      "prompt": "sampai jumpa",
+      "group": "penutup",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N24",
+      "prompt": "see you",
+      "group": "penutup",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N25",
+      "prompt": "good night",
+      "group": "penutup",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N26",
+      "prompt": "wkwk",
+      "group": "interjeksi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N27",
+      "prompt": "haha",
+      "group": "interjeksi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N28",
+      "prompt": "wah",
+      "group": "interjeksi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N29",
+      "prompt": "astaga",
+      "group": "interjeksi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N30",
+      "prompt": "wow",
+      "group": "interjeksi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N31",
+      "prompt": "aku lapar",
+      "group": "frasa",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N32",
+      "prompt": "lagi hujan",
+      "group": "frasa",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N35",
+      "prompt": "kopi dulu yuk",
+      "group": "frasa",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N36",
+      "prompt": "itu saja",
+      "group": "frasa",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N37",
+      "prompt": "yang tadi",
+      "group": "frasa",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N38",
+      "prompt": "jangan dulu",
+      "group": "frasa",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N39",
+      "prompt": "terima kasih",
+      "group": "sapaan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N40",
+      "prompt": "makasih ya",
+      "group": "sapaan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N41",
+      "prompt": "halo semuanya",
+      "group": "sapaan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N42",
+      "prompt": "selamat siang",
+      "group": "sapaan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N43",
+      "prompt": "okey",
+      "group": "persetujuan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N44",
+      "prompt": "oke deh",
+      "group": "persetujuan",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N45",
+      "prompt": "sampai lain kali",
+      "group": "penutup",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N46",
+      "prompt": "bye bye",
+      "group": "penutup",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N47",
+      "prompt": "hihi",
+      "group": "interjeksi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    },
+    {
+      "id": "N48",
+      "prompt": "aduh",
+      "group": "interjeksi",
+      "expect_status": [
+        "NO_SKILL_NEEDED"
+      ]
+    }
+  ]
+}
