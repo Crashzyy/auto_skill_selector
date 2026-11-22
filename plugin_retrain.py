@@ -144,13 +144,17 @@ def retrain_once(main_module, trainer) -> tuple[bool, str]:
             corpus_changed = bool(installed_names) and active_classes != installed_names
         except Exception:
             corpus_changed = True
-    with tempfile.TemporaryDirectory(prefix="autoskill-retrain-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="autoskill-retrain-", dir=str(active.parent)) as tmp:
         staging_home = Path(tmp) / "home"
         staging_home.mkdir(parents=True)
         src_skills = Path(os.environ.get("HERMES_HOME", "")) / "skills"
         if src_skills.exists():
             import shutil
-            shutil.copytree(src_skills, staging_home / "skills", dirs_exist_ok=True)
+            shutil.copytree(src_skills, staging_home / "skills",
+                            dirs_exist_ok=True, symlinks=True,
+                            ignore=lambda d, names: [n for n in names
+                                                     if (Path(d) / n).is_symlink()
+                                                     and not (Path(d) / n).exists()])
         old_home = os.environ.get("HERMES_HOME")
         os.environ["HERMES_HOME"] = str(staging_home)
         try:
