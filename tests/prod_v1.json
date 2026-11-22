@@ -1,0 +1,1571 @@
+{
+ "meta": {
+  "seed": 20261122,
+  "n": 120,
+  "source": "production SKILL.md descriptions (isolated copy)",
+  "expectation": "MATCHED_SINGLE + target skill",
+  "note": "Author saw descriptions; prompts avoid 5-gram overlap."
+ },
+ "cases": [
+  {
+   "id": "PR001",
+   "skill": "hotel-avalon",
+   "prompt": "tolong bantu hotel avalon matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "hotel-avalon"
+   ]
+  },
+  {
+   "id": "PR002",
+   "skill": "hotel-avalon",
+   "prompt": "pakai fasilitas hotel avalon untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "hotel-avalon"
+   ]
+  },
+  {
+   "id": "PR003",
+   "skill": "findmy",
+   "prompt": "tolong bantu soal findmy ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "findmy"
+   ]
+  },
+  {
+   "id": "PR004",
+   "skill": "findmy",
+   "prompt": "can you use findmy untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "findmy"
+   ]
+  },
+  {
+   "id": "PR005",
+   "skill": "prism-reflect",
+   "prompt": "tolong bantu prism reflect matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "prism-reflect"
+   ]
+  },
+  {
+   "id": "PR006",
+   "skill": "prism-reflect",
+   "prompt": "pakai fasilitas prism reflect untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "prism-reflect"
+   ]
+  },
+  {
+   "id": "PR007",
+   "skill": "triage",
+   "prompt": "tolong bantu soal triage ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "triage"
+   ]
+  },
+  {
+   "id": "PR008",
+   "skill": "triage",
+   "prompt": "pakai fasilitas triage untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "triage"
+   ]
+  },
+  {
+   "id": "PR009",
+   "skill": "github",
+   "prompt": "tolong bantu soal github ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "github"
+   ]
+  },
+  {
+   "id": "PR010",
+   "skill": "github",
+   "prompt": "pakai fasilitas github untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "github"
+   ]
+  },
+  {
+   "id": "PR011",
+   "skill": "anti-slop",
+   "prompt": "tolong bantu anti slop matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "anti-slop"
+   ]
+  },
+  {
+   "id": "PR012",
+   "skill": "anti-slop",
+   "prompt": "use the anti slop tool to handle this task",
+   "lang": "EN",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "anti-slop"
+   ]
+  },
+  {
+   "id": "PR013",
+   "skill": "product-price-monitor",
+   "prompt": "tolong bantu soal product price monitor ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "product-price-monitor"
+   ]
+  },
+  {
+   "id": "PR014",
+   "skill": "product-price-monitor",
+   "prompt": "pakai fasilitas product price monitor untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "product-price-monitor"
+   ]
+  },
+  {
+   "id": "PR015",
+   "skill": "agent-qa-debug-fix",
+   "prompt": "tolong bantu soal agent qa debug ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "agent-qa-debug-fix"
+   ]
+  },
+  {
+   "id": "PR016",
+   "skill": "agent-qa-debug-fix",
+   "prompt": "can you use agent qa debug untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "agent-qa-debug-fix"
+   ]
+  },
+  {
+   "id": "PR017",
+   "skill": "artifact-preview",
+   "prompt": "tolong bantu soal artifact preview ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "artifact-preview"
+   ]
+  },
+  {
+   "id": "PR018",
+   "skill": "artifact-preview",
+   "prompt": "use the artifact preview tool to handle this task",
+   "lang": "EN",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "artifact-preview"
+   ]
+  },
+  {
+   "id": "PR019",
+   "skill": "claude-code",
+   "prompt": "please help me with claude code, I need a clear and usable result",
+   "lang": "EN",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "claude-code"
+   ]
+  },
+  {
+   "id": "PR020",
+   "skill": "claude-code",
+   "prompt": "pakai fasilitas claude code untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "claude-code"
+   ]
+  },
+  {
+   "id": "PR021",
+   "skill": "implement",
+   "prompt": "tolong bantu soal implement ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "implement"
+   ]
+  },
+  {
+   "id": "PR022",
+   "skill": "implement",
+   "prompt": "pakai fasilitas implement untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "implement"
+   ]
+  },
+  {
+   "id": "PR023",
+   "skill": "public-preview-tunnel",
+   "prompt": "tolong bantu soal public preview tunnel ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "public-preview-tunnel"
+   ]
+  },
+  {
+   "id": "PR024",
+   "skill": "public-preview-tunnel",
+   "prompt": "can you use public preview tunnel untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "public-preview-tunnel"
+   ]
+  },
+  {
+   "id": "PR025",
+   "skill": "ask-matt",
+   "prompt": "tolong bantu soal ask matt ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "ask-matt"
+   ]
+  },
+  {
+   "id": "PR026",
+   "skill": "ask-matt",
+   "prompt": "can you use ask matt untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "ask-matt"
+   ]
+  },
+  {
+   "id": "PR027",
+   "skill": "prism-full",
+   "prompt": "tolong bantu prism full matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "prism-full"
+   ]
+  },
+  {
+   "id": "PR028",
+   "skill": "prism-full",
+   "prompt": "pakai fasilitas prism full untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "prism-full"
+   ]
+  },
+  {
+   "id": "PR029",
+   "skill": "grill",
+   "prompt": "tolong bantu soal grill ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "grill"
+   ]
+  },
+  {
+   "id": "PR030",
+   "skill": "grill",
+   "prompt": "can you use grill untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "grill"
+   ]
+  },
+  {
+   "id": "PR031",
+   "skill": "skf-forger",
+   "prompt": "tolong bantu skf forger matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-forger"
+   ]
+  },
+  {
+   "id": "PR032",
+   "skill": "skf-forger",
+   "prompt": "pakai fasilitas skf forger untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-forger"
+   ]
+  },
+  {
+   "id": "PR033",
+   "skill": "microsoft-office",
+   "prompt": "tolong bantu microsoft office matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "microsoft-office"
+   ]
+  },
+  {
+   "id": "PR034",
+   "skill": "microsoft-office",
+   "prompt": "pakai fasilitas microsoft office untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "microsoft-office"
+   ]
+  },
+  {
+   "id": "PR035",
+   "skill": "baoyu-infographic",
+   "prompt": "please help me with baoyu infographic, I need a clear and usable result",
+   "lang": "EN",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "baoyu-infographic"
+   ]
+  },
+  {
+   "id": "PR036",
+   "skill": "baoyu-infographic",
+   "prompt": "can you use baoyu infographic untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "baoyu-infographic"
+   ]
+  },
+  {
+   "id": "PR037",
+   "skill": "telegram-rich-message",
+   "prompt": "tolong bantu telegram rich message matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "telegram-rich-message"
+   ]
+  },
+  {
+   "id": "PR038",
+   "skill": "telegram-rich-message",
+   "prompt": "pakai fasilitas telegram rich message untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "telegram-rich-message"
+   ]
+  },
+  {
+   "id": "PR039",
+   "skill": "skf-refine-architecture",
+   "prompt": "please help me with skf refine architecture, I need a clear and usable result",
+   "lang": "EN",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-refine-architecture"
+   ]
+  },
+  {
+   "id": "PR040",
+   "skill": "skf-refine-architecture",
+   "prompt": "pakai fasilitas skf refine architecture untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-refine-architecture"
+   ]
+  },
+  {
+   "id": "PR041",
+   "skill": "codex",
+   "prompt": "tolong bantu soal codex ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "codex"
+   ]
+  },
+  {
+   "id": "PR042",
+   "skill": "codex",
+   "prompt": "pakai fasilitas codex untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "codex"
+   ]
+  },
+  {
+   "id": "PR043",
+   "skill": "ascii-video",
+   "prompt": "tolong bantu soal ascii video ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "ascii-video"
+   ]
+  },
+  {
+   "id": "PR044",
+   "skill": "ascii-video",
+   "prompt": "use the ascii video tool to handle this task",
+   "lang": "EN",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "ascii-video"
+   ]
+  },
+  {
+   "id": "PR045",
+   "skill": "skf-setup",
+   "prompt": "tolong bantu skf setup matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-setup"
+   ]
+  },
+  {
+   "id": "PR046",
+   "skill": "skf-setup",
+   "prompt": "pakai fasilitas skf setup untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-setup"
+   ]
+  },
+  {
+   "id": "PR047",
+   "skill": "skf-test-skill",
+   "prompt": "tolong bantu soal skf test skill ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-test-skill"
+   ]
+  },
+  {
+   "id": "PR048",
+   "skill": "skf-test-skill",
+   "prompt": "can you use skf test skill untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-test-skill"
+   ]
+  },
+  {
+   "id": "PR049",
+   "skill": "p5js",
+   "prompt": "tolong bantu soal p5js ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "p5js"
+   ]
+  },
+  {
+   "id": "PR050",
+   "skill": "p5js",
+   "prompt": "can you use p5js untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "p5js"
+   ]
+  },
+  {
+   "id": "PR051",
+   "skill": "code-review",
+   "prompt": "tolong bantu soal code review ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "code-review"
+   ]
+  },
+  {
+   "id": "PR052",
+   "skill": "code-review",
+   "prompt": "pakai fasilitas code review untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "code-review"
+   ]
+  },
+  {
+   "id": "PR053",
+   "skill": "email-inbox-triage",
+   "prompt": "tolong bantu soal email inbox triage ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "email-inbox-triage"
+   ]
+  },
+  {
+   "id": "PR054",
+   "skill": "email-inbox-triage",
+   "prompt": "can you use email inbox triage untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "email-inbox-triage"
+   ]
+  },
+  {
+   "id": "PR055",
+   "skill": "weekly-review-planning",
+   "prompt": "tolong bantu weekly review planning matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "weekly-review-planning"
+   ]
+  },
+  {
+   "id": "PR056",
+   "skill": "weekly-review-planning",
+   "prompt": "use the weekly review planning tool to handle this task",
+   "lang": "EN",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "weekly-review-planning"
+   ]
+  },
+  {
+   "id": "PR057",
+   "skill": "gh-copilot",
+   "prompt": "tolong bantu soal gh copilot ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "gh-copilot"
+   ]
+  },
+  {
+   "id": "PR058",
+   "skill": "gh-copilot",
+   "prompt": "pakai fasilitas gh copilot untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "gh-copilot"
+   ]
+  },
+  {
+   "id": "PR059",
+   "skill": "improve-codebase-architecture",
+   "prompt": "tolong bantu soal improve codebase architecture ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "improve-codebase-architecture"
+   ]
+  },
+  {
+   "id": "PR060",
+   "skill": "improve-codebase-architecture",
+   "prompt": "can you use improve codebase architecture untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "improve-codebase-architecture"
+   ]
+  },
+  {
+   "id": "PR061",
+   "skill": "himalaya",
+   "prompt": "please help me with himalaya, I need a clear and usable result",
+   "lang": "EN",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "himalaya"
+   ]
+  },
+  {
+   "id": "PR062",
+   "skill": "himalaya",
+   "prompt": "use the himalaya tool to handle this task",
+   "lang": "EN",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "himalaya"
+   ]
+  },
+  {
+   "id": "PR063",
+   "skill": "spike",
+   "prompt": "tolong bantu spike matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "spike"
+   ]
+  },
+  {
+   "id": "PR064",
+   "skill": "spike",
+   "prompt": "pakai fasilitas spike untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "spike"
+   ]
+  },
+  {
+   "id": "PR065",
+   "skill": "git-guardrails-claude-code",
+   "prompt": "tolong bantu git guardrails claude matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "git-guardrails-claude-code"
+   ]
+  },
+  {
+   "id": "PR066",
+   "skill": "git-guardrails-claude-code",
+   "prompt": "use the git guardrails claude tool to handle this task",
+   "lang": "EN",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "git-guardrails-claude-code"
+   ]
+  },
+  {
+   "id": "PR067",
+   "skill": "test-driven-development",
+   "prompt": "tolong bantu soal test driven development ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "test-driven-development"
+   ]
+  },
+  {
+   "id": "PR068",
+   "skill": "test-driven-development",
+   "prompt": "pakai fasilitas test driven development untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "test-driven-development"
+   ]
+  },
+  {
+   "id": "PR069",
+   "skill": "build",
+   "prompt": "tolong bantu build matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "build"
+   ]
+  },
+  {
+   "id": "PR070",
+   "skill": "build",
+   "prompt": "pakai fasilitas build untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "build"
+   ]
+  },
+  {
+   "id": "PR071",
+   "skill": "youtube-content",
+   "prompt": "tolong bantu soal youtube content ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "youtube-content"
+   ]
+  },
+  {
+   "id": "PR072",
+   "skill": "youtube-content",
+   "prompt": "use the youtube content tool to handle this task",
+   "lang": "EN",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "youtube-content"
+   ]
+  },
+  {
+   "id": "PR073",
+   "skill": "research",
+   "prompt": "please help me with research, I need a clear and usable result",
+   "lang": "EN",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "research"
+   ]
+  },
+  {
+   "id": "PR074",
+   "skill": "research",
+   "prompt": "pakai fasilitas research untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "research"
+   ]
+  },
+  {
+   "id": "PR075",
+   "skill": "skf-export-skill",
+   "prompt": "tolong bantu soal skf export skill ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-export-skill"
+   ]
+  },
+  {
+   "id": "PR076",
+   "skill": "skf-export-skill",
+   "prompt": "can you use skf export skill untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-export-skill"
+   ]
+  },
+  {
+   "id": "PR077",
+   "skill": "skf-create-skill",
+   "prompt": "please help me with skf create skill, I need a clear and usable result",
+   "lang": "EN",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-create-skill"
+   ]
+  },
+  {
+   "id": "PR078",
+   "skill": "skf-create-skill",
+   "prompt": "pakai fasilitas skf create skill untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-create-skill"
+   ]
+  },
+  {
+   "id": "PR079",
+   "skill": "architecture-diagram",
+   "prompt": "tolong bantu soal architecture diagram ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "architecture-diagram"
+   ]
+  },
+  {
+   "id": "PR080",
+   "skill": "architecture-diagram",
+   "prompt": "pakai fasilitas architecture diagram untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "architecture-diagram"
+   ]
+  },
+  {
+   "id": "PR081",
+   "skill": "prism-discover",
+   "prompt": "please help me with prism discover, I need a clear and usable result",
+   "lang": "EN",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "prism-discover"
+   ]
+  },
+  {
+   "id": "PR082",
+   "skill": "prism-discover",
+   "prompt": "use the prism discover tool to handle this task",
+   "lang": "EN",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "prism-discover"
+   ]
+  },
+  {
+   "id": "PR083",
+   "skill": "setup-pre-commit",
+   "prompt": "tolong bantu soal setup pre commit ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "setup-pre-commit"
+   ]
+  },
+  {
+   "id": "PR084",
+   "skill": "setup-pre-commit",
+   "prompt": "can you use setup pre commit untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "setup-pre-commit"
+   ]
+  },
+  {
+   "id": "PR085",
+   "skill": "contrastive-refinement",
+   "prompt": "tolong bantu soal contrastive refinement ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "contrastive-refinement"
+   ]
+  },
+  {
+   "id": "PR086",
+   "skill": "contrastive-refinement",
+   "prompt": "can you use contrastive refinement untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "contrastive-refinement"
+   ]
+  },
+  {
+   "id": "PR087",
+   "skill": "ssot-check",
+   "prompt": "tolong bantu soal ssot check ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "ssot-check"
+   ]
+  },
+  {
+   "id": "PR088",
+   "skill": "ssot-check",
+   "prompt": "can you use ssot check untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "ssot-check"
+   ]
+  },
+  {
+   "id": "PR089",
+   "skill": "execplan",
+   "prompt": "please help me with execplan, I need a clear and usable result",
+   "lang": "EN",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "execplan"
+   ]
+  },
+  {
+   "id": "PR090",
+   "skill": "execplan",
+   "prompt": "pakai fasilitas execplan untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "execplan"
+   ]
+  },
+  {
+   "id": "PR091",
+   "skill": "xurl",
+   "prompt": "tolong bantu soal xurl ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "xurl"
+   ]
+  },
+  {
+   "id": "PR092",
+   "skill": "xurl",
+   "prompt": "can you use xurl untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "xurl"
+   ]
+  },
+  {
+   "id": "PR093",
+   "skill": "to-tickets",
+   "prompt": "tolong bantu to tickets matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "to-tickets"
+   ]
+  },
+  {
+   "id": "PR094",
+   "skill": "to-tickets",
+   "prompt": "can you use to tickets untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "to-tickets"
+   ]
+  },
+  {
+   "id": "PR095",
+   "skill": "wizard",
+   "prompt": "tolong bantu soal wizard ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "wizard"
+   ]
+  },
+  {
+   "id": "PR096",
+   "skill": "wizard",
+   "prompt": "use the wizard tool to handle this task",
+   "lang": "EN",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "wizard"
+   ]
+  },
+  {
+   "id": "PR097",
+   "skill": "obsidian",
+   "prompt": "tolong bantu soal obsidian ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "obsidian"
+   ]
+  },
+  {
+   "id": "PR098",
+   "skill": "obsidian",
+   "prompt": "can you use obsidian untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "obsidian"
+   ]
+  },
+  {
+   "id": "PR099",
+   "skill": "migrate-to-shoehorn",
+   "prompt": "tolong bantu soal migrate to shoehorn ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "migrate-to-shoehorn"
+   ]
+  },
+  {
+   "id": "PR100",
+   "skill": "migrate-to-shoehorn",
+   "prompt": "use the migrate to shoehorn tool to handle this task",
+   "lang": "EN",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "migrate-to-shoehorn"
+   ]
+  },
+  {
+   "id": "PR101",
+   "skill": "skf-brief-skill",
+   "prompt": "tolong bantu soal skf brief skill ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-brief-skill"
+   ]
+  },
+  {
+   "id": "PR102",
+   "skill": "skf-brief-skill",
+   "prompt": "pakai fasilitas skf brief skill untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-brief-skill"
+   ]
+  },
+  {
+   "id": "PR103",
+   "skill": "deep-research",
+   "prompt": "tolong bantu deep research matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "deep-research"
+   ]
+  },
+  {
+   "id": "PR104",
+   "skill": "deep-research",
+   "prompt": "can you use deep research untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "deep-research"
+   ]
+  },
+  {
+   "id": "PR105",
+   "skill": "humanizer",
+   "prompt": "tolong bantu soal humanizer ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "humanizer"
+   ]
+  },
+  {
+   "id": "PR106",
+   "skill": "humanizer",
+   "prompt": "can you use humanizer untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "humanizer"
+   ]
+  },
+  {
+   "id": "PR107",
+   "skill": "domain-modeling",
+   "prompt": "tolong bantu domain modeling matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "domain-modeling"
+   ]
+  },
+  {
+   "id": "PR108",
+   "skill": "domain-modeling",
+   "prompt": "can you use domain modeling untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "domain-modeling"
+   ]
+  },
+  {
+   "id": "PR109",
+   "skill": "blocked-page-recovery",
+   "prompt": "tolong bantu soal blocked page recovery ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "blocked-page-recovery"
+   ]
+  },
+  {
+   "id": "PR110",
+   "skill": "blocked-page-recovery",
+   "prompt": "can you use blocked page recovery untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "blocked-page-recovery"
+   ]
+  },
+  {
+   "id": "PR111",
+   "skill": "prism-3way",
+   "prompt": "please help me with prism 3way, I need a clear and usable result",
+   "lang": "EN",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "prism-3way"
+   ]
+  },
+  {
+   "id": "PR112",
+   "skill": "prism-3way",
+   "prompt": "can you use prism 3way untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "prism-3way"
+   ]
+  },
+  {
+   "id": "PR113",
+   "skill": "to-spec",
+   "prompt": "tolong bantu soal to spec ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "to-spec"
+   ]
+  },
+  {
+   "id": "PR114",
+   "skill": "to-spec",
+   "prompt": "can you use to spec untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "to-spec"
+   ]
+  },
+  {
+   "id": "PR115",
+   "skill": "orchestrator",
+   "prompt": "tolong bantu orchestrator matter ini supaya hasilnya rapi",
+   "lang": "MX",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "orchestrator"
+   ]
+  },
+  {
+   "id": "PR116",
+   "skill": "orchestrator",
+   "prompt": "pakai fasilitas orchestrator untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "orchestrator"
+   ]
+  },
+  {
+   "id": "PR117",
+   "skill": "claude-design",
+   "prompt": "please help me with claude design, I need a clear and usable result",
+   "lang": "EN",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "claude-design"
+   ]
+  },
+  {
+   "id": "PR118",
+   "skill": "claude-design",
+   "prompt": "can you use claude design untuk menyelesaikan ini",
+   "lang": "MX",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "claude-design"
+   ]
+  },
+  {
+   "id": "PR119",
+   "skill": "skf-update-skill",
+   "prompt": "tolong bantu soal skf update skill ini, aku butuh hasil yang rapi dan mudah dipahami",
+   "lang": "ID",
+   "type": "P",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-update-skill"
+   ]
+  },
+  {
+   "id": "PR120",
+   "skill": "skf-update-skill",
+   "prompt": "pakai fasilitas skf update skill untuk menyelesaikan pekerjaan ini",
+   "lang": "ID",
+   "type": "E",
+   "expect_status": [
+    "MATCHED_SINGLE"
+   ],
+   "expect_skills": [
+    "skf-update-skill"
+   ]
+  }
+ ]
+}
