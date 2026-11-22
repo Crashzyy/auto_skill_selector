@@ -57,9 +57,13 @@ def corpus_hash(root: Path) -> str:
 def _neg_conv_cases(main_module) -> list:
     p = Path(__file__).resolve().parent / "tests" / "fixtures" / "neg_conv.json"
     if not p.exists():
-        return []
+        raise FileNotFoundError(f"required validation fixture missing: {p}")
     import json
-    return json.loads(p.read_text(encoding="utf-8")).get("cases", [])
+    data = json.loads(p.read_text(encoding="utf-8"))
+    cases = data.get("cases", [])
+    if len(cases) < 40:
+        raise ValueError("validation fixture incomplete")
+    return cases
 
 
 def validate_b(candidate: Path, active: Path, main_module, trainer) -> tuple[bool, str]:
