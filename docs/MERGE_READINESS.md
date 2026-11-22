@@ -64,8 +64,8 @@ Rollback:
 
 ## Verdict
 
-**BELUM SIAP.** Empat gerbang teknis G1–G4 lolos, tetapi korpus produksi
-(111 skill) tidak cocok dengan model terpin (144 kelas), sehingga R2 akan
-menolak pemasangan model di produksi. Sinkronisasi korpus produksi dan
-jalur pemasangan model perlu diselesaikan dalam mandat terpisah sebelum
-merge. Rekomendasi: jangan merge sampai ketidaksesuaian korpus selesai.
+**BELUM SIAP.** Validasi korpus produksi (Fase 3s) menemukan FP natural
+17/90 pada model produksi, 148 keputusan "salah" pada delta 144→produksi,
+dan fixture NEG_CONV tidak ikut ke wheel. Selain itu korpus produksi hanya
+beririsan 2 skill dengan korpus sandbox. Rincian di `docs/S_VALIDASI.md`.
+Merge, tag, dan push ke main tidak dilakukan.
