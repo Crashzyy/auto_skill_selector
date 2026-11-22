@@ -80,6 +80,18 @@ def test_validation_failure_keeps_active():
     assert json.loads(active.read_text())["classes"][0]["name"] == "old"
 
 
+def test_prev_backup_and_corpus_change():
+    h = fresh_home("prev")
+    active = h / "plugin-data" / "auto_skill_selector" / "skill_model.json"
+    active.parent.mkdir(parents=True)
+    active.write_text(json.dumps({"null_anchor_score": 7.5, "classes": [{"name": "demo"}]}), encoding="utf-8")
+    ok, reason = plugin_retrain.retrain_once(FakeModule(), FakeTrainer())
+    assert ok, reason
+    prev = active.with_suffix(".prev")
+    assert prev.exists()
+    assert json.loads(prev.read_text())["classes"][0]["name"] == "demo"
+
+
 def test_disable_flag():
     fresh_home("flag")
     os.environ["AUTO_SKILL_SELECTOR_DISABLE_AUTORETRAIN"] = "1"
@@ -100,6 +112,6 @@ def test_single_flight():
 
 if __name__ == "__main__":
     for fn in [test_empty_dir_bootstrap_pass_through, test_validation_failure_keeps_active,
-               test_disable_flag, test_single_flight]:
+               test_prev_backup_and_corpus_change, test_disable_flag, test_single_flight]:
         fn()
         print("PASS", fn.__name__)
