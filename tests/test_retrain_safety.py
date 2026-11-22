@@ -99,6 +99,22 @@ def test_disable_flag():
     os.environ.pop("AUTO_SKILL_SELECTOR_DISABLE_AUTORETRAIN", None)
 
 
+def test_missing_fixture_fails_closed():
+    fresh_home("nofix")
+    real = plugin_retrain._neg_conv_cases
+    def boom(_):
+        raise FileNotFoundError("simulated missing fixture")
+    plugin_retrain._neg_conv_cases = boom
+    try:
+        try:
+            plugin_retrain._neg_conv_cases(FakeModule())
+            raise AssertionError("missing fixture accepted")
+        except FileNotFoundError:
+            pass
+    finally:
+        plugin_retrain._neg_conv_cases = real
+
+
 def test_single_flight():
     fresh_home("flight")
     os.environ["AUTO_SKILL_SELECTOR_RETRAIN_DEBOUNCE"] = "300"
@@ -112,6 +128,7 @@ def test_single_flight():
 
 if __name__ == "__main__":
     for fn in [test_empty_dir_bootstrap_pass_through, test_validation_failure_keeps_active,
-               test_prev_backup_and_corpus_change, test_disable_flag, test_single_flight]:
+               test_prev_backup_and_corpus_change, test_disable_flag,
+               test_missing_fixture_fails_closed, test_single_flight]:
         fn()
         print("PASS", fn.__name__)

@@ -14,4 +14,4 @@ license = { text = "MIT" }
 module-name = "hermes_skill_brain"
 # abi3 agar wheel kompatibel lintas Python >= 3.10 tanpa build ulang.
 features = ["pyo3/abi3-py310"]
-include = ["plugin.yaml", "trainer.py", "__init__.py"]
+include = ["plugin.yaml", "trainer.py", "__init__.py", "plugin_retrain.py", "tests/fixtures/neg_conv.json"]

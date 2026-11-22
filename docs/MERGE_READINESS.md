@@ -64,8 +64,8 @@ Rollback:
 
 ## Verdict
 
-**BELUM SIAP.** Validasi korpus produksi (Fase 3s) menemukan FP natural
-17/90 pada model produksi, 148 keputusan "salah" pada delta 144→produksi,
-dan fixture NEG_CONV tidak ikut ke wheel. Selain itu korpus produksi hanya
-beririsan 2 skill dengan korpus sandbox. Rincian di `docs/S_VALIDASI.md`.
-Merge, tag, dan push ke main tidak dilakukan.
+**BELUM SIAP.** Benchmark produksi Fase 3t memberi decision accuracy
+69.2% (<70%) dan FP natural 14/90 pada θ artefak. Cabang A (kalibrasi
+per-korpus) berlaku karena top-3 78.3% dan θ'=2.0 memenuhi syarat FP/TPR,
+tetapi mengubah θ memerlukan mandat terpisah. Rincian di
+`docs/T_PUTUSAN.md`. Merge, tag, dan push ke main tidak dilakukan.
